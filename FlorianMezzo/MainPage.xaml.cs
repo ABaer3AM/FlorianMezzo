@@ -1,24 +1,78 @@
-﻿namespace FlorianMezzo
+﻿using FlorianMezzo.Pages;
+using System.ComponentModel;
+
+namespace FlorianMezzo
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        public List<string> Options { get; set; }
+        public string SelectedOption { get; set; }
+        private int _checkIntMin;
+        private int _checkIntSec;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPage()
         {
             InitializeComponent();
+
+            Options = new List<string>{
+                "QA",
+                "CX",
+                "IT",
+                "Sales"
+            };
+
+            SelectedOption = "QA";
+
+            BindingContext = this;
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private async void redirectToInstallGuide(object sender, EventArgs e)
         {
-            count++;
+            await Navigation.PushAsync(new InstallGuide());
+        }
+        private async void redirectToHealthCheck(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new HealthCheck());
+        }
+        private async void redirectToITHandOff(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ItHandOff());
+        }
+        private async void redirectToFlorianBTS(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FlorianBTS());
+        }
+        private async void redirectToMore3AM(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new More3AM());
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        public int CheckIntMin
+        {
+            get => _checkIntMin;
+            set
+            {
+                if (_checkIntMin != value)
+                {
+                    _checkIntMin = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CheckIntMin)));
+                }
+            }
+        }
+        public int CheckIntSec
+        {
+            get => _checkIntSec;
+            set
+            {
+                if (_checkIntSec != value)
+                {
+                    _checkIntSec = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CheckIntSec)));
+                }
+            }
         }
     }
 
