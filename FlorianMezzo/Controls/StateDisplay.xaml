@@ -61,6 +61,27 @@
                         HorizontalOptions="Center" />
                 </Frame>
             </Grid>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ShowNote" />
+            </Frame.GestureRecognizers>
+        </Frame>
+        
+        <!-- Dropdown Menu -->
+        <Frame
+            x:Name="DropdownNote"
+            IsVisible="False" 
+            Margin="30, -20, 30, 20"
+            BackgroundColor="#1a1a1a"
+            Padding="20, 40, 20, 20"
+            ZIndex="0">
+            <!-- label HERE -->
+            <Label 
+                x:Name="noteText"
+                Grid.Column="0"
+                VerticalOptions="Center" 
+                HorizontalOptions="EndAndExpand"
+                Margin="0,0,5,0"
+                Style="{StaticResource MinorHeadline}" />
         </Frame>
     </VerticalStackLayout>
 </ContentView>

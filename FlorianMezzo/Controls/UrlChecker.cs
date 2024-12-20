@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using FlorianMezzo.Constants;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
-namespace MauiApp1.Controls
+namespace FlorianMezzo.Controls
 {
     internal class UrlChecker
     {
@@ -11,7 +13,7 @@ namespace MauiApp1.Controls
         {
         }
 
-        public async Task<Tuple<int, string>> FetchApiStatus(string apiUrl)
+        private async Task<Tuple<int, string>> FetchApiStatus(string apiUrl)
         {
             var watch = new Stopwatch();
             try
@@ -46,6 +48,32 @@ namespace MauiApp1.Controls
                 return Tuple.Create(-1, ex.Message);
             }
 
+        }
+
+        public async Task<Tuple<StateDisplay, List<StateDisplay>>> testSoftDependencies()
+        {
+            Urls urlsObj = new();
+            Tuple<string, string>[] sdUrls = urlsObj.getCoreDependencies();
+            UrlChecker statusCheckerObj = new UrlChecker();
+
+            StateDisplay overallState = new StateDisplay("Soft Depenencies","",1);
+            List<StateDisplay> states = new List<StateDisplay>();
+
+            // for every element in Constants.Urls.CoreDependencies...
+            foreach (var dependency in sdUrls)
+            {
+                Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
+                // test the url, build the state display, add it to the list, maybe update the main state
+                Tuple<int, string> res = await statusCheckerObj.FetchApiStatus(dependency.Item2);
+                states.Add(new StateDisplay(dependency.Item1, res.Item2, res.Item1));
+                if(res.Item1 != 1) { overallState.UpdateFull(res.Item1, "Issue with " + dependency.Item1); };
+            }
+
+            foreach(var status in states)
+            {
+                Debug.WriteLine(status.Title + ": " + status.Feedback);
+            }
+            return Tuple.Create(overallState, states);
         }
     }
 }

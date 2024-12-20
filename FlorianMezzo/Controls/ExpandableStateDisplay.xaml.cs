@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Maui.Controls;
 
 namespace FlorianMezzo.Controls;
@@ -52,6 +53,7 @@ public partial class ExpandableStateDisplay : ContentView
     {
         if (bindable is ExpandableStateDisplay expandableStateDisplay && newValue is List<StateDisplay> newList)
         {
+            Debug.WriteLine("Changing state displays");
             expandableStateDisplay.UpdateDropdownContent(newList);
         }
     }

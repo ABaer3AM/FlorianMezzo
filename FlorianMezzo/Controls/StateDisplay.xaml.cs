@@ -5,6 +5,29 @@ namespace FlorianMezzo.Controls;
 
 public partial class StateDisplay : ContentView
 {
+    public StateDisplay()
+    {
+        InitializeComponent();
+    }
+
+    public StateDisplay(string title, string feedback, int status)
+    {
+        InitializeComponent();
+
+        Title = title;
+        Feedback = feedback;
+        Status = status;
+    }
+    public StateDisplay(string title, string feedback, int status, string note)
+    {
+        InitializeComponent();
+
+        Title = title;
+        Feedback = feedback;
+        Status = status;
+        Note = note;
+    }
+
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
@@ -43,11 +66,19 @@ public partial class StateDisplay : ContentView
             control.UpdateStatus((int)newValue);
         });
 
+    public static readonly BindableProperty NoteProperty = BindableProperty.Create(
+        nameof(Note),
+        typeof(string),
+        typeof(StateDisplay),
+        defaultValue: "",
+        propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var control = (StateDisplay)bindable;
 
-    public StateDisplay()
-    {
-        InitializeComponent();
-    }
+            control.UpdateNote(newValue as string);
+
+        });
+
 
     public string Title
     {
@@ -64,6 +95,11 @@ public partial class StateDisplay : ContentView
     {
         get => (int)GetValue(StatusProperty);
         set => SetValue(StatusProperty, value);
+    }
+    public string Note
+    {
+        get => GetValue(NoteProperty) as string;
+        set => SetValue(NoteProperty, value);
     }
 
 
@@ -111,5 +147,17 @@ public partial class StateDisplay : ContentView
         feedbackText.Text = (feedback);
         Feedback = feedback;
     }
+    public void UpdateNote(string note)
+    {
+        noteText.Text = (note);
+        Note = note;
+    }
 
+    private void ShowNote(object sender, EventArgs e)
+    {
+        if (Note != "" && Note != null)
+        {
+            DropdownNote.IsVisible = !DropdownNote.IsVisible;
+        }
+    }
 }

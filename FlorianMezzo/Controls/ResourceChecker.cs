@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
 
-namespace MauiApp1.Controls
+namespace FlorianMezzo.Controls
 {
     internal class ResourceChecker
     {

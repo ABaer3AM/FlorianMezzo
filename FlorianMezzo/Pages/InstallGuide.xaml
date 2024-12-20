@@ -86,20 +86,39 @@
                 <VerticalStackLayout
                 x:Name="content"
                 MaximumWidthRequest="1000"
-                Spacing="30">
+                Spacing="10">
 
                     <Label
-                        Text="Ensure all of the following shows a ..."
+                        Text="Statuses of all requirements for FLORIAN are listed below."
                         Style="{StaticResource Headline}"
                         VerticalOptions="Start"
                         FontSize="44"
                         SemanticProperties.HeadingLevel="Level2"/>
+                    <Label
+                         Text="Ensure all statuses are Online before downloading FLORIAN."
+                         Style="{StaticResource Headline}"
+                         VerticalOptions="Start"
+                         FontSize="44"
+                         SemanticProperties.HeadingLevel="Level2"/>
+                    <Label
+                         Text="Click on any status to expand its components."
+                         Style="{StaticResource Headline}"
+                         VerticalOptions="Start"
+                         FontSize="44"
+                         SemanticProperties.HeadingLevel="Level2"/>
 
-                    <VerticalStackLayout Padding="20">
-                        <controls:StateDisplay 
-                                x:Name="batteryStatusView"
-                                Title="Battery Percantage" />
-                        <controls:ExpandableStateDisplay x:Name="TestExpandableStateDisplay" />
+                    <Button
+                        x:Name="getStatusesBtn"
+                        Text="Get Statuses"
+                        Clicked="getAllStatuses"
+                        HorizontalOptions="Center"
+                        BorderColor="White"
+                        BorderWidth="2"
+                        SemanticProperties.Hint="Starts a process to fetch all statuses needed for FLORIAN install"
+                        MaximumWidthRequest="600"/>
+
+                    <VerticalStackLayout Padding="20" Spacing="10">
+                        <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
 
                     </VerticalStackLayout>
 

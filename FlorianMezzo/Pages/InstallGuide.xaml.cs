@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using FlorianMezzo.Controls;
 
 namespace FlorianMezzo.Pages;
@@ -9,27 +10,9 @@ public partial class InstallGuide : ContentPage
     public InstallGuide()
 	{
 		InitializeComponent();
+        initESDs();
 
-        // Create main StateDisplay
-        var mainStateDisplay = new StateDisplay
-        {
-            Title = "Main Status",
-            Status = 1,
-            Feedback = "Everything is good."
-        };
-
-        // Create dropdown StateDisplays
-        var stateDisplays = new List<StateDisplay>
-        {
-            new StateDisplay { Title = "Sub-item 1", Status = 1, Feedback = "Operational" },
-            new StateDisplay { Title = "Sub-item 2", Status = -1, Feedback = "Warning" },
-            new StateDisplay { Title = "Sub-item 3", Status = 0, Feedback = "Offline" }
-        };
-
-        // Assign to ExpandableStateDisplay
-        TestExpandableStateDisplay.MainStateDisplay = mainStateDisplay;
-        TestExpandableStateDisplay.StateDisplays = stateDisplays;
-
+        getAllStatuses();
     }
 
 
@@ -58,6 +41,35 @@ public partial class InstallGuide : ContentPage
         }
     }
 
+    private void initESDs()
+    {
+        softDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Fetching...", -2);
+    }
+
+    private async void getStatusOfSD()
+    {
+        UrlChecker urlCheckerObj = new UrlChecker();
+
+        // Update visual to show fetch is running
+        Debug.WriteLine($"Started Task running at {DateTime.Now}");
+
+        // run test
+        Tuple<StateDisplay, List<StateDisplay>> sdStates = await urlCheckerObj.testSoftDependencies();
+
+        await MainThread.InvokeOnMainThreadAsync(() => {
+            softDependencyESD.MainStateDisplay = sdStates.Item1;
+            softDependencyESD.StateDisplays = sdStates.Item2;
+        });
+    }
+    
+    private void getAllStatuses(object sender, EventArgs e)
+    {
+        getStatusOfSD();
+    }
+    private void getAllStatuses()
+    {
+        getStatusOfSD();
+    }
 
 
     // Navigation methods
