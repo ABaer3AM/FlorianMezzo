@@ -25,7 +25,15 @@ public partial class StateDisplay : ContentView
         Title = title;
         Feedback = feedback;
         Status = status;
-        Note = note;
+
+        if(Note == "")
+        {
+            sdFrame.GestureRecognizers.Remove(noteGesture);
+        }
+        else
+        {
+            Note = note;
+        }
     }
 
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
@@ -149,12 +157,13 @@ public partial class StateDisplay : ContentView
     }
     public void UpdateNote(string note)
     {
-        noteText.Text = (note);
+        noteText.Text = note;
         Note = note;
     }
 
     private void ShowNote(object sender, EventArgs e)
     {
+        Debug.WriteLine("Maybe show note");
         if (Note != "" && Note != null)
         {
             DropdownNote.IsVisible = !DropdownNote.IsVisible;
