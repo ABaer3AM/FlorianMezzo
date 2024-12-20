@@ -30,23 +30,23 @@ namespace FlorianMezzo
 
         private async void redirectToInstallGuide(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InstallGuide());
+            await Navigation.PushAsync(new InstallGuide(), false);
         }
         private async void redirectToHealthCheck(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new HealthCheck());
+            await Navigation.PushAsync(new HealthCheck(), false);
         }
         private async void redirectToITHandOff(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ItHandOff());
+            await Navigation.PushAsync(new ItHandOff(), false);
         }
         private async void redirectToFlorianBTS(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FlorianBTS());
+            await Navigation.PushAsync(new FlorianBTS(), false);
         }
         private async void redirectToMore3AM(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new More3AM());
+            await Navigation.PushAsync(new More3AM(), false);
         }
 
 

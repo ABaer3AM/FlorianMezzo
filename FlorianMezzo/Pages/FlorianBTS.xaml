@@ -1,12 +1,128 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Pages.FlorianBTS"
-             Title="FlorianBTS">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="FlorianMezzo.Pages.FlorianBTS">
+    <ScrollView>
+        <Grid>
+            <!-- Main content -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+
+            <VerticalStackLayout
+    Padding="30,0"
+    Spacing="25"
+    Grid.Row="0">
+
+                <Frame
+        x:Name="header">
+                    <!-- Main Navigation Bar -->
+                    <ScrollView
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand">
+                        <Frame
+                    x:Name="navBar"
+                    BackgroundColor="{StaticResource Tertiary}"
+                    HorizontalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
+                                <Label
+                            Text="Mezzo"
+                            Style="{StaticResource Headline}"
+                            TextColor="{StaticResource PrimaryDark}"
+                            VerticalOptions="Start"
+                            FontSize="44"
+                            SemanticProperties.HeadingLevel="Level2"
+                            >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                    NumberOfTapsRequired="1"
+                                    Tapped="redirectToMain" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Button
+                            x:Name="installGuideNav"
+                            Text="Install Guide"
+                            TextColor="{StaticResource Primary}"
+                            SemanticProperties.Hint="Redirects User to Tile Tester Page"
+                            Clicked="redirectToInstallGuide"
+                            MaximumWidthRequest="500" />
+                                <Button
+                            x:Name="healthCheckNav"
+                            Text="Health Check" 
+                            TextColor="{StaticResource Primary}"
+                            SemanticProperties.Hint="Redirects User to Health Check Page"
+                            Clicked="redirectToHealthCheck"
+                            MaximumWidthRequest="500" />
+                                <Button
+                            x:Name="itHandOff"
+                            Text="IT Hand Off" 
+                            TextColor="{StaticResource Primary}"
+                            SemanticProperties.Hint="Redirects User to IT Hand Off Page"
+                            Clicked="redirectToITHandOff"
+                            MaximumWidthRequest="500" />
+                                <Button
+                            x:Name="florianBTSNav"
+                            Text="FLORIAN BTS" 
+                            SemanticProperties.Hint="Redirects User to Florian BTS Page"
+                            Clicked="redirectToFlorianBTS"
+                            MaximumWidthRequest="500" />
+                                <Button
+                            x:Name="more3AMNav"
+                            Text="More 3AM" 
+                            TextColor="{StaticResource Primary}"
+                            SemanticProperties.Hint="Redirects User to More 3AM Page"
+                            Clicked="redirectToMore3AM"
+                            MaximumWidthRequest="500" />
+                            </StackLayout>
+                        </Frame>
+                    </ScrollView>
+                </Frame>
+
+
+                <VerticalStackLayout
+        x:Name="content"
+        MaximumWidthRequest="600"
+        Spacing="30">
+
+                    <Label
+                Text="Ensure all of the following shows a ..."
+                Style="{StaticResource Headline}"
+                VerticalOptions="Start"
+                FontSize="44"
+                SemanticProperties.HeadingLevel="Level2"/>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Footer -->
+            <Frame
+    Grid.Row="1"
+    x:Name="footer"
+    BackgroundColor="Transparent" 
+    HasShadow="False"
+    HorizontalOptions="End">
+                <HorizontalStackLayout
+        HorizontalOptions="EndAndExpand"
+        VerticalOptions="End">
+                    <Label
+                    Text="Mezzo"
+                    Style="{StaticResource Headline}"
+                    TextColor="{StaticResource PrimaryDark}"
+                    VerticalOptions="Start"
+                    FontSize="44"
+                    SemanticProperties.HeadingLevel="Level2"/>
+                    <Image
+            Source="i3am_gold.png"
+            HeightRequest="80"
+            HorizontalOptions="End"
+            VerticalOptions="Center"
+            Aspect="AspectFit"
+            SemanticProperties.Description="3AM Logo" />
+                </HorizontalStackLayout>
+            </Frame>
+
+        </Grid>
+    </ScrollView>
 </ContentPage>

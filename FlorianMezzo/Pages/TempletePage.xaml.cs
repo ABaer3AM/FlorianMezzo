@@ -1,8 +1,8 @@
 namespace FlorianMezzo.Pages;
 
-public partial class FlorianBTS : ContentPage
+public partial class TempletePage : ContentPage
 {
-	public FlorianBTS()
+	public TempletePage()
 	{
 		InitializeComponent();
 	}
