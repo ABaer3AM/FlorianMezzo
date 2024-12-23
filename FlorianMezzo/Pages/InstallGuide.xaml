@@ -119,10 +119,8 @@
 
                     <VerticalStackLayout Padding="20" Spacing="10">
                         <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
-                        <controls:StateDisplay 
-                            Title="Hello World"
-                            Status="1"
-                            Note="Test Note"/>
+                        
+                        
 
                     </VerticalStackLayout>
 
