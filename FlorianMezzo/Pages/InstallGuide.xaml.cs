@@ -62,8 +62,11 @@ public partial class InstallGuide : ContentPage
         });
     }
     
-    private void getAllStatuses(object sender, EventArgs e)
+    private async void getAllStatuses(object sender, EventArgs e)
     {
+        await MainThread.InvokeOnMainThreadAsync(() => {
+            softDependencyESD.MainStateDisplay.UpdateStatus(-2);
+        });
         getStatusOfSD();
     }
     private void getAllStatuses()

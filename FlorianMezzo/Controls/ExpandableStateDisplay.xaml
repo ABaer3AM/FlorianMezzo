@@ -23,7 +23,7 @@
             BackgroundColor="{StaticResource Tertiary}"
             Padding="20, 40, 20, 20"
             ZIndex="0">
-            <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0">
+            <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0" ZIndex="0">
                 <!-- StateDisplays will be populated here -->
             </StackLayout>
         </Frame>

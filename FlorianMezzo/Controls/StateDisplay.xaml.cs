@@ -26,7 +26,7 @@ public partial class StateDisplay : ContentView
         Feedback = feedback;
         Status = status;
 
-        if(Note == "")
+        if(note == "")
         {
             sdFrame.GestureRecognizers.Remove(noteGesture);
         }

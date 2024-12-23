@@ -92,19 +92,19 @@
                         Text="Statuses of all requirements for FLORIAN are listed below."
                         Style="{StaticResource Headline}"
                         VerticalOptions="Start"
-                        FontSize="44"
+                        FontSize="32"
                         SemanticProperties.HeadingLevel="Level2"/>
                     <Label
                          Text="Ensure all statuses are Online before downloading FLORIAN."
                          Style="{StaticResource Headline}"
                          VerticalOptions="Start"
-                         FontSize="44"
+                         FontSize="32"
                          SemanticProperties.HeadingLevel="Level2"/>
                     <Label
                          Text="Click on any status to expand its components."
                          Style="{StaticResource Headline}"
                          VerticalOptions="Start"
-                         FontSize="44"
+                         FontSize="32"
                          SemanticProperties.HeadingLevel="Level2"/>
 
                     <Button

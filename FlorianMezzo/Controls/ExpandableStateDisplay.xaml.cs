@@ -65,7 +65,7 @@ public partial class ExpandableStateDisplay : ContentView
         MainStateDisplayContainer.Content = newStateDisplay;
     }
 
-    private void UpdateDropdownContent(List<StateDisplay> newList)
+    public void UpdateDropdownContent(List<StateDisplay> newList)
     {
         DropdownContent.Children.Clear();
 
@@ -78,6 +78,7 @@ public partial class ExpandableStateDisplay : ContentView
                 CornerRadius = 0,
                 Padding = 0,
                 Margin = 0,
+                ZIndex = 2,
                 BackgroundColor = Colors.Transparent, // Transparent background
                 HasShadow = false                     // No border or shadow
             };
@@ -85,7 +86,6 @@ public partial class ExpandableStateDisplay : ContentView
             DropdownContent.Children.Add(frame);
         }
     }
-
 
 
     public void ExpandStateDisplays(object sender, EventArgs e)
