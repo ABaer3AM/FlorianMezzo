@@ -117,8 +117,12 @@
                         SemanticProperties.Hint="Starts a process to fetch all statuses needed for FLORIAN install"
                         MaximumWidthRequest="600"/>
 
-                    <VerticalStackLayout Padding="20" Spacing="10">
+                    <VerticalStackLayout
+                        x:Name="esdStack"
+                        Padding="20"
+                        Spacing="10">
                         <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="resourceESD" />
                         
                         
 

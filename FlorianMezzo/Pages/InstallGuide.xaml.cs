@@ -41,12 +41,17 @@ public partial class InstallGuide : ContentPage
         }
     }
 
-    private void initESDs()
+    private async void initESDs()
     {
-        softDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Fetching...", -2);
+        await MainThread.InvokeOnMainThreadAsync(() => {
+            softDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Fetching...", -2);
+            resourceESD.MainStateDisplay = new StateDisplay("Hardware Resources", "Fetching...", -2); 
+        });
     }
 
-    private async void getStatusOfSD()
+
+    // Methods to Fetch Status Data---------------------------------------------------------------------------------------------
+    private async void getStatusOfSoftDependencies()
     {
         UrlChecker urlCheckerObj = new UrlChecker();
 
@@ -61,17 +66,49 @@ public partial class InstallGuide : ContentPage
             softDependencyESD.StateDisplays = sdStates.Item2;
         });
     }
+    private async void getStatusOfHardwareResources()
+    {
+        ResourceChecker resourceCheckerObj = new ResourceChecker();
+
+        // Update visual to show fetch is running
+        Debug.WriteLine($"Started Task running at {DateTime.Now}");
+
+        // run test
+        Tuple<StateDisplay, List<StateDisplay>> sdStates = await resourceCheckerObj.testHardwareResources();
+
+        await MainThread.InvokeOnMainThreadAsync(() => {
+            resourceESD.MainStateDisplay = sdStates.Item1;
+            resourceESD.StateDisplays = sdStates.Item2;
+        });
+    }
+    //-----------------------------------------------------------------------------------------------------------------------                       
     
+
+
+
+    /* Overloaded method-
+     * (sender,e) from button 
+     * () called from another function
+     */
     private async void getAllStatuses(object sender, EventArgs e)
+    {
+        getAllStatuses();
+    }
+    private async void getAllStatuses()
     {
         await MainThread.InvokeOnMainThreadAsync(() => {
             softDependencyESD.MainStateDisplay.UpdateStatus(-2);
+            resourceESD.MainStateDisplay.UpdateStatus(-2);
         });
-        getStatusOfSD();
-    }
-    private void getAllStatuses()
-    {
-        getStatusOfSD();
+        Thread[] processThreads = new Thread[] {
+            new Thread(() =>{  getStatusOfSoftDependencies();  }),
+            new Thread(() =>{  getStatusOfHardwareResources();  })
+        };
+
+        foreach(Thread process in processThreads)
+        {
+            process.Start();
+        }
     }
 
 

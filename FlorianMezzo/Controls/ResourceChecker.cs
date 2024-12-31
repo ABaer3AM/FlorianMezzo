@@ -277,6 +277,50 @@ namespace FlorianMezzo.Controls
 
             return (totalBytesSent, totalBytesReceived);
         }
+
+        public async Task<Tuple<StateDisplay, List<StateDisplay>>> testHardwareResources()
+        {
+            StateDisplay overallState = new StateDisplay("Hardware Resources", "", 1, "");
+            List<StateDisplay> states = new List<StateDisplay>();
+
+            // Build data for state displays
+            Tuple<int, string>[] responses = new Tuple<int, string>[]{
+                await FetchBattery(),
+                await FetchDiskSpace(),
+                await FetchRamSpace(),
+                await FetchOs(), 
+                await FetchUploadSpeed(), 
+                await FetchDownloadSpeed(), 
+                await FetchCpuUsage()
+            };
+            string[] sdTitle = new string[] {
+                "Battery Percentage",
+                "Availible Disk Space",
+                "Availible RAM",
+                "Operating System",
+                "Upload Speed",
+                "Download Speed",
+                "CPU Usage",
+            };
+
+            // Plug data into state displays
+            for(int i=0; i<responses.Length; i++)
+            {
+                Debug.WriteLine("dependency: " + sdTitle[i]);
+                if (responses[i].Item2.Length > 20)
+                {
+                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, responses[i].Item2));
+                }
+                else
+                {
+                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1));
+                }
+                // Update Main state display if needed
+                if (responses[i].Item1 != 1) { overallState.UpdateFull(responses[i].Item1, "Issue with " + sdTitle[i]); };
+            }
+
+            return Tuple.Create(overallState, states);
+        }
     }
 }
 

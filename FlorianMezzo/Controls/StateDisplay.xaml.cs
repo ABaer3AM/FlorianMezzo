@@ -152,9 +152,9 @@ public partial class StateDisplay : ContentView
 
     public void UpdateFeedback(string feedback)
     {
-        if(feedback.Length > 15)
+        if(feedback.Length > 20)
         {
-            feedback = feedback.Substring(0, 15) + "...";
+            feedback = feedback.Substring(0, 20) + "...";
         }
         feedbackText.Text = (feedback);
         Feedback = feedback;

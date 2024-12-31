@@ -54,7 +54,6 @@ namespace FlorianMezzo.Controls
         {
             Urls urlsObj = new();
             Tuple<string, string>[] sdUrls = urlsObj.getCoreDependencies();
-            UrlChecker statusCheckerObj = new UrlChecker();
 
             StateDisplay overallState = new StateDisplay("Soft Depenencies","",1, "");
             List<StateDisplay> states = new List<StateDisplay>();
@@ -64,8 +63,8 @@ namespace FlorianMezzo.Controls
             {
                 Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
-                Tuple<int, string> res = await statusCheckerObj.FetchApiStatus(dependency.Item2);
-                if(res.Item1 != 1)
+                Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
+                if(res.Item2.Length > 20)
                 {
                     states.Add(new StateDisplay(dependency.Item1, res.Item2, res.Item1, res.Item2));
                 }
