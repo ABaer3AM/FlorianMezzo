@@ -165,12 +165,35 @@ public partial class StateDisplay : ContentView
         Note = note;
     }
 
-    private void ShowNote(object sender, EventArgs e)
+    private async void ShowNote(object sender, EventArgs e)
     {
         Debug.WriteLine("Maybe show note");
         if (Note != "" && Note != null)
         {
-            DropdownNote.IsVisible = !DropdownNote.IsVisible;
+            RotateArrow();
+            if (!DropdownNote.IsVisible)
+            {
+                DropdownNote.IsVisible = true;
+                DropdownNote.TranslationY = -50; // Ensure it starts off-screen
+                await DropdownNote.TranslateTo(0, 0, 200);  // Slide Down
+            }
+            else
+            {
+                await DropdownNote.TranslateTo(0, -50, 200);  // Slide Up
+                DropdownNote.IsVisible = false;
+            }
+        }
+    }
+
+    public async void RotateArrow()
+    {
+        if (dropdownMarker.Rotation == 0)
+        {
+            await dropdownMarker.RotateTo(90, 200);
+        }
+        else
+        {
+            await dropdownMarker.RotateTo(0, 200);
         }
     }
 }

@@ -248,9 +248,13 @@ namespace FlorianMezzo.Controls
             double totalMsPassed = (endTime - startTime).TotalMilliseconds;
             double usagePercentage = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed) *100;
 
-            if(usagePercentage >= 100)
+            if(usagePercentage >= 100 && totalMsPassed > 600000)  // 100% usage for 10+ minutes
             {
-                return Tuple.Create(-1, $"{usagePercentage:F1}% usage in {totalMsPassed/1000:F1}s");
+                if(totalMsPassed > 1800000) // over 30 mins
+                {
+                    return Tuple.Create(0, $"{usagePercentage:F1}% usage in {totalMsPassed / 1000:F1}s");
+                }
+                else{  return Tuple.Create(-1, $"{usagePercentage:F1}% usage in {totalMsPassed / 1000:F1}s");  }
             }
             else
             {
@@ -302,18 +306,27 @@ namespace FlorianMezzo.Controls
                 "Download Speed",
                 "CPU Usage",
             };
+            string[] thresholds = new string[] {
+                "Good\t\t->    at least\t30% \nWarning\t->   under\t30% \nCritical\t->   under\t15%",                                                                               // Battery
+                "Good\t\t->    at least\t10% \nWarning\t->   under\t10% \nCritical\t->   under\t5%",                                                                                // Disk Space
+                "Good\t\t->    at least\t1000 MB \nWarning\t->   under\t700 MB \nCritical\t->   under\t400 MB",                                                                     // RAM
+                "Good\t\t->    at least\tWindows 21H2 LTSC \nWarning\t->   older than\tWindows 21H2 LTSC \nCritical\t->   older than\tWindows 1809 LTSC",                           // OS
+                "Good\t\t->    at least\t3 Mbps \nWarning\t->   under\t3 Mbps \nCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
+                "Good\t\t->    at least\t5 Mbps \nWarning\t->   under\t5 Mbps \nCritical\t->   under\t3 Mbps",                                                                      // Download Speed
+                "Good\t\t->    100% usage for\tless than 10 minutes \nWarning\t->   100% usage for\tmore than 10 minutes \nCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
+            };
 
             // Plug data into state displays
-            for(int i=0; i<responses.Length; i++)
+            for (int i=0; i<responses.Length; i++)
             {
                 Debug.WriteLine("dependency: " + sdTitle[i]);
                 if (responses[i].Item2.Length > 20)
                 {
-                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, responses[i].Item2));
+                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, responses[i].Item2 + "\n\n"+thresholds[i]));
                 }
                 else
                 {
-                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1));
+                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, thresholds[i]));
                 }
                 // Update Main state display if needed
                 if (responses[i].Item1 != 1) { overallState.UpdateFull(responses[i].Item1, "Issue with " + sdTitle[i]); };

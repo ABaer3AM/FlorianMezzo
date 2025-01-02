@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlorianMezzo.Pages.HealthCheck">
     <ScrollView>
-        <Grid>
+        <Grid
+            BackgroundColor="{StaticResource Tertiary}">
             <!-- Main content -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -12,23 +13,28 @@
 
 
             <VerticalStackLayout
-    Padding="30,0"
-    Spacing="25"
-    Grid.Row="0">
+            Padding="0"
+            Spacing="25"
+            Grid.Row="0"
+            BackgroundColor="Black">
 
                 <Frame
-        x:Name="header">
+                    x:Name="header"
+                    Margin="0"
+                    Padding="0"
+                    CornerRadius="0">
                     <!-- Main Navigation Bar -->
                     <ScrollView
-                Orientation="Horizontal"
-                HorizontalOptions="FillAndExpand">
+                        Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand">
                         <Frame
-                    x:Name="navBar"
-                    BackgroundColor="{StaticResource Tertiary}"
-                    HorizontalOptions="FillAndExpand">
+                            x:Name="navBar"
+                            BackgroundColor="{StaticResource Tertiary}"
+                            CornerRadius="0"
+                            HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                                 <Label
-                            Text="Mezzo"
+                            Text="Home"
                             Style="{StaticResource Headline}"
                             TextColor="{StaticResource PrimaryDark}"
                             VerticalOptions="Start"

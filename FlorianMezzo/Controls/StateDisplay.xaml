@@ -24,12 +24,23 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Dropdown Indicator -->
+                <Image 
+                    x:Name="dropdownMarker"
+                    Grid.Column="0"
+                    Source="greater_than.png" 
+                    HeightRequest="30" 
+                    WidthRequest="30"
+                    Margin="15,0,0,0"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+
                 <!-- Text on the left (Title) -->
                 <Label 
                     x:Name="titleText"
                     Grid.Column="0"
                     VerticalOptions="Center" 
-                    Margin="15,0,0,0"
+                    Margin="55,0,0,0"
                     HorizontalOptions="Start"
                     Style="{StaticResource SubHeadline}" />
 

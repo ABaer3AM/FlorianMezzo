@@ -55,7 +55,7 @@ namespace FlorianMezzo.Controls
             Urls urlsObj = new();
             Tuple<string, string>[] sdUrls = urlsObj.getCoreDependencies();
 
-            StateDisplay overallState = new StateDisplay("Soft Depenencies","",1, "");
+            StateDisplay overallState = new StateDisplay("Soft Dependencies","",1, "");
             List<StateDisplay> states = new List<StateDisplay>();
 
             // for every element in Constants.Urls.CoreDependencies...

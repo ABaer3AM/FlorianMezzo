@@ -88,8 +88,19 @@ public partial class ExpandableStateDisplay : ContentView
     }
 
 
-    public void ExpandStateDisplays(object sender, EventArgs e)
+    public async void ExpandStateDisplays(object sender, EventArgs e)
     {
-        DropdownMenu.IsVisible = !DropdownMenu.IsVisible;
+        MainStateDisplay.RotateArrow();
+        if (!DropdownMenu.IsVisible)
+        {
+            DropdownMenu.IsVisible = true;
+            DropdownMenu.TranslationY = -(DropdownMenu.Height - 50); // Ensure it starts off-screen
+            await DropdownMenu.TranslateTo(0, 0, 200);  // Slide Down
+        }
+        else
+        {
+            await DropdownMenu.TranslateTo(0, -(DropdownMenu.Height - 50), 200);  // Slide Down
+            DropdownMenu.IsVisible = false;
+        }
     }
 }

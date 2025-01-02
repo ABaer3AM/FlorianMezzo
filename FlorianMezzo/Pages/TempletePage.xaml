@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlorianMezzo.Pages.TempletePage">
     <ScrollView>
-        <Grid>
+        <Grid
+            BackgroundColor="{StaticResource Tertiary}">
             <!-- Main content -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -12,9 +13,10 @@
 
 
             <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25"
-        Grid.Row="0">
+            Padding="0"
+            Spacing="25"
+            Grid.Row="0"
+            BackgroundColor="Black">
 
                 <Frame
             x:Name="header">
@@ -28,7 +30,7 @@
                         HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                                 <Label
-                                Text="Mezzo"
+                                Text="Home"
                                 Style="{StaticResource Headline}"
                                 TextColor="{StaticResource PrimaryDark}"
                                 VerticalOptions="Start"
@@ -83,9 +85,9 @@
 
 
                 <VerticalStackLayout
-            x:Name="content"
-            MaximumWidthRequest="600"
-            Spacing="30">
+                    x:Name="content"
+                    MaximumWidthRequest="600"
+                    Spacing="30">
 
                     <Label
                     Text="Ensure all of the following shows a ..."

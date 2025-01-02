@@ -62,6 +62,7 @@
 	  <None Remove="Resources\Images\check.svg" />
 	  <None Remove="Resources\Images\exclamation.svg" />
 	  <None Remove="Resources\Images\florian_logo.png" />
+	  <None Remove="Resources\Images\greater_than.svg" />
 	  <None Remove="Resources\Images\i3am_gold.png" />
 	  <None Remove="Resources\Images\running.svg" />
 	  <None Remove="Resources\Images\xmark.svg" />

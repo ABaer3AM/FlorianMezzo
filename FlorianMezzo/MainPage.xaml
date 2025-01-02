@@ -4,7 +4,8 @@
              x:Class="FlorianMezzo.MainPage">
 
     <ScrollView>
-        <Grid>
+        <Grid
+            BackgroundColor="{StaticResource Tertiary}">
             <!-- Main content -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -13,9 +14,10 @@
 
 
             <VerticalStackLayout
-                Padding="30,0"
+                Padding="0"
                 Spacing="25"
-                Grid.Row="0">
+                Grid.Row="0"
+                BackgroundColor="Black">
 
                 <Frame
                     x:Name="header">
@@ -65,6 +67,7 @@
                     <Frame
                         x:Name="navBar"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                        CornerRadius="0"
                         HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
                             <Button

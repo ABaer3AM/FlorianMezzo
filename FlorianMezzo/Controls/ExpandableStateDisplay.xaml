@@ -3,29 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlorianMezzo.Controls.ExpandableStateDisplay"
              xmlns:controls="clr-namespace:FlorianMezzo.Controls">
-    <VerticalStackLayout>
-        <Frame
-            Margin="0"
-            Padding="0"
-            ZIndex="1">
-            <ContentView x:Name="MainStateDisplayContainer" />
+    <Frame
+        HasShadow="False"
+        IsClippedToBounds="True"
+        Padding="0"
+        Margin="0"
+        BackgroundColor="Transparent"
+        BorderColor="Black">
+        <VerticalStackLayout>
+            <Frame
+                Margin="0"
+                Padding="0"
+                ZIndex="1">
+                <ContentView x:Name="MainStateDisplayContainer" />
             
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="ExpandStateDisplays" />
-            </Frame.GestureRecognizers>
-        </Frame>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ExpandStateDisplays" />
+                </Frame.GestureRecognizers>
+            </Frame>
 
-        <!-- Dropdown Menu -->
-        <Frame
-            x:Name="DropdownMenu"
-            IsVisible="False" 
-            Margin="30, -20, 30, 20"
-            BackgroundColor="{StaticResource Tertiary}"
-            Padding="20, 40, 20, 20"
-            ZIndex="0">
-            <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0" ZIndex="0">
-                <!-- StateDisplays will be populated here -->
-            </StackLayout>
-        </Frame>
-    </VerticalStackLayout>
+            <!-- Dropdown Menu -->
+            <Frame
+                x:Name="DropdownMenu"
+                IsVisible="False" 
+                Margin="30, -20, 30, 20"
+                BackgroundColor="{StaticResource Tertiary}"
+                Padding="20, 40, 20, 20"
+                ZIndex="0">
+                <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0" ZIndex="0">
+                    <!-- StateDisplays will be populated here -->
+                </StackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </Frame>
 </ContentView>
