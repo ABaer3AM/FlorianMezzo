@@ -36,13 +36,15 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiIcon Include="Resources\AppIcon\appicon.png" />
 
-		<!-- Splash Screen -->
+
+    <!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
@@ -62,8 +64,10 @@
 	  <None Remove="Resources\Images\check.svg" />
 	  <None Remove="Resources\Images\exclamation.svg" />
 	  <None Remove="Resources\Images\florian_logo.png" />
+	  <None Remove="Resources\Images\florian_mezzo_logo.png" />
 	  <None Remove="Resources\Images\greater_than.svg" />
 	  <None Remove="Resources\Images\i3am_gold.png" />
+	  <None Remove="Resources\Images\mezzo_logo.png" />
 	  <None Remove="Resources\Images\running.svg" />
 	  <None Remove="Resources\Images\xmark.svg" />
 	</ItemGroup>
@@ -100,5 +104,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+  
 
 </Project>
