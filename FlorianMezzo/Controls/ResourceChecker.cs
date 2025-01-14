@@ -44,15 +44,15 @@ namespace FlorianMezzo.Controls
 
             if (battery > 30.0)
             {                        // Good     = 31+  
-                return Tuple.Create(1, $"Good: {battery}");
+                return Tuple.Create(1, battery.ToString());
             }
             else if (battery > 15)
             {                    // Warning  = 30-16
-                return Tuple.Create(-1, $"Warning: {battery}");
+                return Tuple.Create(-1, battery.ToString());
             }
             else
             {                                      // Critical = 15-0
-                return Tuple.Create(0, $"Critical: {battery}");
+                return Tuple.Create(0, battery.ToString());
             }
         }
 
@@ -288,10 +288,9 @@ namespace FlorianMezzo.Controls
             return (totalBytesSent, totalBytesReceived);
         }
 
-        public virtual async Task<Tuple<StateDisplay, List<StateDisplay>>> testHardwareResources()
+        public virtual async Task<List<HardwareResourcesData>> testHardwareResources(string groupId)
         {
-            StateDisplay overallState = new StateDisplay("Hardware Resources", "", 1, "");
-            List<StateDisplay> states = new List<StateDisplay>();
+            List<HardwareResourcesData> hardDataEntries = new List<HardwareResourcesData>();
 
             // Build data for state displays
             Tuple<int, string>[] responses = new Tuple<int, string>[]{
@@ -303,7 +302,7 @@ namespace FlorianMezzo.Controls
                 await FetchDownloadSpeed(), 
                 await FetchCpuUsage()
             };
-            string[] sdTitle = new string[] {
+            string[] titles = new string[] {
                 "Battery Percentage",
                 "Availible Disk Space",
                 "Availible RAM",
@@ -325,22 +324,23 @@ namespace FlorianMezzo.Controls
             // Plug data into state displays
             for (int i=0; i<responses.Length; i++)
             {
-                Debug.WriteLine("dependency: " + sdTitle[i]);
-                if (responses[i].Item2.Length > 20)
-                {
-                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, responses[i].Item2 + "\n\n"+thresholds[i]));
-                }
-                else
-                {
-                    states.Add(new StateDisplay(sdTitle[i], responses[i].Item2, responses[i].Item1, thresholds[i]));
-                }
-                // Update Main state display if needed
-                if (responses[i].Item1 != 1) { overallState.UpdateFull(responses[i].Item1, "Issue with " + sdTitle[i]); };
+                hardDataEntries.Add(new HardwareResourcesData(groupId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             }
 
-            return Tuple.Create(overallState, states);
+            return hardDataEntries;
         }
     }
 }
 
 
+/*
+string[] thresholds = new string[] {
+    "Good\t\t->    at least\t30% \nWarning\t->   under\t30% \nCritical\t->   under\t15%",                                                                               // Battery
+    "Good\t\t->    at least\t10% \nWarning\t->   under\t10% \nCritical\t->   under\t5%",                                                                                // Disk Space
+    "Good\t\t->    at least\t1000 MB \nWarning\t->   under\t700 MB \nCritical\t->   under\t400 MB",                                                                     // RAM
+    "Good\t\t->    at least\tWindows 21H2 LTSC \nWarning\t->   older than\tWindows 21H2 LTSC \nCritical\t->   older than\tWindows 1809 LTSC",                           // OS
+    "Good\t\t->    at least\t3 Mbps \nWarning\t->   under\t3 Mbps \nCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
+    "Good\t\t->    at least\t5 Mbps \nWarning\t->   under\t5 Mbps \nCritical\t->   under\t3 Mbps",                                                                      // Download Speed
+    "Good\t\t->    100% usage for\tless than 10 minutes \nWarning\t->   100% usage for\tmore than 10 minutes \nCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
+};
+*/

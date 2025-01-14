@@ -12,6 +12,7 @@ namespace FlorianMezzo.Controls.db
     public class HealthCheckService
     {
         private readonly LocalDbService _dbService;
+        private int fetchCount = 0;
         private bool shouldEnd;
 
         public HealthCheckService(LocalDbService dbService) {
@@ -32,11 +33,14 @@ namespace FlorianMezzo.Controls.db
 
                     // Fetch data
                     Debug.WriteLine($"Collecting status data at {DateTime.Now}...");
+
                     List<SoftDependencyData> softDependencyEntries = await _urlChecker.testSoftDependencies(groupId);
+                    List<HardwareResourcesData> hardwareResourceEntries = await _resourceChecker.testHardwareResources(groupId);
                     Debug.WriteLine($"COMPLETED collecting status data");
 
                     // Write data
-                    await _dbService.WriteManyToSoftwareDependency(softDependencyEntries);
+                    await _dbService.WriteToSoftwareDependency(softDependencyEntries);
+                    await _dbService.WriteToHardwareResources(hardwareResourceEntries);
 
                     // Wait during the interval
                     Task.Delay(5000).Wait();
@@ -45,6 +49,9 @@ namespace FlorianMezzo.Controls.db
                         Debug.WriteLine("Health Check Service Terminated");
                         return;
                     }
+
+                    // increment count
+                    fetchCount++;
                 }
             });
         }
@@ -52,6 +59,11 @@ namespace FlorianMezzo.Controls.db
         public void Stop()
         {
             shouldEnd = true;
+        }
+
+        public int GetCount()
+        {
+            return fetchCount;
         }
     }
 }

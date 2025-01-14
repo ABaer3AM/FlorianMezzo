@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Controls;
 
@@ -10,6 +11,7 @@ public partial class StateDisplay : ContentView
         InitializeComponent();
     }
 
+    // Overloaded Constructors to digest data easily-----------------------------------------------------
     public StateDisplay(string title, string feedback, int status)
     {
         InitializeComponent();
@@ -35,6 +37,25 @@ public partial class StateDisplay : ContentView
             Note = note;
         }
     }
+    public StateDisplay(SoftDependencyData softData)
+    {
+        InitializeComponent();
+
+        Title = softData.Title;
+        Feedback = softData.Feedback;
+        Status = softData.Status;
+
+    }
+
+    public StateDisplay(HardwareResourcesData hardData)
+    {
+        InitializeComponent();
+
+        Title = hardData.Title;
+        Feedback = hardData.Feedback;
+        Status = hardData.Status;
+    }
+    // --------------------------------------------------------------------------------------------------
 
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),

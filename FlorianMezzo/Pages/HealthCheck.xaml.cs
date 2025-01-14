@@ -1,13 +1,17 @@
 using System.Diagnostics;
 using FlorianMezzo.Controls;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Pages;
 
 public partial class HealthCheck : ContentPage
 {
-	public HealthCheck()
+
+    private readonly HealthCheckService _healthCheckService;
+    public HealthCheck(HealthCheckService healthCheckService)
 	{
         InitializeComponent();
+        _healthCheckService = healthCheckService;
         Debug.WriteLine("HealthChecker Page Initialized");
         initESDs();
     }
@@ -20,30 +24,30 @@ public partial class HealthCheck : ContentPage
         });
     }
 
-    /* Overloaded method-
-     * (sender,e) from button 
-     * () called from another function
-     */
-    private async void getAllStatuses(object sender, EventArgs e)
+    // Health Check Service interactions--------------------------------------
+    private void StartService(object sender, EventArgs e)
     {
-        getAllStatuses();
+        _healthCheckService?.Start();
     }
-    private async void getAllStatuses()
+    private void StopService(object sender, EventArgs e)
     {
-        await Task.Delay(1000);
-        initESDs();
-        Debug.WriteLine("getting statuses for health check");
+        _healthCheckService?.Stop();
     }
+    // -----------------------------------------------------------------------
 
-
-    // Navigation methods
+    // Navigation methods-----------------------------------------------------
     private async void redirectToInstallGuide(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new InstallGuide(), false);
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HealthCheck(), false);
+        // Resolve HealthCheck page from the service provider
+        var healthCheckPage = App.Services.GetService<HealthCheck>();
+        if (healthCheckPage != null)
+        {
+            await Navigation.PushAsync(healthCheckPage, false);
+        }
     }
     private async void redirectToITHandOff(object sender, EventArgs e)
     {
@@ -61,4 +65,5 @@ public partial class HealthCheck : ContentPage
     {
         await Navigation.PushAsync(new MainPage(), false);
     }
+    // -----------------------------------------------------------------------
 }

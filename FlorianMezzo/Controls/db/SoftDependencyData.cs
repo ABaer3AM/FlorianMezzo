@@ -2,7 +2,7 @@
 
 namespace FlorianMezzo.Controls.db
 {
-    [Table("softDependencies")]
+    [Table("softwareDependencies")]
     public class SoftDependencyData
     {
         [PrimaryKey]

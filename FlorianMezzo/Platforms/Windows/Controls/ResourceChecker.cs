@@ -8,7 +8,7 @@ namespace FlorianMezzo.Controls
 
         public partial async Task<Tuple<int, string>> FetchCpuUsage()
         {
-            Debug.WriteLine("Fetching Windows CPU");
+            //Debug.WriteLine("Fetching Windows CPU");
             var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             cpuCounter.NextValue(); // First call returns 0, so we need a delay
             await Task.Delay(500); // Wait for half a second

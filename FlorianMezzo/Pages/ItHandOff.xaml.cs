@@ -15,7 +15,12 @@ public partial class ItHandOff : ContentPage
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HealthCheck(), false);
+        // Resolve HealthCheck page from the service provider
+        var healthCheckPage = App.Services.GetService<HealthCheck>();
+        if (healthCheckPage != null)
+        {
+            await Navigation.PushAsync(healthCheckPage, false);
+        }
     }
     private async void redirectToITHandOff(object sender, EventArgs e)
     {

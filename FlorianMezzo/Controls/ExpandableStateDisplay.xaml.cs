@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Xml.Serialization;
 using Microsoft.Maui.Controls;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Controls;
 
@@ -86,7 +88,37 @@ public partial class ExpandableStateDisplay : ContentView
             DropdownContent.Children.Add(frame);
         }
     }
+    public void UpdateDropdownContent(List<SoftDependencyData> softDataList)
+    {
+        DropdownContent.Children.Clear();
 
+        foreach (var softData in softDataList)
+        {
+            // Wrap each StateDisplay in a Frame or directly add to the dropdown
+            var frame = new Frame
+            {
+                Content = new StateDisplay(softData),
+                CornerRadius = 0,
+                Padding = 0,
+                Margin = 0,
+                ZIndex = 2,
+                BackgroundColor = Colors.Transparent, // Transparent background
+                HasShadow = false                     // No border or shadow
+            };
+
+            DropdownContent.Children.Add(frame);
+
+            // maybe update main deisplay
+            if(softData.Status != 1) {
+                UpdateMainStateDisplay(new StateDisplay("Software Dependencies", $"Issue with {softData.Title}", softData.Status));
+            };
+        }
+    }
+
+    public void UpdateFull(List<SoftDependencyData> softDataList)
+    {
+        
+    }
 
     public async void ExpandStateDisplays(object sender, EventArgs e)
     {

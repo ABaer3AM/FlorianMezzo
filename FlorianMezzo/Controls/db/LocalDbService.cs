@@ -34,9 +34,9 @@ namespace FlorianMezzo.Controls.db
         {
             await _connection.InsertAsync(softData);
         }
-        public async Task WriteManyToSoftwareDependency(List<SoftDependencyData> softDataList)
+        public async Task WriteToSoftwareDependency(List<SoftDependencyData> softDataList)
         {
-            Debug.WriteLine($"Wrote to DB in {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Soft Depdency Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach(SoftDependencyData entry in softDataList)
             {
                 await _connection.InsertAsync(entry);
@@ -74,6 +74,14 @@ namespace FlorianMezzo.Controls.db
         public async Task WriteToHardwareResources(HardwareResourcesData hardData)
         {
             await _connection.InsertAsync(hardData);
+        }
+        public async Task WriteToHardwareResources(List<HardwareResourcesData> hardDataList)
+        {
+            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            foreach (HardwareResourcesData entry in hardDataList)
+            {
+                await _connection.InsertAsync(entry);
+            }
         }
 
         public async Task UpdateSomeHardwareResources(HardwareResourcesData hardData)
