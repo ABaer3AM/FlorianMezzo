@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
+using FlorianMezzo.Controls.db;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FlorianMezzo.Controls
 {
-    internal class ResourceChecker
+    public partial class ResourceChecker
     {
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -36,6 +38,7 @@ namespace FlorianMezzo.Controls
 
         public async Task<Tuple<int, string>> FetchBattery()
         {
+            HardwareResourcesData datapacket = new();
             double battery = Math.Round(Battery.ChargeLevel * 100, 1);
             await Task.Yield();
 
@@ -232,7 +235,9 @@ namespace FlorianMezzo.Controls
             }
         }
 
-        public async Task<Tuple<int, string>> FetchCpuUsage()
+        public partial Task<Tuple<int, string>> FetchCpuUsage();
+        /*
+        public virtual async Task<Tuple<int, string>> FetchCpuUsage()
         {
             await Task.Yield();
             var process = Process.GetCurrentProcess();
@@ -262,6 +267,7 @@ namespace FlorianMezzo.Controls
             }
             
         }
+        */
 
         public static (long bytesSent, long bytesReceived) GetNetworkUsage()
         {
@@ -282,7 +288,7 @@ namespace FlorianMezzo.Controls
             return (totalBytesSent, totalBytesReceived);
         }
 
-        public async Task<Tuple<StateDisplay, List<StateDisplay>>> testHardwareResources()
+        public virtual async Task<Tuple<StateDisplay, List<StateDisplay>>> testHardwareResources()
         {
             StateDisplay overallState = new StateDisplay("Hardware Resources", "", 1, "");
             List<StateDisplay> states = new List<StateDisplay>();

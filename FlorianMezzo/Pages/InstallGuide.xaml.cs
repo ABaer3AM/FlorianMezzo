@@ -58,6 +58,7 @@ public partial class InstallGuide : ContentPage
         // Update visual to show fetch is running
         Debug.WriteLine($"Started Task running at {DateTime.Now}");
 
+        /*
         // run test
         Tuple<StateDisplay, List<StateDisplay>> sdStates = await urlCheckerObj.testSoftDependencies();
 
@@ -65,6 +66,7 @@ public partial class InstallGuide : ContentPage
             softDependencyESD.MainStateDisplay = sdStates.Item1;
             softDependencyESD.StateDisplays = sdStates.Item2;
         });
+        */
     }
     private async void getStatusOfHardwareResources()
     {
@@ -73,6 +75,7 @@ public partial class InstallGuide : ContentPage
         // Update visual to show fetch is running
         Debug.WriteLine($"Started Task running at {DateTime.Now}");
 
+        /*
         // run test
         Tuple<StateDisplay, List<StateDisplay>> sdStates = await resourceCheckerObj.testHardwareResources();
 
@@ -80,6 +83,7 @@ public partial class InstallGuide : ContentPage
             resourceESD.MainStateDisplay = sdStates.Item1;
             resourceESD.StateDisplays = sdStates.Item2;
         });
+        */
     }
     //-----------------------------------------------------------------------------------------------------------------------                       
     

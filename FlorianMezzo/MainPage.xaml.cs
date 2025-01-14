@@ -1,5 +1,7 @@
 ﻿using FlorianMezzo.Pages;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo
 {
@@ -16,6 +18,7 @@ namespace FlorianMezzo
         {
             InitializeComponent();
 
+
             Options = new List<string>{
                 "QA",
                 "CX",
@@ -30,23 +33,23 @@ namespace FlorianMezzo
 
         private async void redirectToInstallGuide(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InstallGuide(), false);
+            await Shell.Current.GoToAsync(nameof(InstallGuide));
         }
         private async void redirectToHealthCheck(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new HealthCheck(), false);
+            await Shell.Current.GoToAsync(nameof(HealthCheck));
         }
         private async void redirectToITHandOff(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ItHandOff(), false);
+            await Shell.Current.GoToAsync(nameof(ItHandOff));
         }
         private async void redirectToFlorianBTS(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FlorianBTS(), false);
+            await Shell.Current.GoToAsync(nameof(FlorianBTS));
         }
         private async void redirectToMore3AM(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new More3AM(), false);
+            await Shell.Current.GoToAsync(nameof(More3AM));
         }
 
 

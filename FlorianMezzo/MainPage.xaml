@@ -107,7 +107,8 @@
                 <VerticalStackLayout
                     x:Name="settings"
                     MaximumWidthRequest="600"
-                    Spacing="30">
+                    Spacing="30"
+                    Padding="15,5,15,30">
 
                     <Grid
                         HorizontalOptions="FillAndExpand"

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Pages.HealthCheck">
+             x:Class="FlorianMezzo.Pages.HealthCheck"
+             xmlns:controls="clr-namespace:FlorianMezzo.Controls">
     <ScrollView>
         <Grid
             BackgroundColor="{StaticResource Tertiary}">
@@ -13,7 +14,7 @@
 
 
             <VerticalStackLayout
-            Padding="0"
+            Padding="0, 0, 0, 30"
             Spacing="25"
             Grid.Row="0"
             BackgroundColor="Black">
@@ -88,44 +89,69 @@
 
 
                 <VerticalStackLayout
-        x:Name="content"
-        MaximumWidthRequest="600"
-        Spacing="30">
+                    x:Name="content"
+                    MaximumWidthRequest="1300"
+                    Spacing="10">
 
                     <Label
-                Text="Ensure all of the following shows a ..."
-                Style="{StaticResource Headline}"
-                VerticalOptions="Start"
-                FontSize="44"
-                SemanticProperties.HeadingLevel="Level2"/>
+                        Text="Statuses of all requirements for FLORIAN are listed below. Ensure all statuses are Online before downloading FLORIAN. Click on any status to expand its components. "
+                        Style="{StaticResource Headline}"
+                        VerticalOptions="Start"
+                        FontSize="32"
+                        LineBreakMode="WordWrap"
+                        SemanticProperties.HeadingLevel="Level2"/>
+                    <Frame
+                        BorderColor="White"
+                        Margin="0,10"/>     
+
+                    <Button
+                        x:Name="getStatusesBtn"
+                        Text="Get Statuses"
+                        Clicked="getAllStatuses"
+                        HorizontalOptions="Center"
+                        BorderColor="White"
+                        BorderWidth="2"
+                        SemanticProperties.Hint="Starts a process to fetch all statuses needed for FLORIAN install"
+                        MaximumWidthRequest="600"/>
+
+                    <VerticalStackLayout
+                        x:Name="esdStack"
+                        Padding="0,10"
+                        Spacing="10">
+                        <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="resourceESD" />
+
+
+
+                    </VerticalStackLayout>
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
             <!-- Footer -->
             <Frame
-    Grid.Row="1"
-    x:Name="footer"
-    BackgroundColor="Transparent" 
-    HasShadow="False"
-    HorizontalOptions="End">
+                Grid.Row="1"
+                x:Name="footer"
+                BackgroundColor="Transparent" 
+                HasShadow="False"
+                HorizontalOptions="End">
                 <HorizontalStackLayout
-        HorizontalOptions="EndAndExpand"
-        VerticalOptions="End">
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="End">
                     <Label
-                    Text="Mezzo"
-                    Style="{StaticResource Headline}"
-                    TextColor="{StaticResource PrimaryDark}"
-                    VerticalOptions="Start"
-                    FontSize="44"
-                    SemanticProperties.HeadingLevel="Level2"/>
+                        Text="Mezzo"
+                        Style="{StaticResource Headline}"
+                        TextColor="{StaticResource PrimaryDark}"
+                        VerticalOptions="Start"
+                        FontSize="44"
+                        SemanticProperties.HeadingLevel="Level2"/>
                     <Image
-            Source="i3am_gold.png"
-            HeightRequest="80"
-            HorizontalOptions="End"
-            VerticalOptions="Center"
-            Aspect="AspectFit"
-            SemanticProperties.Description="3AM Logo" />
+                        Source="i3am_gold.png"
+                        HeightRequest="80"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Aspect="AspectFit"
+                        SemanticProperties.Description="3AM Logo" />
                 </HorizontalStackLayout>
             </Frame>
 

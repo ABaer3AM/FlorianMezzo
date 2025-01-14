@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using FlorianMezzo.Pages;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo
 {
@@ -19,8 +21,20 @@ namespace FlorianMezzo
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
+
+            // DB service
+            builder.Services.AddSingleton<LocalDbService>();
+            builder.Services.AddSingleton<HealthCheckService>();
+
+            // Page Definitions
+            builder.Services.AddSingleton<InstallGuide>();
+            builder.Services.AddSingleton<HealthCheck>();
+
+            builder.Services.AddTransient<ItHandOff>();
+            builder.Services.AddTransient<FlorianBTS>();
+            builder.Services.AddTransient<More3AM>();
 
             return builder.Build();
         }
