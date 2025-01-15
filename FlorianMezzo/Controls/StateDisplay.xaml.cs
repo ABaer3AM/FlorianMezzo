@@ -37,23 +37,14 @@ public partial class StateDisplay : ContentView
             Note = note;
         }
     }
-    public StateDisplay(SoftDependencyData softData)
+    public StateDisplay(DbData dataIn)
     {
         InitializeComponent();
 
-        Title = softData.Title;
-        Feedback = softData.Feedback;
-        Status = softData.Status;
+        Title = dataIn.Title;
+        Feedback = dataIn.Feedback;
+        Status = dataIn.Status;
 
-    }
-
-    public StateDisplay(HardwareResourcesData hardData)
-    {
-        InitializeComponent();
-
-        Title = hardData.Title;
-        Feedback = hardData.Feedback;
-        Status = hardData.Status;
     }
     // --------------------------------------------------------------------------------------------------
 

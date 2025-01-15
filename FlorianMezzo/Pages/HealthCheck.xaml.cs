@@ -8,12 +8,16 @@ public partial class HealthCheck : ContentPage
 {
 
     private readonly HealthCheckService _healthCheckService;
+
     public HealthCheck(HealthCheckService healthCheckService)
 	{
         InitializeComponent();
         _healthCheckService = healthCheckService;
         Debug.WriteLine("HealthChecker Page Initialized");
         initESDs();
+
+        // Subscribe to the DataAdded event
+        _healthCheckService._newdataEvent += NewDataBroadcasthandler;
     }
 
     private async void initESDs()
@@ -32,6 +36,22 @@ public partial class HealthCheck : ContentPage
     private void StopService(object sender, EventArgs e)
     {
         _healthCheckService?.Stop();
+    }
+
+    // handle new data broadcast
+    private async void NewDataBroadcasthandler(object sender, NewDataEvent broadcastedEvent)
+    {
+        // On main thread...
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            Debug.WriteLine($"New data recieved from batch: {broadcastedEvent.GroupId}");
+            // Update UI
+            // count
+            fetchCountNum.Text = _healthCheckService.GetCount().ToString();
+            // state displays
+            LocalDbService  dbService= _healthCheckService.GetDbService();
+
+        });
     }
     // -----------------------------------------------------------------------
 

@@ -53,13 +53,13 @@ namespace FlorianMezzo.Controls
 
         }
 
-        public async Task<List<SoftDependencyData>> testSoftDependencies(string groupId)
+        public async Task<List<TileSoftDependencyData>> testTileSoftDependencies(string groupId)
         {
             Urls urlsObj = new();
             Tuple<string, string>[] coreDependencies = urlsObj.getCoreDependencies();
             Tuple<string, string>[] tileDependencies = urlsObj.getTiles();
 
-            List<SoftDependencyData> softStatuses = [];
+            List<TileSoftDependencyData> softStatuses = [];
 
             // for every element in Constants.Urls.CoreDependencies...
             foreach (var dependency in coreDependencies)
@@ -67,14 +67,42 @@ namespace FlorianMezzo.Controls
                 //Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new SoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, false, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+                softStatuses.Add(new TileSoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
             }
             foreach (var dependency in tileDependencies)
             {
                 //Debug.WriteLine("dependency: " + dependency.Item1 + " ," + dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new SoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, true, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+                softStatuses.Add(new TileSoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+            }
+
+
+            return softStatuses;
+        }
+
+        public async Task<List<CoreSoftDependencyData>> testCoreSoftDependencies(string groupId)
+        {
+            Urls urlsObj = new();
+            Tuple<string, string>[] coreDependencies = urlsObj.getCoreDependencies();
+            Tuple<string, string>[] tileDependencies = urlsObj.getTiles();
+
+            List<CoreSoftDependencyData> softStatuses = [];
+
+            // for every element in Constants.Urls.CoreDependencies...
+            foreach (var dependency in coreDependencies)
+            {
+                //Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
+                // test the url, build the state display, add it to the list, maybe update the main state
+                Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
+                softStatuses.Add(new CoreSoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+            }
+            foreach (var dependency in tileDependencies)
+            {
+                //Debug.WriteLine("dependency: " + dependency.Item1 + " ," + dependency.Item2);
+                // test the url, build the state display, add it to the list, maybe update the main state
+                Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
+                softStatuses.Add(new CoreSoftDependencyData(groupId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
             }
 
 

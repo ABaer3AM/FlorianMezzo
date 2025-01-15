@@ -12,6 +12,7 @@ namespace FlorianMezzo.Controls.db
     public class HealthCheckService
     {
         private readonly LocalDbService _dbService;
+        public event EventHandler<NewDataEvent> _newdataEvent; // Event to notify subscribers
         private int fetchCount = 0;
         private bool shouldEnd;
 
@@ -34,13 +35,19 @@ namespace FlorianMezzo.Controls.db
                     // Fetch data
                     Debug.WriteLine($"Collecting status data at {DateTime.Now}...");
 
-                    List<SoftDependencyData> softDependencyEntries = await _urlChecker.testSoftDependencies(groupId);
+
+                    List<CoreSoftDependencyData> coreSoftDependencyEntries = await _urlChecker.testCoreSoftDependencies(groupId);
+                    List<TileSoftDependencyData> tileSoftDependencyEntries = await _urlChecker.testTileSoftDependencies(groupId);
                     List<HardwareResourcesData> hardwareResourceEntries = await _resourceChecker.testHardwareResources(groupId);
                     Debug.WriteLine($"COMPLETED collecting status data");
 
                     // Write data
-                    await _dbService.WriteToSoftwareDependency(softDependencyEntries);
-                    await _dbService.WriteToHardwareResources(hardwareResourceEntries);
+                    await _dbService.WriteToDb(coreSoftDependencyEntries);
+                    await _dbService.WriteToDb(tileSoftDependencyEntries);
+                    await _dbService.WriteToDb(hardwareResourceEntries);
+
+                    // Broadcast new data has been written
+                    BroadcastNewData(new NewDataEvent(groupId));
 
                     // Wait during the interval
                     Task.Delay(5000).Wait();
@@ -61,9 +68,30 @@ namespace FlorianMezzo.Controls.db
             shouldEnd = true;
         }
 
+        protected virtual void BroadcastNewData(NewDataEvent e)
+        {
+            _newdataEvent?.Invoke(this, e);
+        }
+
         public int GetCount()
         {
             return fetchCount;
+        }
+
+        public LocalDbService GetDbService()
+        {
+            return _dbService;
+        }
+    }
+
+    public class NewDataEvent: EventArgs
+    {
+        public string GroupId { get; }
+
+        // constructor
+        public NewDataEvent(string groupId)
+        {
+            GroupId = groupId;
         }
     }
 }

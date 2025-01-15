@@ -67,6 +67,7 @@ public partial class ExpandableStateDisplay : ContentView
         MainStateDisplayContainer.Content = newStateDisplay;
     }
 
+    // Overloaded method to UPDATE ESD WITH A LIST OF STATUSES---------------------------
     public void UpdateDropdownContent(List<StateDisplay> newList)
     {
         DropdownContent.Children.Clear();
@@ -88,16 +89,16 @@ public partial class ExpandableStateDisplay : ContentView
             DropdownContent.Children.Add(frame);
         }
     }
-    public void UpdateDropdownContent(List<SoftDependencyData> softDataList)
+    public void UpdateDropdownContent(List<DbData> dataList)
     {
         DropdownContent.Children.Clear();
 
-        foreach (var softData in softDataList)
+        foreach (var dataEntry in dataList)
         {
             // Wrap each StateDisplay in a Frame or directly add to the dropdown
             var frame = new Frame
             {
-                Content = new StateDisplay(softData),
+                Content = new StateDisplay(dataEntry),
                 CornerRadius = 0,
                 Padding = 0,
                 Margin = 0,
@@ -109,16 +110,13 @@ public partial class ExpandableStateDisplay : ContentView
             DropdownContent.Children.Add(frame);
 
             // maybe update main deisplay
-            if(softData.Status != 1) {
-                UpdateMainStateDisplay(new StateDisplay("Software Dependencies", $"Issue with {softData.Title}", softData.Status));
+            if(dataEntry.Status != 1) {
+                UpdateMainStateDisplay(new StateDisplay("Software Dependencies", $"Issue with {dataEntry.Title}", dataEntry.Status));
             };
         }
     }
+    // ----------------------------------------------------------------------------------
 
-    public void UpdateFull(List<SoftDependencyData> softDataList)
-    {
-        
-    }
 
     public async void ExpandStateDisplays(object sender, EventArgs e)
     {
