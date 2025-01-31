@@ -30,9 +30,9 @@ namespace FlorianMezzo
 
             // Page Definitions
             builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddSingleton<InstallGuide>();
             builder.Services.AddSingleton<HealthCheck>();
 
+            builder.Services.AddTransient<InstallGuide>();
             builder.Services.AddTransient<ItHandOff>();
             builder.Services.AddTransient<FlorianBTS>();
             builder.Services.AddTransient<More3AM>();
