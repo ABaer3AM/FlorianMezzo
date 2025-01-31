@@ -96,7 +96,7 @@
 
                     <Label
                         Text="Statuses of all requirements for FLORIAN are listed below. Ensure all statuses are Online before downloading FLORIAN. Click on any status to expand its components. "
-                        Style="{StaticResource Headline}"
+                        Style="{StaticResource SubHeadline}"
                         VerticalOptions="Start"
                         FontSize="32"
                         LineBreakMode="WordWrap"

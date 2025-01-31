@@ -1,9 +1,6 @@
 ﻿using FlorianMezzo.Constants;
 using FlorianMezzo.Controls.db;
-using System.ComponentModel;
-using System.Data.SqlTypes;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace FlorianMezzo.Controls
 {

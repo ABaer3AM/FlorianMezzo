@@ -92,11 +92,11 @@
         Spacing="30">
 
                     <Label
-                Text="Ensure all of the following shows a ..."
-                Style="{StaticResource Headline}"
-                VerticalOptions="Start"
-                FontSize="44"
-                SemanticProperties.HeadingLevel="Level2"/>
+                        Text="This Page is under construction"
+                        Style="{StaticResource SubHeadline}"
+                        VerticalOptions="Start"
+                        FontSize="44"
+                        SemanticProperties.HeadingLevel="Level2"/>
 
                 </VerticalStackLayout>
             </VerticalStackLayout>

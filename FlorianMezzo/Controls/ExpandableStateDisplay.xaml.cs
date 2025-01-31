@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Xml.Serialization;
-using Microsoft.Maui.Controls;
 using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Controls;

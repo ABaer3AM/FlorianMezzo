@@ -35,6 +35,9 @@ namespace FlorianMezzo.Controls.db
             Task.Run(async () => { 
                 while (status > 0)
                 {
+                    // increment count
+                    fetchCount++;
+                     
                     var settings = this.Settings;
                     string groupId = Guid.NewGuid().ToString();
 
@@ -72,9 +75,6 @@ namespace FlorianMezzo.Controls.db
                         SetStatus(0);
                         return;
                     }
-
-                    // increment count
-                    fetchCount++;
                 }
             });
         }

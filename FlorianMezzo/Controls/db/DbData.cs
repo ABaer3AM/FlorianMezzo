@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Xml.Linq;
 
 namespace FlorianMezzo.Controls.db
 {

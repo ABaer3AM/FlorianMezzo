@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
 using FlorianMezzo.Controls.db;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FlorianMezzo.Controls
 {

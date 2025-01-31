@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace FlorianMezzo.Controls.db
