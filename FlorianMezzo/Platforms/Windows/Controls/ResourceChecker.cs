@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using FlorianMezzo.Controls;
+using Windows.System.Power;
 
 namespace FlorianMezzo.Controls
 {
@@ -22,6 +22,12 @@ namespace FlorianMezzo.Controls
             {
                 return Tuple.Create(1, $"{cpuUsage:F1}% usage");
             }
+        }
+
+        public static bool IsCharging()
+        {
+            var chargingStatus = PowerManager.PowerSupplyStatus;
+            return chargingStatus == PowerSupplyStatus.Adequate || chargingStatus == PowerSupplyStatus.Inadequate;
         }
     }
 }

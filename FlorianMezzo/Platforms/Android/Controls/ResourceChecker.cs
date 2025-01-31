@@ -11,5 +11,10 @@ namespace FlorianMezzo.Controls
             Debug.WriteLine("Fetching Android CPU");
             return Tuple.Create(0, "No CPU Usage Fetching availible on Android");
         }
+
+        public static bool IsCharging()
+        {
+            return false;
+        }
     }
 }

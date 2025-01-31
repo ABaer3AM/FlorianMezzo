@@ -134,9 +134,12 @@
                             HorizontalOptions="End" />
                     </Grid>
 
-                    <Grid
-                        HorizontalOptions="FillAndExpand"
-                        ColumnDefinitions="*,Auto">
+
+                    <!-- Health Check Interval Setting -->
+                    <VerticalStackLayout
+                        HorizontalOptions="FillAndExpand">
+                        <Grid
+                            ColumnDefinitions="*,Auto,Auto">
                         <!-- Label on the left -->
                         <Label
                             Grid.Column="0"
@@ -146,43 +149,82 @@
                             HorizontalOptions="Start"
                             SemanticProperties.HeadingLevel="Level2" />
 
-                        <!-- Picker on the right -->
-                        <Grid HorizontalOptions="FillAndExpand" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="60" />
-                            </Grid.ColumnDefinitions>
-                            <!-- First Input Field (Min) -->
-                            <Entry
-                                x:Name="minInput"
-                                Grid.Column="0"
-                                WidthRequest="60"
-                                Text="{Binding CheckIntMin, Mode=TwoWay}"
-                                Style="{StaticResource SubHeadline}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
-                                Keyboard="Numeric"
-                                HorizontalOptions="Start" />
+                            <!-- Time input on the right -->
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="60" />
+                                </Grid.ColumnDefinitions>
+                                <!-- First Input Field (Min) -->
+                                <VerticalStackLayout
+                                    Grid.Column="0"
+                                    WidthRequest="60">
+                                    <Entry
+                                        x:Name="minInput"
+                                        WidthRequest="60"
+                                        Text="{Binding CheckIntMin, Mode=TwoWay}"
+                                        Style="{StaticResource SubHeadline}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        Keyboard="Numeric"
+                                        HorizontalOptions="Start"/>
+                                    <Label
+                                        Text="mins"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                                <!-- Colon Separator -->
+                                <Label
+                                    Grid.Column="1"
+                                    Text=":"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center" />
 
-                            <!-- Colon Separator -->
+                                <!-- Second Input Field (Sec) -->
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    WidthRequest="60">
+                                    <Entry
+                                        x:Name="secInput"
+                                        WidthRequest="60"
+                                        Text="{Binding CheckIntSec, Mode=TwoWay}"
+                                        Style="{StaticResource SubHeadline}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        Keyboard="Numeric"
+                                        HorizontalOptions="Start"/>
+                                    <Label
+                                        Text="secs"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+
+
+                            </Grid>
+                        </Grid>
+                        <Frame 
+                            x:Name="serviceStatus"
+                            CornerRadius="5" 
+                            BackgroundColor="#0a1533" 
+                            BorderColor="White"
+                            Padding="10"
+                            VerticalOptions="Start"
+                            HorizontalOptions="FillAndExpand"
+                            HasShadow="True"
+                            Margin="0,10,0,0">
                             <Label
-                                Grid.Column="1"
-                                Text=":"
+                                Text="Set Health Check Interval"
+                                Style="{StaticResource Headline}"
+                                FontSize="20"
+                                TextColor="White"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center" />
-
-                            <!-- Second Input Field (Sec) -->
-                            <Entry
-                                x:Name="secInput"
-                                Grid.Column="2"
-                                WidthRequest="60"
-                                Text="{Binding CheckIntSec, Mode=TwoWay}"
-                                Style="{StaticResource SubHeadline}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
-                                Keyboard="Numeric"
-                                HorizontalOptions="Start" />            
-                        </Grid>
-                    </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    x:Name="setIntervalGesture"
+                                    Tapped="setInterval" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </VerticalStackLayout>
 
                 </VerticalStackLayout>
 

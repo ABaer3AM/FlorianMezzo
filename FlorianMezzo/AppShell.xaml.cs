@@ -8,6 +8,7 @@ namespace FlorianMezzo
         {
             InitializeComponent();
 
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(InstallGuide), typeof(InstallGuide));
             Routing.RegisterRoute(nameof(HealthCheck), typeof(HealthCheck));
             Routing.RegisterRoute(nameof(ItHandOff), typeof(ItHandOff));

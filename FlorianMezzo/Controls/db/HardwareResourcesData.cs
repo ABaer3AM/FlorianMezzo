@@ -6,8 +6,10 @@ namespace FlorianMezzo.Controls.db
     public class HardwareResourcesData : DbData
     {
         public HardwareResourcesData()
-            : base("", "", 0, "", "") { }
-        public HardwareResourcesData(string groupId, string title, int status, string feedback, string dateTime)
-            : base(groupId, title, status, feedback, dateTime) {  }
+            : base("", "", "", 0, "", "", false) { }
+        public HardwareResourcesData(string groupId, string sessionId, string title, int status, string feedback, string dateTime)
+            : base(groupId, sessionId, title, status, feedback, dateTime, true) {  }
+        public HardwareResourcesData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averagable)
+            : base(groupId, sessionId, title, status, feedback, dateTime, averagable) { }
     }
 }

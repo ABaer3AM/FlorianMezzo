@@ -1,18 +1,21 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using FlorianMezzo.Controls;
+using FlorianMezzo.Constants;
+using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Pages;
 
 public partial class InstallGuide : ContentPage
 {
+    private AppSettings Settings = new AppSettings();
 
     public InstallGuide()
 	{
 		InitializeComponent();
-        initESDs();
-
-        getAllStatuses();
+        InitStateDisplays();
+        Settings.LoadOrCreateSettings();
+        UpdateStateDisplays();
     }
 
 
@@ -41,14 +44,17 @@ public partial class InstallGuide : ContentPage
         }
     }
 
-    private async void initESDs()
+    private async void InitStateDisplays()
     {
-        await MainThread.InvokeOnMainThreadAsync(() => {
-            softDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Fetching...", -2);
-            resourceESD.MainStateDisplay = new StateDisplay("Hardware Resources", "Fetching...", -2); 
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            // state displays
+            tileSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies (Workspace Tiles)", "Unfetched", 0);
+            coreSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Unfetched", 0);
+            resourceESD.MainStateDisplay = new StateDisplay("Hardware Resources", "Unfetched", 0);
+
         });
     }
-
 
     // Methods to Fetch Status Data---------------------------------------------------------------------------------------------
     private async void getStatusOfSoftDependencies()
@@ -94,56 +100,57 @@ public partial class InstallGuide : ContentPage
      * (sender,e) from button 
      * () called from another function
      */
-    private async void getAllStatuses(object sender, EventArgs e)
+    private async void UpdateStateDisplays(object sender, EventArgs e)
     {
-        getAllStatuses();
+        UpdateStateDisplays();
     }
-    private async void getAllStatuses()
+    private async void UpdateStateDisplays()
     {
-        await MainThread.InvokeOnMainThreadAsync(() => {
-            softDependencyESD.MainStateDisplay.UpdateStatus(-2);
-            resourceESD.MainStateDisplay.UpdateStatus(-2);
-        });
-        Thread[] processThreads = new Thread[] {
-            new Thread(() =>{  getStatusOfSoftDependencies();  }),
-            new Thread(() =>{  getStatusOfHardwareResources();  })
-        };
+        string groupId = Settings.LastGroupId;
 
-        foreach(Thread process in processThreads)
+        // if there is no valid group ID, exit
+        if (groupId == "") { return; }
+
+        // Fetch batched data
+        LocalDbService dbService =new LocalDbService();
+        Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
+
+        // On main thread, update UI
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            process.Start();
-        }
+            // state displays
+            tileSoftDependencyESD.UpdateDropdownContent(statuses["tileSoftDependencies"]);
+            coreSoftDependencyESD.UpdateDropdownContent(statuses["coreSoftDependencies"]);
+            resourceESD.UpdateDropdownContent(statuses["hardwareResources"]);
+
+        });
     }
 
 
-    // Navigation methods
+    // Navigation methods-----------------------------------------------------
+    private async void redirectToMain(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///MainPage");
+    }
     private async void redirectToInstallGuide(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new InstallGuide(), false);
+        await Shell.Current.GoToAsync(nameof(InstallGuide));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
-        // Resolve HealthCheck page from the service provider
-        var healthCheckPage = App.Services.GetService<HealthCheck>();
-        if (healthCheckPage != null)
-        {
-            await Navigation.PushAsync(healthCheckPage, false);
-        }
+        await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
     private async void redirectToITHandOff(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ItHandOff(), false);
+        await Shell.Current.GoToAsync(nameof(ItHandOff));
     }
     private async void redirectToFlorianBTS(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new FlorianBTS(), false);
+        await Shell.Current.GoToAsync(nameof(FlorianBTS));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new More3AM(), false);
+        await Shell.Current.GoToAsync(nameof(More3AM));
     }
-    private async void redirectToMain(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new MainPage(), false);
-    }
+    // -----------------------------------------------------------------------
 }

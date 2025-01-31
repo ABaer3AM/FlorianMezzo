@@ -9,33 +9,28 @@ public partial class FlorianBTS : ContentPage
 
 
     // Navigation methods
+    private async void redirectToMain(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///MainPage");
+    }
     private async void redirectToInstallGuide(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new InstallGuide(), false);
+        await Shell.Current.GoToAsync(nameof(InstallGuide));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
-        // Resolve HealthCheck page from the service provider
-        var healthCheckPage = App.Services.GetService<HealthCheck>();
-        if (healthCheckPage != null)
-        {
-            await Navigation.PushAsync(healthCheckPage, false);
-        }
+        await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
     private async void redirectToITHandOff(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ItHandOff(), false);
+        await Shell.Current.GoToAsync(nameof(ItHandOff));
     }
     private async void redirectToFlorianBTS(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new FlorianBTS(), false);
+        await Shell.Current.GoToAsync(nameof(FlorianBTS));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new More3AM(), false);
-    }
-    private async void redirectToMain(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new MainPage(), false);
+        await Shell.Current.GoToAsync(nameof(More3AM));
     }
 }

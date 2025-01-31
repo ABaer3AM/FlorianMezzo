@@ -26,9 +26,10 @@ namespace FlorianMezzo
 
             // DB service
             builder.Services.AddSingleton<LocalDbService>();
-            builder.Services.AddSingleton<HealthCheckService>();
+            builder.Services.AddTransient<HealthCheckService>();
 
             // Page Definitions
+            builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<InstallGuide>();
             builder.Services.AddSingleton<HealthCheck>();
 

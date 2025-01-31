@@ -1,7 +1,7 @@
 ﻿using FlorianMezzo.Pages;
-using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
-using FlorianMezzo.Controls.db;
+using FlorianMezzo.Constants;
+using System.Diagnostics;
 
 namespace FlorianMezzo
 {
@@ -11,13 +11,18 @@ namespace FlorianMezzo
         public string SelectedOption { get; set; }
         private int _checkIntMin;
         private int _checkIntSec;
+        private AppSettings Settings = new AppSettings();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPage()
         {
-            InitializeComponent();
+            // Read settings file
+            Settings.LoadOrCreateSettings();
+            _checkIntSec = Settings.Interval % 60;
+            _checkIntMin = Settings.Interval / 60;
 
+            InitializeComponent();
 
             Options = new List<string>{
                 "QA",
@@ -70,13 +75,20 @@ namespace FlorianMezzo
             get => _checkIntSec;
             set
             {
-                if (_checkIntSec != value)
+                ; if (_checkIntSec != value)
                 {
                     _checkIntSec = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CheckIntSec)));
                 }
             }
         }
+
+        private void setInterval(object sender, EventArgs e)
+        {
+            Debug.WriteLine($"Changed Interval from {Settings.Interval} to {(_checkIntMin * 60) + _checkIntSec}");
+            Settings.UpdateInterval((_checkIntMin * 60) + _checkIntSec);
+        }
+
     }
 
 }

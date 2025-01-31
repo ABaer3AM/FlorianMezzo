@@ -144,15 +144,15 @@ namespace FlorianMezzo.Controls
                     //check status of OS
                     if (buildNumber > 19044)
                     {
-                        return Tuple.Create(1, $"{productName} ({releaseId}, {buildNumber})");
+                        return Tuple.Create(1, $"{productName} ({releaseId}- {buildNumber})");
                     }
                     else if (buildNumber > 17763)
                     {
-                        return Tuple.Create(-1, $"{productName} ({releaseId}, {buildNumber}) [at least Windows 10 21H2 recommended]");
+                        return Tuple.Create(-1, $"{productName} ({releaseId}- {buildNumber}) [at least Windows 10 21H2 recommended]");
                     }
                     else
                     {
-                        return Tuple.Create(0, $"{productName} ({releaseId}, {buildNumber}) [at least Windows 10 1809 required]");
+                        return Tuple.Create(0, $"{productName} ({releaseId}- {buildNumber}) [at least Windows 10 1809 required]");
                     }
                 }
             }
@@ -288,7 +288,7 @@ namespace FlorianMezzo.Controls
             return (totalBytesSent, totalBytesReceived);
         }
 
-        public virtual async Task<List<HardwareResourcesData>> testHardwareResources(string groupId)
+        public virtual async Task<List<HardwareResourcesData>> testHardwareResources(string groupId, string sessionId)
         {
             List<HardwareResourcesData> hardDataEntries = new List<HardwareResourcesData>();
 
@@ -324,7 +324,14 @@ namespace FlorianMezzo.Controls
             // Plug data into state displays
             for (int i=0; i<responses.Length; i++)
             {
-                hardDataEntries.Add(new HardwareResourcesData(groupId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                if (i == 0 && IsCharging())
+                {
+                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false));
+                }
+                else
+                {
+                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                }
             }
 
             return hardDataEntries;

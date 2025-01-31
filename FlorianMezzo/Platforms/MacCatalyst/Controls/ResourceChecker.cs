@@ -11,5 +11,10 @@ namespace FlorianMezzo.Controls
             Debug.WriteLine("Fetching Mac Catalyst CPU");
             return Tuple.Create(0, "No CPU Usage Fetching availible on mac Catalyst");
         }
+
+        public static bool IsCharging()
+        {
+            return false;
+        }
     }
 }

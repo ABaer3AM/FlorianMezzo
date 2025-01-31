@@ -52,7 +52,7 @@ namespace FlorianMezzo.Controls.db
         }
         public async Task WriteToDb(List<TileSoftDependencyData> softDataList)
         {
-            Debug.WriteLine($"Wrote to Soft Depdency Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Soft Depdency (Tile) Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach(TileSoftDependencyData entry in softDataList)
             {
                 await _connection.InsertAsync(entry);
@@ -64,7 +64,7 @@ namespace FlorianMezzo.Controls.db
         }
         public async Task WriteToDb(List<CoreSoftDependencyData> softDataList)
         {
-            Debug.WriteLine($"Wrote to Soft Depdency Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Soft Depdency (Core) Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach (CoreSoftDependencyData entry in softDataList)
             {
                 await _connection.InsertAsync(entry);
@@ -76,7 +76,7 @@ namespace FlorianMezzo.Controls.db
         }
         public async Task WriteToDb(List<HardwareResourcesData> dataListIn)
         {
-            Debug.WriteLine($"Wrote to Soft Depdency Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach (HardwareResourcesData entry in dataListIn)
             {
                 await _connection.InsertAsync(entry);

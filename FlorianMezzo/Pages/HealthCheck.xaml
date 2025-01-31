@@ -95,7 +95,7 @@
 
                     <Label
                         Text="Statuses of all requirements for FLORIAN are listed below. Ensure all statuses are Online before downloading FLORIAN. Click on any status to expand its components. "
-                        Style="{StaticResource Headline}"
+                        Style="{StaticResource SubHeadline}"
                         VerticalOptions="Start"
                         FontSize="32"
                         LineBreakMode="WordWrap"
@@ -104,53 +104,113 @@
                         BorderColor="White"
                         Margin="0,10"/>
 
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <!-- Service bar -->
+                    <VerticalStackLayout HorizontalOptions="Fill" Spacing="10">
+                        <Grid
+                            ColumnDefinitions="*,Auto,*">
+
+                            <VerticalStackLayout HorizontalOptions="FillAndExpand" Grid.Column="0">
+                                <Label
+                                    x:Name="fetchCountLabel"
+                                    Text="Fetch Count"
+                                    Style="{StaticResource Headline}"
+                                    VerticalOptions="Center"
+                                    FontSize="32"
+                                    LineBreakMode="WordWrap"
+                                    SemanticProperties.HeadingLevel="Level2"/>
+                                <Label
+                                    x:Name="fetchCountNum"
+                                    Text="0"
+                                    Style="{StaticResource Headline}"
+                                    VerticalOptions="Center"
+                                    FontSize="32"
+                                    LineBreakMode="WordWrap"
+                                    SemanticProperties.HeadingLevel="Level2"/>
+                            </VerticalStackLayout>
+                            <Frame
+                                Grid.Column="1"
+                                x:Name="serviceStatus"
+                                CornerRadius="5" 
+                                HeightRequest="60" 
+                                WidthRequest="60" 
+                                BackgroundColor="#F94620" 
+                                Padding="10"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Margin="10">
+                                <Image 
+                                    x:Name="serviceStatusImage"
+                                    Source="xmark.png" 
+                                    HeightRequest="40" 
+                                    WidthRequest="40" 
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="Center" />
+                            </Frame>
+                            <VerticalStackLayout HorizontalOptions="FillAndExpand" Grid.Column="2">
+                                <Label
+                                    x:Name="intervalLabel"
+                                    Text="Interval"
+                                    Style="{StaticResource Headline}"
+                                    VerticalOptions="Center"
+                                    FontSize="32"
+                                    LineBreakMode="WordWrap"
+                                    SemanticProperties.HeadingLevel="Level2"/>
+                                <HorizontalStackLayout HorizontalOptions="Center">
+                                    <Label
+                                        x:Name="intervalMinNum"
+                                        Text=""
+                                        Style="{StaticResource Headline}"
+                                        VerticalOptions="Center"
+                                        FontSize="32"
+                                        LineBreakMode="WordWrap"
+                                        SemanticProperties.HeadingLevel="Level2"/>
+                                    <Label
+                                        x:Name="intervalCollin"
+                                        Text=":"
+                                        Style="{StaticResource Headline}"
+                                        VerticalOptions="Center"
+                                        FontSize="32"
+                                        LineBreakMode="WordWrap"
+                                        SemanticProperties.HeadingLevel="Level2"/>
+                                    <Label
+                                        x:Name="intervalSecNum"
+                                        Text=""
+                                        Style="{StaticResource Headline}"
+                                        VerticalOptions="Center"
+                                        FontSize="32"
+                                        LineBreakMode="WordWrap"
+                                        SemanticProperties.HeadingLevel="Level2"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+
                         <Button
-                            x:Name="startServiceBtn"
+                            x:Name="toggleServiceBtn"
                             Text="Start Service"
-                            Clicked="StartService"
-                            HorizontalOptions="Center"
-                            BorderColor="White"
-                            BorderWidth="2"
-                            SemanticProperties.Hint="Starts the Health Checker Service"
-                            MaximumWidthRequest="600"/>
-                        <VerticalStackLayout HorizontalOptions="Center">
-                            <Label
-                                x:Name="fetchCountLabel"
-                                Text="Fetch Count:"
-                                Style="{StaticResource Headline}"
-                                VerticalOptions="Center"
-                                FontSize="32"
-                                LineBreakMode="WordWrap"
-                                SemanticProperties.HeadingLevel="Level2"/>
-                            <Label
-                                x:Name="fetchCountNum"
-                                Text="0"
-                                Style="{StaticResource Headline}"
-                                VerticalOptions="Center"
-                                FontSize="32"
-                                LineBreakMode="WordWrap"
-                                SemanticProperties.HeadingLevel="Level2"/>
-                        </VerticalStackLayout>
-                        <Button
-                            x:Name="stopServiceBtn"
-                            Text="Stop Service"
-                            Clicked="StopService"
-                            HorizontalOptions="Center"
+                            Clicked="ToggleService"
                             BorderColor="White"
                             BorderWidth="2"
                             SemanticProperties.Hint="Stops the Health Checker Service"
-                            MaximumWidthRequest="600"/>
-                    </HorizontalStackLayout>
+                            HorizontalOptions="FillAndExpand"/>
+                    </VerticalStackLayout>
 
                     <VerticalStackLayout
                         x:Name="esdStack"
                         Padding="0,10"
                         Spacing="10">
-                        <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="tileSoftDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="coreSoftDependencyESD" />
                         <controls:ExpandableStateDisplay x:Name="resourceESD" />
 
-
+                        <Button
+                            x:Name="ExportBtn"
+                            Text="Export Health Check"
+                            Clicked="ExportToCSV"
+                            BorderColor="White"
+                            BorderWidth="2"
+                            SemanticProperties.Hint="Exports the health checker as a csv file"
+                            HorizontalOptions="Center"
+                            MaximumWidthRequest="600"/>
 
                     </VerticalStackLayout>
 

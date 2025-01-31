@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System.Xml.Linq;
 
 namespace FlorianMezzo.Controls.db
 {
@@ -12,6 +13,9 @@ namespace FlorianMezzo.Controls.db
         [Column("groupId")]
         public string GroupId { get; set; }
 
+        [Column("sessionId")]
+        public string SessionId { get; set; }
+
         [Column("title")]
         public string Title { get; set; }
 
@@ -24,13 +28,32 @@ namespace FlorianMezzo.Controls.db
         [Column("datetime")]
         public string DateTime { get; set; }
 
-        public DbData(string groupId, string title, int status, string feedback, string dateTime)
+        [Column("averagable")]
+        public bool Averageable { get; set; }
+
+        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime)
         {
             GroupId = groupId;
+            SessionId = sessionId;
             Title = title;
             Status = status;
             Feedback = feedback;
             DateTime = dateTime;
+            Averageable = true;
+        }
+        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averageable)
+        {
+            GroupId = groupId;
+            SessionId = sessionId;
+            Title = title;
+            Status = status;
+            Feedback = feedback;
+            DateTime = dateTime;
+            Averageable = averageable;
+        }
+        public override string ToString()
+        {
+            return $"{GroupId}, {SessionId}, {Title}, {Status}, {Feedback}, {DateTime}, {Averageable}";
         }
 
     }

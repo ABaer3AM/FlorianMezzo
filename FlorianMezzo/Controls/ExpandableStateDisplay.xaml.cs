@@ -62,7 +62,7 @@ public partial class ExpandableStateDisplay : ContentView
 
 
 
-    private void UpdateMainStateDisplay(StateDisplay newStateDisplay)
+    public void UpdateMainStateDisplay(StateDisplay newStateDisplay)
     {
         MainStateDisplayContainer.Content = newStateDisplay;
     }
@@ -91,6 +91,7 @@ public partial class ExpandableStateDisplay : ContentView
     }
     public void UpdateDropdownContent(List<DbData> dataList)
     {
+        bool isValid = true;
         DropdownContent.Children.Clear();
 
         foreach (var dataEntry in dataList)
@@ -110,10 +111,17 @@ public partial class ExpandableStateDisplay : ContentView
             DropdownContent.Children.Add(frame);
 
             // maybe update main deisplay
-            if(dataEntry.Status != 1) {
-                UpdateMainStateDisplay(new StateDisplay("Software Dependencies", $"Issue with {dataEntry.Title}", dataEntry.Status));
-            };
+            if (dataEntry.Status != 1)
+            {
+                isValid = false;
+                UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, $"Issue with {dataEntry.Title}", dataEntry.Status, ""));
+            }
         }
+        if (isValid)
+        {
+            UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "Operational", 1, ""));
+        }
+
     }
     // ----------------------------------------------------------------------------------
 

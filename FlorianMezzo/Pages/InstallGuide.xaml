@@ -108,7 +108,7 @@
                     <Button
                         x:Name="getStatusesBtn"
                         Text="Get Statuses"
-                        Clicked="getAllStatuses"
+                        Clicked="UpdateStateDisplays"
                         HorizontalOptions="Center"
                         BorderColor="White"
                         BorderWidth="2"
@@ -119,10 +119,11 @@
                         x:Name="esdStack"
                         Padding="0,10"
                         Spacing="10">
-                        <controls:ExpandableStateDisplay x:Name="softDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="tileSoftDependencyESD" />
+                        <controls:ExpandableStateDisplay x:Name="coreSoftDependencyESD" />
                         <controls:ExpandableStateDisplay x:Name="resourceESD" />
-                        
-                        
+
+
 
                     </VerticalStackLayout>
 
