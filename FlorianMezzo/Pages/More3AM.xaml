@@ -24,62 +24,60 @@
                     Padding="0">
                     <!-- Main Navigation Bar -->
                     <ScrollView
-                    Orientation="Horizontal"
-                    HorizontalOptions="FillAndExpand">
-                        <Frame
-                        x:Name="navBar"
-                        BackgroundColor="{StaticResource Tertiary}"
-                        CornerRadius="0"
+                        Orientation="Horizontal"
                         HorizontalOptions="FillAndExpand">
+                        <Frame
+                            x:Name="navBar"
+                            BackgroundColor="{StaticResource Tertiary}"
+                            CornerRadius="0"
+                            HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                                 <Label
-                                Text="Home"
-                                Style="{StaticResource Headline}"
-                                TextColor="{StaticResource PrimaryDark}"
-                                VerticalOptions="Start"
-                                FontSize="44"
-                                SemanticProperties.HeadingLevel="Level2"
-                                >
+                                    Text="Home"
+                                    Style="{StaticResource Headline}"
+                                    TextColor="{StaticResource PrimaryDark}"
+                                    VerticalOptions="Start"
+                                    FontSize="44"
+                                    SemanticProperties.HeadingLevel="Level2"
+                    >
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer
-                                        NumberOfTapsRequired="1"
-                                        Tapped="redirectToMain" />
+                                            NumberOfTapsRequired="1"
+                                            Tapped="redirectToMain" />
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Button
-                                x:Name="installGuideNav"
-                                Text="Install Guide"
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                Clicked="redirectToInstallGuide"
-                                MaximumWidthRequest="600" />
+                                    x:Name="CompatibilityNav"
+                                    Text="Compatibility Tool"
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
+                                    Clicked="redirectToCompatibility"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                                x:Name="healthCheckNav"
-                                Text="Health Check" 
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Health Check Page"
-                                Clicked="redirectToHealthCheck"
-                                MaximumWidthRequest="600" />
+                                    x:Name="healthCheckNav"
+                                    Text="Health Check" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Health Check Page"
+                                    Clicked="redirectToHealthCheck"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                                x:Name="itHandOff"
-                                Text="IT Hand Off" 
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to IT Hand Off Page"
-                                Clicked="redirectToITHandOff"
-                                MaximumWidthRequest="600" />
+                                    x:Name="mezzoAnalysisNav"
+                                    Text="Mezzo Analysis" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
+                                    Clicked="redirectToMezzoAnalysis"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                                x:Name="florianBTSNav"
-                                Text="FLORIAN BTS" 
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Florian BTS Page"
-                                Clicked="redirectToFlorianBTS"
-                                MaximumWidthRequest="600" />
-                                <Button
-                                x:Name="more3AMNav"
-                                Text="More 3AM" 
-                                SemanticProperties.Hint="Redirects User to More 3AM Page"
-                                Clicked="redirectToMore3AM"
-                                MaximumWidthRequest="600" />
+                                    x:Name="more3AMNav"
+                                    Text="More 3AM" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
+                                    Clicked="redirectToMore3AM"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                             </StackLayout>
                         </Frame>
                     </ScrollView>

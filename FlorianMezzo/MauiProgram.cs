@@ -32,9 +32,8 @@ namespace FlorianMezzo
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<HealthCheck>();
 
-            builder.Services.AddTransient<InstallGuide>();
-            builder.Services.AddTransient<ItHandOff>();
-            builder.Services.AddTransient<FlorianBTS>();
+            builder.Services.AddTransient<Compatibility>();
+            builder.Services.AddTransient<MezzoAnalysis>();
             builder.Services.AddTransient<More3AM>();
 
             return builder.Build();

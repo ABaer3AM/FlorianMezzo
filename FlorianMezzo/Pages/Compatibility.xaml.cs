@@ -5,11 +5,11 @@ using FlorianMezzo.Controls.db;
 
 namespace FlorianMezzo.Pages;
 
-public partial class InstallGuide : ContentPage
+public partial class Compatibility : ContentPage
 {
     private AppSettings Settings = new AppSettings();
 
-    public InstallGuide()
+    public Compatibility()
 	{
 		InitializeComponent();
         InitStateDisplays();
@@ -131,21 +131,17 @@ public partial class InstallGuide : ContentPage
     {
         await Shell.Current.GoToAsync("///MainPage");
     }
-    private async void redirectToInstallGuide(object sender, EventArgs e)
+    private async void redirectToCompatibility(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(InstallGuide));
+        await Shell.Current.GoToAsync(nameof(Compatibility));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
-    private async void redirectToITHandOff(object sender, EventArgs e)
+    private async void redirectToMezzoAnalysis(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ItHandOff));
-    }
-    private async void redirectToFlorianBTS(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(FlorianBTS));
+        await Shell.Current.GoToAsync(nameof(MezzoAnalysis));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {

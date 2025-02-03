@@ -9,6 +9,7 @@ namespace FlorianMezzo
     {
         public List<string> Options { get; set; }
         public string SelectedOption { get; set; }
+        private int _checkIntHr;
         private int _checkIntMin;
         private int _checkIntSec;
         private AppSettings Settings = new AppSettings();
@@ -19,8 +20,9 @@ namespace FlorianMezzo
         {
             // Read settings file
             Settings.LoadOrCreateSettings();
+            _checkIntHr = Settings.Interval / 3600;
+            _checkIntMin = Settings.Interval % 3600 / 60;
             _checkIntSec = Settings.Interval % 60;
-            _checkIntMin = Settings.Interval / 60;
 
             InitializeComponent();
 
@@ -36,21 +38,17 @@ namespace FlorianMezzo
             BindingContext = this;
         }
 
-        private async void redirectToInstallGuide(object sender, EventArgs e)
+        private async void redirectToCompatibility(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(InstallGuide));
+            await Shell.Current.GoToAsync(nameof(Compatibility));
         }
         private async void redirectToHealthCheck(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(HealthCheck));
         }
-        private async void redirectToITHandOff(object sender, EventArgs e)
+        private async void redirectToMezzoAnalysis(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(ItHandOff));
-        }
-        private async void redirectToFlorianBTS(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync(nameof(FlorianBTS));
+            await Shell.Current.GoToAsync(nameof(MezzoAnalysis));
         }
         private async void redirectToMore3AM(object sender, EventArgs e)
         {
@@ -58,6 +56,19 @@ namespace FlorianMezzo
         }
 
 
+        // Time Inteval Methods -------------------------------------------------------------------
+        public int CheckIntHr
+        {
+            get => _checkIntHr;
+            set
+            {
+                if (_checkIntHr != value)
+                {
+                    _checkIntHr = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_checkIntHr)));
+                }
+            }
+        }
         public int CheckIntMin
         {
             get => _checkIntMin;
@@ -82,12 +93,12 @@ namespace FlorianMezzo
                 }
             }
         }
-
         private void setInterval(object sender, EventArgs e)
         {
-            Debug.WriteLine($"Changed Interval from {Settings.Interval} to {(_checkIntMin * 60) + _checkIntSec}");
-            Settings.UpdateInterval((_checkIntMin * 60) + _checkIntSec);
+            Debug.WriteLine($"Changed Interval from {Settings.Interval} to {(_checkIntHr * 3600) + (_checkIntMin * 60) + _checkIntSec}");
+            Settings.UpdateInterval((_checkIntHr * 3600) + (_checkIntMin * 60) + _checkIntSec);
         }
+        // ----------------------------------------------------------------------------------------
 
     }
 

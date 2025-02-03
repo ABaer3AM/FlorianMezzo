@@ -124,6 +124,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\Compatibility.xaml.cs">
+      <DependentUpon>Compatibility.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\MezzoAnalysis.xaml.cs">
+      <DependentUpon>MezzoAnalysis.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Platforms\Android\Controls\ResourceChecker.cs">
       <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
     </Compile>
@@ -137,16 +143,13 @@
 	  <MauiXaml Update="Controls\StateDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\FlorianBTS.xaml">
+	  <MauiXaml Update="Pages\MezzoAnalysis.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HealthCheck.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\InstallGuide.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ItHandOff.xaml">
+	  <MauiXaml Update="Pages\Compatibility.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\More3AM.xaml">

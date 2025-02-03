@@ -72,35 +72,37 @@
                         HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
                             <Button
-                                    x:Name="installGuideNav"
-                                    Text="Install Guide"
-                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                    Clicked="redirectToInstallGuide"
-                                    MaximumWidthRequest="600" />
+                                x:Name="CompatibilityNav"
+                                Text="Compatibility Tool"
+                                TextColor="{StaticResource Primary}"
+                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
+                                Clicked="redirectToCompatibility"
+                                WidthRequest="270"
+                                MaximumWidthRequest="1000" />
                             <Button
-                                    x:Name="healthCheckNav"
-                                    Text="Health Check" 
-                                    SemanticProperties.Hint="Redirects User to Health Check Page"
-                                    Clicked="redirectToHealthCheck"
-                                    MaximumWidthRequest="600" />
+                                x:Name="healthCheckNav"
+                                Text="Health Check" 
+                                TextColor="{StaticResource Primary}"
+                                SemanticProperties.Hint="Redirects User to Health Check Page"
+                                Clicked="redirectToHealthCheck"
+                                WidthRequest="270"
+                                MaximumWidthRequest="1000" />
                             <Button
-                                    x:Name="itHandOff"
-                                    Text="IT Hand Off" 
-                                    SemanticProperties.Hint="Redirects User to IT Hand Off Page"
-                                    Clicked="redirectToITHandOff"
-                                    MaximumWidthRequest="600" />
+                                x:Name="mezzoAnalysisNav"
+                                Text="Mezzo Analysis" 
+                                TextColor="{StaticResource Primary}"
+                                SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
+                                Clicked="redirectToMezzoAnalysis"
+                                WidthRequest="270"
+                                MaximumWidthRequest="1000" />
                             <Button
-                                    x:Name="florianBTSNav"
-                                    Text="FLORIAN BTS" 
-                                    SemanticProperties.Hint="Redirects User to Florian BTS Page"
-                                    Clicked="redirectToFlorianBTS"
-                                    MaximumWidthRequest="600" />
-                            <Button
-                                    x:Name="more3AMNav"
-                                    Text="More 3AM" 
-                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
-                                    Clicked="redirectToMore3AM"
-                                    MaximumWidthRequest="600" />
+                                x:Name="more3AMNav"
+                                Text="More 3AM" 
+                                TextColor="{StaticResource Primary}"
+                                SemanticProperties.Hint="Redirects User to More 3AM Page"
+                                Clicked="redirectToMore3AM"
+                                WidthRequest="270"
+                                MaximumWidthRequest="1000" />
                         </StackLayout>
                     </Frame>
                 </ScrollView>
@@ -156,10 +158,35 @@
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="10" />
                                     <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="60" />
                                 </Grid.ColumnDefinitions>
-                                <!-- First Input Field (Min) -->
+                                <!-- First Input Field (Hours) -->
                                 <VerticalStackLayout
                                     Grid.Column="0"
+                                    WidthRequest="60">
+                                    <Entry
+                                        x:Name="hrInput"
+                                        WidthRequest="60"
+                                        Text="{Binding CheckIntHr, Mode=TwoWay}"
+                                        Style="{StaticResource SubHeadline}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        Keyboard="Numeric"
+                                        HorizontalOptions="Start"/>
+                                    <Label
+                                        Text="hours"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                                <!-- Colon Separator -->
+                                <Label
+                                    Grid.Column="1"
+                                    Text=":"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center" />
+                                <!-- Second Input Field (Min) -->
+                                <VerticalStackLayout
+                                    Grid.Column="2"
                                     WidthRequest="60">
                                     <Entry
                                         x:Name="minInput"
@@ -176,14 +203,14 @@
                                 </VerticalStackLayout>
                                 <!-- Colon Separator -->
                                 <Label
-                                    Grid.Column="1"
+                                    Grid.Column="3"
                                     Text=":"
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center" />
 
-                                <!-- Second Input Field (Sec) -->
+                                <!-- Third Input Field (Sec) -->
                                 <VerticalStackLayout
-                                    Grid.Column="2"
+                                    Grid.Column="4"
                                     WidthRequest="60">
                                     <Entry
                                         x:Name="secInput"

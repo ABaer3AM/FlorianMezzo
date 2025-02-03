@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Pages.ItHandOff">
+             x:Class="FlorianMezzo.Pages.MezzoAnalysis">
     <ScrollView>
         <Grid
             BackgroundColor="{StaticResource Tertiary}">
@@ -24,8 +24,8 @@
                     Padding="0">
                     <!-- Main Navigation Bar -->
                     <ScrollView
-                Orientation="Horizontal"
-                HorizontalOptions="FillAndExpand">
+                        Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand">
                         <Frame
                         x:Name="navBar"
                         BackgroundColor="{StaticResource Tertiary}"
@@ -33,13 +33,13 @@
                         HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                                 <Label
-                            Text="Home"
-                            Style="{StaticResource Headline}"
-                            TextColor="{StaticResource PrimaryDark}"
-                            VerticalOptions="Start"
-                            FontSize="44"
-                            SemanticProperties.HeadingLevel="Level2"
-                            >
+                                    Text="Home"
+                                    Style="{StaticResource Headline}"
+                                    TextColor="{StaticResource PrimaryDark}"
+                                    VerticalOptions="Start"
+                                    FontSize="44"
+                                    SemanticProperties.HeadingLevel="Level2"
+                                    >
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer
                                     NumberOfTapsRequired="1"
@@ -47,39 +47,37 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Button
-                            x:Name="installGuideNav"
-                            Text="Install Guide"
-                            TextColor="{StaticResource Primary}"
-                            SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                            Clicked="redirectToInstallGuide"
-                            MaximumWidthRequest="600" />
+                                    x:Name="CompatibilityNav"
+                                    Text="Compatibility Tool"
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
+                                    Clicked="redirectToCompatibility"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                            x:Name="healthCheckNav"
-                            Text="Health Check" 
-                            TextColor="{StaticResource Primary}"
-                            SemanticProperties.Hint="Redirects User to Health Check Page"
-                            Clicked="redirectToHealthCheck"
-                            MaximumWidthRequest="600" />
+                                    x:Name="healthCheckNav"
+                                    Text="Health Check" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Health Check Page"
+                                    Clicked="redirectToHealthCheck"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                            x:Name="itHandOff"
-                            Text="IT Hand Off" 
-                            SemanticProperties.Hint="Redirects User to IT Hand Off Page"
-                            Clicked="redirectToITHandOff"
-                            MaximumWidthRequest="600" />
+                                    x:Name="mezzoAnalysisNav"
+                                    Text="Mezzo Analysis" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
+                                    Clicked="redirectToMezzoAnalysis"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                                 <Button
-                            x:Name="florianBTSNav"
-                            Text="FLORIAN BTS" 
-                            TextColor="{StaticResource Primary}"
-                            SemanticProperties.Hint="Redirects User to Florian BTS Page"
-                            Clicked="redirectToFlorianBTS"
-                            MaximumWidthRequest="600" />
-                                <Button
-                            x:Name="more3AMNav"
-                            Text="More 3AM" 
-                            TextColor="{StaticResource Primary}"
-                            SemanticProperties.Hint="Redirects User to More 3AM Page"
-                            Clicked="redirectToMore3AM"
-                            MaximumWidthRequest="600" />
+                                    x:Name="more3AMNav"
+                                    Text="More 3AM" 
+                                    TextColor="{StaticResource Primary}"
+                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
+                                    Clicked="redirectToMore3AM"
+                                    WidthRequest="270"
+                                    MaximumWidthRequest="1000" />
                             </StackLayout>
                         </Frame>
                     </ScrollView>
@@ -87,9 +85,9 @@
 
 
                 <VerticalStackLayout
-        x:Name="content"
-        MaximumWidthRequest="600"
-        Spacing="30">
+                    x:Name="content"
+                    MaximumWidthRequest="600"
+                    Spacing="30">
 
                     <Label
                         Text="This Page is under construction"

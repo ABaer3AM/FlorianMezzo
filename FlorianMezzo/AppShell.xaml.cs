@@ -9,10 +9,9 @@ namespace FlorianMezzo
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
-            Routing.RegisterRoute(nameof(InstallGuide), typeof(InstallGuide));
+            Routing.RegisterRoute(nameof(Compatibility), typeof(Compatibility));
             Routing.RegisterRoute(nameof(HealthCheck), typeof(HealthCheck));
-            Routing.RegisterRoute(nameof(ItHandOff), typeof(ItHandOff));
-            Routing.RegisterRoute(nameof(FlorianBTS), typeof(FlorianBTS));
+            Routing.RegisterRoute(nameof(MezzoAnalysis), typeof(MezzoAnalysis));
             Routing.RegisterRoute(nameof(More3AM), typeof(More3AM));
         }
     }

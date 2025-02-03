@@ -20,9 +20,8 @@ public partial class HealthCheck : ContentPage
         initESDs();
 
         // Subscribe to required events
-        _healthCheckService._newdataEvent += NewDataBroadcasthandler;   // new data
         _healthCheckService._statusChangeEvent += ServiceStatusHandler; // service status changed
-        Settings._newSettingEvent += newSettingHandler;
+        Settings._newGroupIdEvent += newGroupIdHandler;
 
         // Atempt to update UI
         UpdateServiceUI();
@@ -103,16 +102,21 @@ public partial class HealthCheck : ContentPage
                 toggleServiceBtn.Text = "Stop Service";
             });
         }
+        UpdateServiceUI();
     }
 
         // Fetch Methods
-    private string GetIntMinString()
+    private int GetIntHr()
     {
-        return ((int)((_healthCheckService.GetInterval()/1000) / 60)).ToString();
+        return (int)(Settings.Interval / 3600);
     }
-    private string GetIntSecString()
+    private int GetIntMin()
     {
-        return ((int)((_healthCheckService.GetInterval()/1000) % 60)).ToString();
+        return (int)((Settings.Interval % 3600) /60);
+    }
+    private int GetIntSec()
+    {
+        return (int)(Settings.Interval % 60);
     }
     private string GetFetchCountString()
     {
@@ -122,31 +126,21 @@ public partial class HealthCheck : ContentPage
     // Update UI based on latest info
     private void UpdateServiceUI()
     {
+        Settings.LoadOrCreateSettings();
         MainThread.BeginInvokeOnMainThread(() =>
         {
             // Update count
             fetchCountNum.Text = GetFetchCountString();
-            // Update Interval
-            intervalMinNum.Text = GetIntMinString();
-            intervalSecNum.Text = GetIntSecString();
-        });
-    }
 
-        // handle new data broadcast
-    private async void NewDataBroadcasthandler(object sender, NewDataEvent broadcastedEvent)
-    {
-        Debug.WriteLine($"New data recieved from batch: {broadcastedEvent.GroupId}");
+            var temp1 = GetIntHr();
+            var temp2 = GetIntMin();
+            var temp3 = GetIntSec();
 
-        // On main thread, update UI
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            // Update count
-            fetchCountNum.Text = GetFetchCountString();
             // Update Interval
-            intervalMinNum.Text = GetIntMinString();
-            intervalSecNum.Text = GetIntSecString();
+            intervalHrNum.Text = GetIntHr().ToString();
+            intervalMinNum.Text = GetIntMin().ToString();
+            intervalSecNum.Text = GetIntSec().ToString();
         });
-        UpdateStateDisplays(broadcastedEvent.GroupId);
     }
 
         // handle service status changed
@@ -210,18 +204,11 @@ public partial class HealthCheck : ContentPage
 
 
     // handle new settings ---------------------------------------------------
-    private async void newSettingHandler(object sender, NewSettingEvent newSettingsEvent)
+    private async void newGroupIdHandler(object sender, NewGroupIdEvent newGroupIdEvent)
     {
-        Debug.WriteLine($"New setting recieved");
+        Debug.WriteLine($"New interval recieved: {newGroupIdEvent.GroupId}");
 
-        // On main thread, update UI
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            // Update Interval
-            intervalMinNum.Text = GetIntMinString();
-            intervalSecNum.Text = GetIntSecString();
-        });
-        UpdateStateDisplays(newSettingsEvent.GroupId);
+        UpdateStateDisplays(newGroupIdEvent.GroupId);
     }
     // -----------------------------------------------------------------------
 
@@ -232,21 +219,17 @@ public partial class HealthCheck : ContentPage
     {
         await Shell.Current.GoToAsync("///MainPage");
     }
-    private async void redirectToInstallGuide(object sender, EventArgs e)
+    private async void redirectToCompatibility(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(InstallGuide));
+        await Shell.Current.GoToAsync(nameof(Compatibility));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
-    private async void redirectToITHandOff(object sender, EventArgs e)
+    private async void redirectToMezzoAnalysis(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ItHandOff));
-    }
-    private async void redirectToFlorianBTS(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(FlorianBTS));
+        await Shell.Current.GoToAsync(nameof(MezzoAnalysis));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {

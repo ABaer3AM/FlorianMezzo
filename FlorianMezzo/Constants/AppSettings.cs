@@ -8,7 +8,8 @@ namespace FlorianMezzo.Constants
     {
         public int Interval { get; set; }
         public string LastGroupId { get; set; }
-        public event EventHandler<NewSettingEvent> _newSettingEvent; // Event to notify subscribers of new data
+
+        public event EventHandler<NewGroupIdEvent> _newGroupIdEvent; // Event to notify subscribers of new data
 
         public AppSettings()
         {
@@ -69,7 +70,6 @@ namespace FlorianMezzo.Constants
                 LastGroupId = this.LastGroupId
             };
             SaveSettings(newSettings);
-            BroadcastNewSetting(new NewSettingEvent(this.LastGroupId, newInterval));
         }
         public void UpdateLastGroupId(string newId)
         {
@@ -80,31 +80,39 @@ namespace FlorianMezzo.Constants
                 LastGroupId = newId
             };
             SaveSettings(newSettings);
-            BroadcastNewSetting(new NewSettingEvent(newId, this.Interval));
+            BroadcastNewGroupId(new NewGroupIdEvent(newId));
         }
         public void UpdateSettings(AppSettings newSettings)
         {
             Interval = newSettings.Interval;
             LastGroupId = newSettings.LastGroupId;
+            Debug.WriteLine($"Current settings:\n\tInterval: {Interval}\n\tLastGroupId: {LastGroupId}");
         }
 
-        protected virtual void BroadcastNewSetting(NewSettingEvent e)
+        protected virtual void BroadcastNewGroupId(NewGroupIdEvent e)
         {
-            _newSettingEvent?.Invoke(this, e);
+            _newGroupIdEvent?.Invoke(this, e);
         }
-
     }
 
-    public class NewSettingEvent : EventArgs
+    public class NewIntervalEvent : EventArgs
     {
         public int Interval;
+
+        // constructor
+        public NewIntervalEvent(int interval)
+        {
+            Interval = interval;
+        }
+    }
+    public class NewGroupIdEvent : EventArgs
+    {
         public string GroupId { get; }
 
         // constructor
-        public NewSettingEvent(string groupId, int interval)
+        public NewGroupIdEvent(string groupId)
         {
             GroupId = groupId;
-            Interval = interval;
         }
     }
 }

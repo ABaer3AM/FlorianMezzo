@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using FlorianMezzo.Constants;
 
 namespace FlorianMezzo.Controls.db
@@ -8,19 +9,16 @@ namespace FlorianMezzo.Controls.db
         private readonly LocalDbService _dbService;
         public event EventHandler<NewDataEvent> _newdataEvent; // Event to notify subscribers of new data
         public event EventHandler<StatusChangeEvent> _statusChangeEvent; // Event to notify subscribers of a change in running status
-        public event EventHandler<NewSettingEvent> _newSettingEvent; // Event to notify subscribers new settings
-        private AppSettings Settings = new AppSettings();
         private int interval;
         private int fetchCount = 0;
         private string latestGroupId = "";
         private int status;
 
         public HealthCheckService(LocalDbService dbService) {
+            Debug.WriteLine("Health Check Service Instanciated");
             _dbService = dbService;
             // Fetch Interval
             AppSettings Settings = new AppSettings();
-            Settings.LoadOrCreateSettings();
-            interval = Settings.Interval * 1000;
             SetStatus(0);
         }
 
@@ -28,17 +26,20 @@ namespace FlorianMezzo.Controls.db
         public void Start()
         {
             SetStatus(1);
+            fetchCount = 0;
+
             string sessionId = Guid.NewGuid().ToString();
+
             UrlChecker _urlChecker = new();
             ResourceChecker _resourceChecker = new();
 
             Task.Run(async () => { 
                 while (status > 0)
                 {
-                    // increment count
-                    fetchCount++;
-                     
-                    var settings = this.Settings;
+
+                    AppSettings settings = new AppSettings();
+                    settings.LoadOrCreateSettings();
+                    interval = settings.Interval * 1000;
                     string groupId = Guid.NewGuid().ToString();
 
                     // Fetch data
@@ -55,6 +56,8 @@ namespace FlorianMezzo.Controls.db
                     await _dbService.WriteToDb(coreSoftDependencyEntries);
                     await _dbService.WriteToDb(tileSoftDependencyEntries);
                     await _dbService.WriteToDb(hardwareResourceEntries);
+                    // increment count
+                    fetchCount++;
 
                     SetStatus(1);
 
@@ -63,10 +66,6 @@ namespace FlorianMezzo.Controls.db
                     settings.UpdateLastGroupId(groupId);
                     latestGroupId = groupId;
 
-                    // Fetch Interval
-                    AppSettings Settings = new AppSettings();
-                    Settings.LoadOrCreateSettings();
-                    int interval = Settings.Interval * 1000;
                     // Wait for the duration of the interval
                     Task.Delay(interval).Wait();
                     if (status < 1)
@@ -122,6 +121,12 @@ namespace FlorianMezzo.Controls.db
         {
             _statusChangeEvent?.Invoke(this, e);
         }
+
+        private void newGroupIdHandler(object sender, NewGroupIdEvent groupIdEvent)
+        {
+            Debug.WriteLine($"New groupId recieved from settings: {groupIdEvent.GroupId}");
+        }
+
         // --------------------------------------------------------------------------------------------
     }
 
