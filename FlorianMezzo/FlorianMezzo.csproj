@@ -159,6 +159,11 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Controls\AnalyzerTools\" />
+  </ItemGroup>
   
 
 </Project>

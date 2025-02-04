@@ -1,11 +1,17 @@
+using System.Windows.Input;
+using FlorianMezzo.Controls;
+
 namespace FlorianMezzo.Pages;
 
 public partial class MezzoAnalysis : ContentPage
 {
-	public MezzoAnalysis()
+    public ICommand ChangeViewCommand { get; }
+
+    public MezzoAnalysis()
 	{
 		InitializeComponent();
-	}
+        BindingContext = new AnalyzerViewModel();
+    }
 
 
     // Navigation methods
