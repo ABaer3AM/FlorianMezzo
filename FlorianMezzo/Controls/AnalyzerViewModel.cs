@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using FlorianMezzo.Controls.AnalyzerTools;
 
 namespace FlorianMezzo.Controls
 {
@@ -37,7 +33,7 @@ namespace FlorianMezzo.Controls
             switch (viewName)
             {
                 case "batteryDischarge":
-                    MainView = new Label { Text = "This is View 1", FontSize = 24, TextColor = Colors.Blue };
+                    MainView = new BatteryDischarge();
                     break;
                 case "ezriMapSim":
                     MainView = new Label { Text = "This is View 2", FontSize = 24, TextColor = Colors.Green };

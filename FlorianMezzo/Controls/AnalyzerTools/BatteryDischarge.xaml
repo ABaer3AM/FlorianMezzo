@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FlorianMezzo.Controls.AnalyzerTools.BatteryDischarge">
+      
+    
+    
+    <Grid ColumnSpacing="20"
+          HorizontalOptions="FillAndExpand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        
+        <!-- Left View (Graph) -->
+        <Frame
+            Grid.Column="0"
+            HeightRequest="400"
+            BackgroundColor="blue">
+
+            <Label
+                x:Name="averageNumDisplay"
+                Text="Average: --"
+                Style="{StaticResource SubHeadline}"
+                VerticalOptions="End"
+                FontSize="32"
+                SemanticProperties.HeadingLevel="Level2"/>
+        </Frame>
+
+        <Frame
+            Grid.Column="1"
+            HeightRequest="400"
+            BackgroundColor="Green">
+
+
+            <Label
+                Text="Data History"
+                Style="{StaticResource SubHeadline}"
+                VerticalOptions="End"
+                FontSize="32"
+                SemanticProperties.HeadingLevel="Level2"/>
+        </Frame>
+
+    </Grid>
+        
+</ContentView>

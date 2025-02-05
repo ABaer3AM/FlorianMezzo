@@ -146,7 +146,7 @@ public partial class HealthCheck : ContentPage
         // handle service status changed
     private void ServiceStatusHandler(object sender, StatusChangeEvent newStatusEvent)
     {
-        Debug.WriteLine($"Health Checker Service status changed: {newStatusEvent.Status}");
+        //Debug.WriteLine($"Health Checker Service status changed: {newStatusEvent.Status}");
 
         // On main thread, update UI
         MainThread.BeginInvokeOnMainThread(() =>
@@ -178,6 +178,7 @@ public partial class HealthCheck : ContentPage
                 serviceStatus.BackgroundColor = Color.FromHex("#F94620"); // Red
             }
         });
+        UpdateStateDisplays(Settings.LastGroupId);
     }
 
     private async void UpdateStateDisplays(string groupId)
@@ -209,6 +210,7 @@ public partial class HealthCheck : ContentPage
         Debug.WriteLine($"New interval recieved: {newGroupIdEvent.GroupId}");
 
         UpdateStateDisplays(newGroupIdEvent.GroupId);
+        UpdateServiceUI();
     }
     // -----------------------------------------------------------------------
 

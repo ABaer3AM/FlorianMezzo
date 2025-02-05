@@ -9,6 +9,7 @@ namespace FlorianMezzo.Controls.db
         private readonly LocalDbService _dbService;
         public event EventHandler<NewDataEvent> _newdataEvent; // Event to notify subscribers of new data
         public event EventHandler<StatusChangeEvent> _statusChangeEvent; // Event to notify subscribers of a change in running status
+        private AppSettings Settings;
         private int interval;
         private int fetchCount = 0;
         private string latestGroupId = "";
@@ -18,7 +19,7 @@ namespace FlorianMezzo.Controls.db
             Debug.WriteLine("Health Check Service Instanciated");
             _dbService = dbService;
             // Fetch Interval
-            AppSettings Settings = new AppSettings();
+            Settings = new AppSettings();
             SetStatus(0);
         }
 
@@ -28,24 +29,24 @@ namespace FlorianMezzo.Controls.db
             SetStatus(1);
             fetchCount = 0;
 
+            Settings.LoadOrCreateSettings();
+            interval = Settings.Interval;
+            PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(interval));
+
             string sessionId = Guid.NewGuid().ToString();
 
             UrlChecker _urlChecker = new();
             ResourceChecker _resourceChecker = new();
 
-            Task.Run(async () => { 
-                while (status > 0)
+            Task.Run(async () => {
+                do
                 {
-
-                    AppSettings settings = new AppSettings();
-                    settings.LoadOrCreateSettings();
-                    interval = settings.Interval * 1000;
                     string groupId = Guid.NewGuid().ToString();
 
                     // Fetch data
                     Debug.WriteLine($"Collecting status data at {DateTime.Now}...");
-                    
-                    SetStatus(2);
+
+                    if (status != -1) { SetStatus(2); }
 
                     List<CoreSoftDependencyData> coreSoftDependencyEntries = await _urlChecker.testCoreSoftDependencies(groupId, sessionId);
                     List<TileSoftDependencyData> tileSoftDependencyEntries = await _urlChecker.testTileSoftDependencies(groupId, sessionId);
@@ -59,22 +60,16 @@ namespace FlorianMezzo.Controls.db
                     // increment count
                     fetchCount++;
 
-                    SetStatus(1);
+                    if (status != -1) { SetStatus(1); }
 
                     // Broadcast new data has been written
                     BroadcastNewData(new NewDataEvent(groupId));
-                    settings.UpdateLastGroupId(groupId);
+                    this.Settings.UpdateLastGroupId(groupId);
                     latestGroupId = groupId;
+                } while (await timer.WaitForNextTickAsync() && status > 0);
 
-                    // Wait for the duration of the interval
-                    Task.Delay(interval).Wait();
-                    if (status < 1)
-                    {
-                        Debug.WriteLine("Health Check Service Terminated");
-                        SetStatus(0);
-                        return;
-                    }
-                }
+                Debug.WriteLine("Health Check Service Terminated");
+                SetStatus(0);
             });
         }
 

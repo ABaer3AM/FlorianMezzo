@@ -52,7 +52,7 @@ namespace FlorianMezzo.Controls.db
         public async Task WriteToDb(List<TileSoftDependencyData> softDataList)
         {
             Debug.WriteLine($"Wrote to Soft Depdency (Tile) Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
-            foreach(TileSoftDependencyData entry in softDataList)
+            foreach (TileSoftDependencyData entry in softDataList)
             {
                 await _connection.InsertAsync(entry);
             }
@@ -75,7 +75,7 @@ namespace FlorianMezzo.Controls.db
         }
         public async Task WriteToDb(List<HardwareResourcesData> dataListIn)
         {
-            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at\n\t{Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach (HardwareResourcesData entry in dataListIn)
             {
                 await _connection.InsertAsync(entry);
@@ -104,7 +104,7 @@ namespace FlorianMezzo.Controls.db
         }
         public async Task WriteToHardwareResources(List<HardwareResourcesData> hardDataList)
         {
-            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at {Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
+            Debug.WriteLine($"Wrote to Hardware Resources Table in DB at\n\t{Path.Combine(FileSystem.AppDataDirectory, DB_NAME)}");
             foreach (HardwareResourcesData entry in hardDataList)
             {
                 await _connection.InsertAsync(entry);
@@ -120,5 +120,49 @@ namespace FlorianMezzo.Controls.db
         {
             await _connection.DeleteAsync(hardData);
         }
+
+        // Fetch all battery data
+        // sort it based on datetime (newest to oldest)
+        // hash it based on sessionID
+        // DO NOT account for non-averagable data
+        public async Task< Dictionary<string, List<HardwareResourcesData>> > GetLatestBatteryData()
+        {
+            // fetch battery percentage data from db sorted by datetime
+            List<HardwareResourcesData> latestBatteryPercentageData = await _connection.Table<HardwareResourcesData>()
+                .Where(x => x.Title == "Battery Percentage")
+                .OrderBy(x => x.DateTime) // Ascending order
+                .ToListAsync();
+
+            Dictionary<string, List<HardwareResourcesData>> deliverable = [];       // Dictionary where sessionId -> list of data entries
+            Dictionary<string, bool> sessionShouldBeTracked = [];                   // Dictionary keeping track of which data is valid
+
+
+            // Hash the data using their session ids as keys
+            foreach (HardwareResourcesData entry in latestBatteryPercentageData)
+            {
+                bool shouldTrack;
+                // if session id is not already stored in sessionShouldBeTracked, store it and init it with true
+                if (!sessionShouldBeTracked.TryGetValue(entry.SessionId, out shouldTrack))
+                {
+                    sessionShouldBeTracked.Add(entry.SessionId, true);
+                }
+                // if entry is not averagable, mark its session in sessionShouldBeTracked as false
+                if (!entry.Averageable){  sessionShouldBeTracked[entry.SessionId] = false;  }
+
+                // if the session should be tracked, place it in its spot in the dictionary
+                if (sessionShouldBeTracked[entry.SessionId]) {
+                    // Either create a new key in the dictionary and add the entry or just add the entry
+                    if (deliverable.TryGetValue(entry.SessionId, out List<HardwareResourcesData> value))    
+                    {
+                        deliverable[entry.SessionId].Add(entry);
+                    }else{
+                        deliverable.Add(entry.SessionId, [entry]);
+                    }
+                }
+            }
+
+            return deliverable;
+        }
+
     }
 }

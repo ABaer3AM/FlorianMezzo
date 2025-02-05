@@ -137,6 +137,9 @@
 
 
   <ItemGroup>
+	  <MauiXaml Update="Controls\AnalyzerTools\BatteryDischarge.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\ExpandableStateDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -159,11 +162,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Controls\AnalyzerTools\" />
-  </ItemGroup>
   
 
 </Project>

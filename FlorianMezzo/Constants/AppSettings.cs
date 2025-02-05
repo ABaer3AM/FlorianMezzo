@@ -34,7 +34,7 @@ namespace FlorianMezzo.Constants
             if (File.Exists(filePath))
             {
                 // File exists, read and deserialize it
-                Debug.WriteLine($"Settings file found at {filePath}");
+                //Debug.WriteLine($"Settings file found at\n\t{filePath}");
                 var rawJson = File.ReadAllText(filePath);
                 var currentSettings =  JsonSerializer.Deserialize<AppSettings>(rawJson);
                 UpdateSettings(currentSettings);
@@ -42,7 +42,7 @@ namespace FlorianMezzo.Constants
             else
             {
                 // File does not exist, create it with default values
-                Debug.WriteLine($"Settings file NOT found, creating one at {filePath}");
+                Debug.WriteLine($"Settings file NOT found, creating one at\n\t{filePath}");
                 var defaultSettings = new AppSettings(60, "");
 
                 var defaultJson = JsonSerializer.Serialize(defaultSettings, new JsonSerializerOptions { WriteIndented = true });

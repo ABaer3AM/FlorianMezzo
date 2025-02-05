@@ -14,10 +14,12 @@ namespace FlorianMezzo
 
             // Instantiate Health Check Service in the background
             HealthCheckService _healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            /*
             if (_healthCheckService != null)
             {
                 Debug.WriteLine("Health Check Service is NULL");
             }
+            */
 
             MainPage = new AppShell();
         }
