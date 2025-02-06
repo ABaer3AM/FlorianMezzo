@@ -62,7 +62,7 @@
                             <Button
                                 x:Name="mezzoAnalysisNav"
                                 Text="Mezzo Analysis" 
-                                TextColor="{StaticResource Primary}"
+                                TextColor="White"
                                 SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
                                 Clicked="redirectToMezzoAnalysis"
                                 WidthRequest="270"
@@ -89,9 +89,10 @@
                     x:Name="content"
                     MaximumWidthRequest="1300"
                     VerticalOptions="FillAndExpand"
+                    Margin="0,20,0,20"
                     Spacing="30">
 
-                <Grid>
+                <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300" />
                         <ColumnDefinition Width="*" />
@@ -100,8 +101,8 @@
 
                     <ScrollView
                             Grid.Column="0"
-                            Padding="10,20"
                             MaximumHeightRequest="{Binding Source={x:Reference content}, Path=Height}">
+                        <!-- Tool list -->
                         <VerticalStackLayout
                                 Spacing="10">
                             <Button
@@ -231,12 +232,14 @@
                     </ScrollView>
 
                     <!-- Main View Section -->
-                    <ContentView
-                            Grid.Column="1"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="CenterAndExpand">
-                        <ContentPresenter Content="{Binding MainView}"/>
-                    </ContentView>
+                    <Frame
+                        Grid.Column="1">
+                        <ContentView
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
+                            <ContentPresenter Content="{Binding MainView}"/>
+                        </ContentView>
+                    </Frame>
                 </Grid>
 
 

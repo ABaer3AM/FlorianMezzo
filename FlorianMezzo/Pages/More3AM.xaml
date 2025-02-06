@@ -73,7 +73,7 @@
                                 <Button
                                     x:Name="more3AMNav"
                                     Text="More 3AM" 
-                                    TextColor="{StaticResource Primary}"
+                                    TextColor="White"
                                     SemanticProperties.Hint="Redirects User to More 3AM Page"
                                     Clicked="redirectToMore3AM"
                                     WidthRequest="270"

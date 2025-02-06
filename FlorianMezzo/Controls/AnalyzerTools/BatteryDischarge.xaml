@@ -28,18 +28,21 @@
                 SemanticProperties.HeadingLevel="Level2"/>
         </Frame>
 
+        <!-- Right View (Data Tables) -->
         <Frame
             Grid.Column="1"
-            HeightRequest="400"
-            BackgroundColor="Green">
+            VerticalOptions="Center"
+            BackgroundColor="{StaticResource Gray300}">
 
-
-            <Label
-                Text="Data History"
-                Style="{StaticResource SubHeadline}"
-                VerticalOptions="End"
-                FontSize="32"
-                SemanticProperties.HeadingLevel="Level2"/>
+            <VerticalStackLayout>
+                <Grid x:Name="SessionDataGrid"/>
+                <Label
+                    Text="Data History"
+                    Style="{StaticResource SubHeadline}"
+                    VerticalOptions="End"
+                    FontSize="32"
+                    SemanticProperties.HeadingLevel="Level2"/>
+            </VerticalStackLayout>
         </Frame>
 
     </Grid>

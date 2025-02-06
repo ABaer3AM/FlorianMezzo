@@ -54,6 +54,5 @@ namespace FlorianMezzo.Controls.db
         {
             return $"{GroupId}, {SessionId}, {Title}, {Status}, {Feedback}, {DateTime}, {Averageable}";
         }
-
     }
 }

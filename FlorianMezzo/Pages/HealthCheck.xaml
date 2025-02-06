@@ -59,7 +59,7 @@
                                 <Button
                                     x:Name="healthCheckNav"
                                     Text="Health Check" 
-                                    TextColor="{StaticResource Primary}"
+                                    TextColor="White"
                                     SemanticProperties.Hint="Redirects User to Health Check Page"
                                     Clicked="redirectToHealthCheck"
                                     WidthRequest="270"

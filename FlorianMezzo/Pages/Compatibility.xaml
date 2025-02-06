@@ -51,7 +51,7 @@
                                 <Button
                                     x:Name="CompatibilityNav"
                                     Text="Compatibility Tool"
-                                    TextColor="{StaticResource Primary}"
+                                    TextColor="White"
                                     SemanticProperties.Hint="Redirects User to Tile Tester Page"
                                     Clicked="redirectToCompatibility"
                                     WidthRequest="270"
