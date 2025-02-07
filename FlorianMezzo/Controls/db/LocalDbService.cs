@@ -127,11 +127,14 @@ namespace FlorianMezzo.Controls.db
         // DO NOT account for non-averagable data
         public async Task< Dictionary<string, List<HardwareResourcesData>> > GetLatestBatteryData()
         {
+            Debug.WriteLine($"Fetching Battery Data...");
             // fetch battery percentage data from db sorted by datetime
             List<HardwareResourcesData> latestBatteryPercentageData = await _connection.Table<HardwareResourcesData>()
                 .Where(x => x.Title == "Battery Percentage")
                 .OrderBy(x => x.DateTime) // Ascending order
                 .ToListAsync();
+
+            Debug.WriteLine($"\tFound {latestBatteryPercentageData.Count} entries from the database");
 
             Dictionary<string, List<HardwareResourcesData>> deliverable = [];       // Dictionary where sessionId -> list of data entries
             Dictionary<string, bool> sessionShouldBeTracked = [];                   // Dictionary keeping track of which data is valid
@@ -160,6 +163,10 @@ namespace FlorianMezzo.Controls.db
                     }
                 }
             }
+
+            
+            Debug.WriteLine($"\tSending {deliverable.Count} averagable entries\n");
+
 
             return deliverable;
         }

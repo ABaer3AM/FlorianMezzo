@@ -21,7 +21,8 @@ public partial class HealthCheck : ContentPage
 
         // Subscribe to required events
         _healthCheckService._statusChangeEvent += ServiceStatusHandler; // service status changed
-        Settings._newGroupIdEvent += newGroupIdHandler;
+        _healthCheckService._newdataEvent += NewDataHandler;
+        Settings._newGroupIdEvent += NewGroupIdHandler;
 
         // Atempt to update UI
         UpdateServiceUI();
@@ -86,7 +87,7 @@ public partial class HealthCheck : ContentPage
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 serviceStatusImage.Source = "xmark.png";  // Example: change image to X mark
-                serviceStatus.BackgroundColor = Color.FromHex("#F94620"); // Red
+                serviceStatus.BackgroundColor = Color.FromArgb("#F94620"); // Red
 
                 toggleServiceBtn.Text = "Start Service";
             });
@@ -97,7 +98,7 @@ public partial class HealthCheck : ContentPage
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 serviceStatusImage.Source = "check.png";  // Example: change image to a checkmark
-                serviceStatus.BackgroundColor = Color.FromHex("#66E44C"); // Green
+                serviceStatus.BackgroundColor = Color.FromArgb("#66E44C"); // Green
 
                 toggleServiceBtn.Text = "Stop Service";
             });
@@ -155,27 +156,27 @@ public partial class HealthCheck : ContentPage
             if (newStatusEvent.Status == -1)        // Stopping
             {
                 serviceStatusImage.Source = "running.png";  // Example: change image to running icon
-                serviceStatus.BackgroundColor = Color.FromHex("#83858a"); // Grey
+                serviceStatus.BackgroundColor = Color.FromArgb("#83858a"); // Grey
             }
             else if (newStatusEvent.Status == 0)    // Not Running
             {
                 serviceStatusImage.Source = "xmark.png";  // Example: change image to X mark
-                serviceStatus.BackgroundColor = Color.FromHex("#F94620"); // Red
+                serviceStatus.BackgroundColor = Color.FromArgb("#F94620"); // Red
             }
             else if (newStatusEvent.Status == 1)    // Running
             {
                 serviceStatusImage.Source = "check.png";  // Example: change image to a checkmark
-                serviceStatus.BackgroundColor = Color.FromHex("#66E44C"); // Green
+                serviceStatus.BackgroundColor = Color.FromArgb("#66E44C"); // Green
             }
             else if (newStatusEvent.Status == 2)    // Fetching
             {
                 serviceStatusImage.Source = "running.png";  // Example: change image to running icon
-                serviceStatus.BackgroundColor = Color.FromHex("#83858a"); // Grey
+                serviceStatus.BackgroundColor = Color.FromArgb("#83858a"); // Grey
             }
             else
             {
                 serviceStatusImage.Source = "xmark.png";  // Example: change image to X mark
-                serviceStatus.BackgroundColor = Color.FromHex("#F94620"); // Red
+                serviceStatus.BackgroundColor = Color.FromArgb("#F94620"); // Red
             }
         });
         UpdateStateDisplays(Settings.LastGroupId);
@@ -205,12 +206,18 @@ public partial class HealthCheck : ContentPage
 
 
     // handle new settings ---------------------------------------------------
-    private async void newGroupIdHandler(object sender, NewGroupIdEvent newGroupIdEvent)
+    private void NewGroupIdHandler(object sender, NewGroupIdEvent newGroupIdEvent)
     {
-        Debug.WriteLine($"New interval recieved: {newGroupIdEvent.GroupId}");
+        Debug.WriteLine($"New group ID recieved: {newGroupIdEvent.GroupId}");
 
         UpdateStateDisplays(newGroupIdEvent.GroupId);
         UpdateServiceUI();
+    }
+    private void NewDataHandler(object sender, NewDataEvent newDataEvent)
+    {
+        Debug.WriteLine($"New data recieved: {newDataEvent.GroupId}");
+
+        UpdateStateDisplays(newDataEvent.GroupId);
     }
     // -----------------------------------------------------------------------
 

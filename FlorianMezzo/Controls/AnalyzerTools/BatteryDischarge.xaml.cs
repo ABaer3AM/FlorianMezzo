@@ -1,28 +1,127 @@
 namespace FlorianMezzo.Controls.AnalyzerTools;
 using FlorianMezzo.Controls.db;
 using System.Diagnostics;
+using FlorianMezzo.Controls.AnalyzerTools;
 
 public partial class BatteryDischarge : ContentView
 {
     private Dictionary<string, List<HardwareResourcesData>> averagableBatteryDataBySession;
+    private int currentSessionI;
+    private LineChartDrawable chartDrawable;
 
-    public BatteryDischarge()
+    public BatteryDischarge(Dictionary<string, List<HardwareResourcesData>> averagableBatteryDataBySessionIn)
 	{
-		InitializeComponent();
+        averagableBatteryDataBySession = averagableBatteryDataBySessionIn;
+        currentSessionI = 0;
+        InitializeComponent();
 
-        // fetch past battery percentage data
-        LocalDbService _dbService;
-        _dbService = new LocalDbService();
-        Task.Run( async () => {
-            this.averagableBatteryDataBySession = await _dbService.GetLatestBatteryData();
-        });
+
+        chartDrawable = new LineChartDrawable();
+        ChartView.Drawable = chartDrawable;
+
+        LoadChartData();
+
 
         //Populate left side (graph)
         GetAverageDischargeRate();
 
+        // Exit if no data was sent in
+        if (averagableBatteryDataBySessionIn == null)
+        {
+            sessionNum.Text = $"Session Na/Na";
+            return;
+        }
+        else if(averagableBatteryDataBySessionIn.Keys.Count == 1)
+        {
+            leftSelector.IsVisible = false;
+            rightSelector.IsVisible = false;
+        }
+
         //Populate right side (data table)
         SessionDataGrid.Children.Add(GenerateGridForSessionData(averagableBatteryDataBySession.Keys.ToList()[0]));
 
+        sessionNum.Text = $"Session {currentSessionI + 1}/{averagableBatteryDataBySession.Keys.Count}";
+    }
+
+
+    private void LoadChartData()
+    {
+        if (averagableBatteryDataBySession[averagableBatteryDataBySession.Keys.First()].Count < 4) { return; }
+        float maxX = 300f;
+        float maxY = 200f;
+        int count=0;
+
+
+        foreach(string sessionId in averagableBatteryDataBySession.Keys.Take(5).ToList())
+        {
+            count++;
+            Debug.WriteLine($"Writing line for session {sessionId}");
+            var sessionData = averagableBatteryDataBySession[sessionId];
+
+            var startTime = DateTime.ParseExact(sessionData.First().DateTime, "yyyy-MM-dd HH:mm:ss", null);
+            var endTime = DateTime.ParseExact(sessionData.Last().DateTime, "yyyy-MM-dd HH:mm:ss", null);
+            double timeMinutes = (endTime - startTime).TotalMinutes;
+
+            List<PointF> line = new List<PointF>();
+            foreach(HardwareResourcesData enrty in averagableBatteryDataBySession[sessionId])
+            {
+                Double.TryParse(enrty.Feedback.Trim(), out double batteryPercent);
+                double minutesToEntry = (DateTime.ParseExact(enrty.DateTime, "yyyy-MM-dd HH:mm:ss", null) - startTime).TotalMinutes;
+
+                Debug.WriteLine($"\tnode at: ({(float)((minutesToEntry / timeMinutes) * maxX)},{(float)(batteryPercent)})");
+                line.Add(new PointF((float)((minutesToEntry/ timeMinutes)*maxX), (float)((batteryPercent/100)*maxY)));
+            }
+
+            Debug.WriteLine("\n");
+            chartDrawable.Lines.Add(line);
+            chartDrawable.LineNames.Add(count.ToString());
+        }
+
+        ChartView.Invalidate(); // Refresh the view
+    }
+
+
+
+    private void switchToPastSession(object sender, EventArgs e)
+    {//rotate the datatable to display the past sessions data
+        if (currentSessionI > 0 && currentSessionI <= averagableBatteryDataBySession.Keys.Count)
+        {
+            SessionDataGrid.Children.Clear();
+            currentSessionI--;
+            SessionDataGrid.Children.Add(GenerateGridForSessionData(averagableBatteryDataBySession.Keys.ToList()[currentSessionI]));
+        }
+        if(currentSessionI == 0)
+        {
+            leftSelector.IsVisible = false;
+            rightSelector.IsVisible = true;
+        }
+        else
+        {
+            rightSelector.IsVisible = true;
+            leftSelector.IsVisible = true;
+        }
+        sessionNum.Text = $"Session {currentSessionI + 1}/{averagableBatteryDataBySession.Keys.Count}";
+    }
+    private void switchToNextSession(object sender, EventArgs e)
+    {//rotate the datatable to display the next sessions data
+
+        if (currentSessionI < averagableBatteryDataBySession.Keys.Count-1 && currentSessionI >= 0)
+        {
+            SessionDataGrid.Children.Clear();
+            currentSessionI++;
+            SessionDataGrid.Children.Add(GenerateGridForSessionData(averagableBatteryDataBySession.Keys.ToList()[currentSessionI]));
+        }
+        if (currentSessionI == averagableBatteryDataBySession.Keys.Count)
+        {
+            rightSelector.IsVisible = false;
+            leftSelector.IsVisible = true;
+        }
+        else
+        {
+            rightSelector.IsVisible = true;
+            leftSelector.IsVisible = true;
+        }
+        sessionNum.Text = $"Session {currentSessionI + 1}/{averagableBatteryDataBySession.Keys.Count}";
     }
 
     //(1) find the rate of discharge per session
@@ -48,17 +147,18 @@ public partial class BatteryDischarge : ContentView
                 // if not the first data entry, find difference between this and the last battery percentage. Then add it to the total
                 if (i - 1 >= 0)
                 {
+                    Debug.WriteLine($"\t\tbattery change numer {i}: {oldBatteryPercent - newBatteryPercent}");
                     totalDeltaBattery += (oldBatteryPercent - newBatteryPercent);
                 }
             }
             var startTime = DateTime.ParseExact(sessionData[0].DateTime, "yyyy-MM-dd HH:mm:ss", null);
-            var endTime = DateTime.ParseExact(sessionData[1].DateTime, "yyyy-MM-dd HH:mm:ss", null);
+            var endTime = DateTime.ParseExact(sessionData.Last().DateTime, "yyyy-MM-dd HH:mm:ss", null);
 
             double deltaMinutes = (endTime - startTime).TotalMinutes;
             sessionDischargeRates.Add(sessionId, totalDeltaBattery / deltaMinutes);
 
             Debug.WriteLine($"Session Id: {sessionId} ->\n" +
-                $"\tDelta Battery\n" +
+                $"\tDelta Battery: {totalDeltaBattery}\n" +
                 $"\tDelta Minutes: {deltaMinutes}\n" +
                 $"\tAverage: {sessionDischargeRates[sessionId]}");
         }
@@ -75,7 +175,7 @@ public partial class BatteryDischarge : ContentView
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            averageNumDisplay.Text = $"Average % Discharge\n{avgPercentDischargedPerMinute:F2}%/min";
+            averageNumDisplay.Text = $"Average: {avgPercentDischargedPerMinute:F2}%/min";
         });
 
         return avgPercentDischargedPerMinute;
@@ -93,7 +193,8 @@ public partial class BatteryDischarge : ContentView
         Grid grid = new Grid
         {
             RowDefinitions = new RowDefinitionCollection(),
-            ColumnDefinitions = new ColumnDefinitionCollection()
+            ColumnDefinitions = new ColumnDefinitionCollection(),
+            Padding = 10
         };
 
         // Build Table
@@ -118,8 +219,9 @@ public partial class BatteryDischarge : ContentView
                 Text = columnTitles[columnNum],
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = Colors.Black,
-                Margin = 1
+                TextColor = Color.FromArgb("#717cba"),
+                Margin = 2,
+                Padding = 10
             };
             if(style != null) { label.Style = (Style)style; }
             grid.Children.Add(label);
@@ -135,24 +237,27 @@ public partial class BatteryDischarge : ContentView
                 Text = entryNum.ToString(),
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = Colors.LightGray,
-                Margin = 2
+                BackgroundColor = Color.FromArgb("#404040"),
+                Margin = 2,
+                Padding = 10
             };
             Label batteryLabel = new Label
             {
-                Text = sessionBatteryData[5].ToString(),
+                Text = sessionBatteryData[entryNum].Feedback,
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = Colors.LightGray,
-                Margin = 2
+                BackgroundColor = Color.FromArgb("#404040"),
+                Margin = 2,
+                Padding = 10
             };
             Label dateTimeLabel = new Label
             {
-                Text = sessionBatteryData[6].ToString(),
+                Text = sessionBatteryData[entryNum].DateTime,
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = Colors.LightGray,
-                Margin = 2
+                BackgroundColor = Color.FromArgb("#404040"),
+                Margin = 2,
+                Padding = 10
             };
             if (style != null) {
                 iLabel.Style = (Style)style;

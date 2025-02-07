@@ -14,20 +14,18 @@
             </Grid.RowDefinitions>
 
 
-            <Frame
+            <Border
                 x:Name="header"
-                Grid.Row="0"
-                Margin="0"
-                Padding="0">        
+                Grid.Row="0">        
                 <!-- Main Navigation Bar -->
                 <ScrollView
                     Orientation="Horizontal"
                     HorizontalOptions="FillAndExpand">
-                    <Frame
+                    <Border
                         x:Name="navBar"
                         BackgroundColor="{StaticResource Tertiary}"
-                        CornerRadius="0"
-                        HorizontalOptions="FillAndExpand">
+                        HorizontalOptions="FillAndExpand"
+                        Padding="20">
                         <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                             <Label
                                 Text="Home"
@@ -76,9 +74,9 @@
                                 WidthRequest="270"
                                 MaximumWidthRequest="1000" />
                         </StackLayout>
-                    </Frame>
+                    </Border>
                 </ScrollView>
-            </Frame>
+            </Border>
             
             
             
@@ -97,8 +95,8 @@
                         <ColumnDefinition Width="300" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <!-- Scrollable Bar of Buttons on the Left -->
 
+                    <!-- Scrollable Bar of Buttons on the Left -->
                     <ScrollView
                             Grid.Column="0"
                             MaximumHeightRequest="{Binding Source={x:Reference content}, Path=Height}">
@@ -232,27 +230,26 @@
                     </ScrollView>
 
                     <!-- Main View Section -->
-                    <Frame
+                    <Border
                         Grid.Column="1">
                         <ContentView
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="FillAndExpand">
                             <ContentPresenter Content="{Binding MainView}"/>
                         </ContentView>
-                    </Frame>
+                    </Border>
                 </Grid>
 
 
             </VerticalStackLayout>
 
             <!-- Footer -->
-            <Frame
+            <Border
                 Grid.Row="2"
                 x:Name="footer"
                 BackgroundColor="{StaticResource Tertiary}"
-                HasShadow="False"
-                CornerRadius="0"
-                HorizontalOptions="FillAndExpand">
+                HorizontalOptions="FillAndExpand"
+                Padding="20">
                 <HorizontalStackLayout
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="End">
@@ -271,7 +268,7 @@
                         Aspect="AspectFit"
                         SemanticProperties.Description="3AM Logo" />
                 </HorizontalStackLayout>
-            </Frame>
+            </Border>
 
         </Grid>
     </ScrollView>
