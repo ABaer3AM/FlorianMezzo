@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using FlorianMezzo.Controls.db;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace FlorianMezzo.Controls;
 
@@ -94,18 +95,19 @@ public partial class ExpandableStateDisplay : ContentView
         foreach (var dataEntry in dataList)
         {
             // Wrap each StateDisplay in a Frame or directly add to the dropdown
-            var frame = new Frame
+            var border = new Border
             {
                 Content = new StateDisplay(dataEntry),
-                CornerRadius = 0,
                 Padding = 0,
                 Margin = 0,
                 ZIndex = 2,
                 BackgroundColor = Colors.Transparent, // Transparent background
-                HasShadow = false                     // No border or shadow
+                StrokeThickness = 0, // No visible border
+                Shadow = null // No shadow
             };
 
-            DropdownContent.Children.Add(frame);
+
+            DropdownContent.Children.Add(border);
 
             // maybe update main deisplay
             if (dataEntry.Status != 1)
@@ -113,8 +115,7 @@ public partial class ExpandableStateDisplay : ContentView
                 isValid = false;
                 UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, $"Issue with {dataEntry.Title}", dataEntry.Status, ""));
             }
-        }
-        if (isValid)
+        }if (isValid)
         {
             UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "Operational", 1, ""));
         }

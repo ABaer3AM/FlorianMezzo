@@ -234,39 +234,13 @@ namespace FlorianMezzo.Controls
             }
         }
 
+        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
+        // This method returns the CPU usage for the host device
         public partial Task<Tuple<int, string>> FetchCpuUsage();
-        /*
-        public virtual async Task<Tuple<int, string>> FetchCpuUsage()
-        {
-            await Task.Yield();
-            var process = Process.GetCurrentProcess();
-            TimeSpan startCpuUsage = process.TotalProcessorTime;
-            DateTime startTime = DateTime.UtcNow;
 
-            System.Threading.Thread.Sleep(1000); // Wait for 500ms
-
-            TimeSpan endCpuUsage = process.TotalProcessorTime;
-            DateTime endTime = DateTime.UtcNow;
-
-            double cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
-            double totalMsPassed = (endTime - startTime).TotalMilliseconds;
-            double usagePercentage = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed) *100;
-
-            if(usagePercentage >= 100 && totalMsPassed > 600000)  // 100% usage for 10+ minutes
-            {
-                if(totalMsPassed > 1800000) // over 30 mins
-                {
-                    return Tuple.Create(0, $"{usagePercentage:F1}% usage in {totalMsPassed / 1000:F1}s");
-                }
-                else{  return Tuple.Create(-1, $"{usagePercentage:F1}% usage in {totalMsPassed / 1000:F1}s");  }
-            }
-            else
-            {
-                return Tuple.Create(1, $"{usagePercentage:F1}% usage in {totalMsPassed/1000:F1}s");
-            }
-            
-        }
-        */
+        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
+        // This method returns either 0 or 1 based on whether FLORIAN is open in the background
+        public partial Tuple<int, string> IsFlorianRunning();
 
         public static (long bytesSent, long bytesReceived) GetNetworkUsage()
         {
@@ -290,6 +264,7 @@ namespace FlorianMezzo.Controls
         public virtual async Task<List<HardwareResourcesData>> testHardwareResources(string groupId, string sessionId)
         {
             List<HardwareResourcesData> hardDataEntries = new List<HardwareResourcesData>();
+            var florianRunning = IsFlorianRunning();
 
             // Build data for state displays
             Tuple<int, string>[] responses = new Tuple<int, string>[]{
@@ -299,7 +274,8 @@ namespace FlorianMezzo.Controls
                 await FetchOs(), 
                 await FetchUploadSpeed(), 
                 await FetchDownloadSpeed(), 
-                await FetchCpuUsage()
+                await FetchCpuUsage(),
+                florianRunning
             };
             string[] titles = new string[] {
                 "Battery Percentage",
@@ -309,6 +285,7 @@ namespace FlorianMezzo.Controls
                 "Upload Speed",
                 "Download Speed",
                 "CPU Usage",
+                "FLORIAN Running"
             };
             string[] thresholds = new string[] {
                 "Good\t\t->    at least\t30% \nWarning\t->   under\t30% \nCritical\t->   under\t15%",                                                                               // Battery
@@ -325,11 +302,11 @@ namespace FlorianMezzo.Controls
             {
                 if (i == 0 && IsCharging())
                 {
-                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false));
+                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false, Convert.ToBoolean(florianRunning.Item1)));
                 }
                 else
                 {
-                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(florianRunning.Item1)));
                 }
             }
 

@@ -199,6 +199,7 @@ public partial class HealthCheck : ContentPage
             coreSoftDependencyESD.UpdateDropdownContent(statuses["coreSoftDependencies"]);
             resourceESD.UpdateDropdownContent(statuses["hardwareResources"]);
 
+            fetchCountNum.Text = GetFetchCountString();
         });
     }
     // -----------------------------------------------------------------------

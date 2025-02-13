@@ -16,5 +16,11 @@ namespace FlorianMezzo.Controls
         {
             return false;
         }
+
+        public partial Tuple<int, string> IsFlorianRunning()
+        {
+            Debug.WriteLine("Checking on Mezzo Process");
+            return new Tuple<int, string>(0, "FLORIAN is not running");
+        }
     }
 }

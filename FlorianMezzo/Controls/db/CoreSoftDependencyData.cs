@@ -7,10 +7,10 @@ namespace FlorianMezzo.Controls.db
     {
 
         public CoreSoftDependencyData()
-            : base("", "", "", 0, "", "") { }
-        public CoreSoftDependencyData(string groupId, string sessionId, string title, int status, string feedback, string dateTime)
-            : base(groupId, sessionId, title, status, feedback, dateTime, true) { }
-        public CoreSoftDependencyData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averagable)
-            : base(groupId, sessionId, title, status, feedback, dateTime, averagable) { }
+            : base("", "", "", 0, "", "", false) { }
+        public CoreSoftDependencyData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool florianRunning)
+            : base(groupId, sessionId, title, status, feedback, dateTime, true, florianRunning) { }
+        public CoreSoftDependencyData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averagable, bool florianRunning)
+            : base(groupId, sessionId, title, status, feedback, dateTime, averagable, florianRunning) { }
     }
 }

@@ -54,7 +54,7 @@
                         <Label
                             Text="Mezzo"
                             Style="{StaticResource Headline}"
-                            TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource PrimaryDark}}"
+                            TextColor="{StaticResource PrimaryDark}"
                             VerticalOptions="Start"
                             FontSize="44"
                             SemanticProperties.HeadingLevel="Level2"/>

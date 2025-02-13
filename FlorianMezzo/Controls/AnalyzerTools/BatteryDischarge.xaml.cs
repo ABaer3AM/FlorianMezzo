@@ -16,10 +16,15 @@ public partial class BatteryDischarge : ContentView
         InitializeComponent();
 
 
-        chartDrawable = new LineChartDrawable();
+        if (averagableBatteryDataBySessionIn.Count == 0)
+        {
+            return;
+        }
+
+        chartDrawable = new LineChartDrawable(300, 200);
         ChartView.Drawable = chartDrawable;
 
-        LoadChartData();
+        LoadChartData(300, 200);
 
 
         //Populate left side (graph)
@@ -44,11 +49,9 @@ public partial class BatteryDischarge : ContentView
     }
 
 
-    private void LoadChartData()
+    private void LoadChartData(float maxX, float maxY)
     {
         if (averagableBatteryDataBySession[averagableBatteryDataBySession.Keys.First()].Count < 4) { return; }
-        float maxX = 300f;
-        float maxY = 200f;
         int count=0;
 
 

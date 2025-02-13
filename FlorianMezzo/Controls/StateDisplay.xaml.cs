@@ -170,7 +170,6 @@ public partial class StateDisplay : ContentView
             adjFeedback = adjFeedback.Substring(0, 20) + "...";
         }
         feedbackText.Text = (adjFeedback);
-        Feedback = adjFeedback;
     }
     public void UpdateNote(string note)
     {

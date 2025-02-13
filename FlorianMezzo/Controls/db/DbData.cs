@@ -30,7 +30,10 @@ namespace FlorianMezzo.Controls.db
         [Column("averagable")]
         public bool Averageable { get; set; }
 
-        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime)
+        [Column("florianRunning")]
+        public bool FlorianRunning { get; set; }
+
+        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool florianRunning)
         {
             GroupId = groupId;
             SessionId = sessionId;
@@ -39,8 +42,9 @@ namespace FlorianMezzo.Controls.db
             Feedback = feedback;
             DateTime = dateTime;
             Averageable = true;
+            FlorianRunning = florianRunning;
         }
-        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averageable)
+        public DbData(string groupId, string sessionId, string title, int status, string feedback, string dateTime, bool averageable, bool florianRunning)
         {
             GroupId = groupId;
             SessionId = sessionId;
@@ -49,10 +53,11 @@ namespace FlorianMezzo.Controls.db
             Feedback = feedback;
             DateTime = dateTime;
             Averageable = averageable;
+            FlorianRunning = florianRunning;
         }
         public override string ToString()
         {
-            return $"{GroupId}, {SessionId}, {Title}, {Status}, {Feedback}, {DateTime}, {Averageable}";
+            return $"{GroupId}, {SessionId}, {Title}, {Status}, {Feedback}, {DateTime}, {Averageable}, {FlorianRunning}";
         }
     }
 }

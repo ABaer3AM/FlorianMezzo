@@ -29,5 +29,18 @@ namespace FlorianMezzo.Controls
             var chargingStatus = PowerManager.PowerSupplyStatus;
             return chargingStatus == PowerSupplyStatus.Adequate || chargingStatus == PowerSupplyStatus.Inadequate;
         }
+
+        public partial Tuple<int, string> IsFlorianRunning()
+        {
+            var processList = Process.GetProcesses();
+            var florianProcessList = Process.GetProcessesByName("Flare");
+           if (Process.GetProcessesByName("Flare").Length > 0) {
+                return new Tuple<int, string>(1, "FLORIAN is running");
+            }
+            else
+            {
+                return new Tuple<int, string>(0, "FLORIAN is not running");
+            }
+        }
     }
 }

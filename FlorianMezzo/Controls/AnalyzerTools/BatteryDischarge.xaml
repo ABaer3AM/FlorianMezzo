@@ -29,7 +29,8 @@
 
                 <GraphicsView x:Name="ChartView"
                       Drawable="{x:StaticResource LineChartDrawable}"
-                      HeightRequest="300"
+                      VerticalOptions="Center"
+                      HeightRequest="400"
                       WidthRequest="400"
                       Grid.Row="0"/>
 

@@ -52,6 +52,7 @@ namespace FlorianMezzo.Controls
 
         public async Task<List<TileSoftDependencyData>> testTileSoftDependencies(string groupId, string sessionId)
         {
+            ResourceChecker _resourceChecker = new ResourceChecker();
             Urls urlsObj = new();
             Tuple<string, string>[] coreDependencies = urlsObj.getCoreDependencies();
             Tuple<string, string>[] tileDependencies = urlsObj.getTiles();
@@ -64,7 +65,7 @@ namespace FlorianMezzo.Controls
                 //Debug.WriteLine("dependency: " + dependency.Item1 + " ," + dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new TileSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+                softStatuses.Add(new TileSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(_resourceChecker.IsFlorianRunning().Item1)));     // digest status into a data-structure
             }
 
 
@@ -73,6 +74,7 @@ namespace FlorianMezzo.Controls
 
         public async Task<List<CoreSoftDependencyData>> testCoreSoftDependencies(string groupId, string sessionId)
         {
+            ResourceChecker _resourceChecker = new ResourceChecker();
             Urls urlsObj = new();
             Tuple<string, string>[] coreDependencies = urlsObj.getCoreDependencies();
             Tuple<string, string>[] tileDependencies = urlsObj.getTiles();
@@ -85,7 +87,7 @@ namespace FlorianMezzo.Controls
                 //Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new CoreSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));     // digest status into a data-structure
+                softStatuses.Add(new CoreSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(_resourceChecker.IsFlorianRunning().Item1)));     // digest status into a data-structure
             }
 
 

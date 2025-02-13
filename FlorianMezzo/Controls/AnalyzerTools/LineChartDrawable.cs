@@ -5,11 +5,18 @@ namespace FlorianMezzo.Controls.AnalyzerTools
 {
     public class LineChartDrawable : IDrawable
     {
+
         public List<List<PointF>> Lines { get; set; } = new();
         public List<string> LineNames { get; set; } = new();
         private float Margin = 50; 
         private float GraphWidth = 300;
         private float GraphHeight = 200;
+
+        public LineChartDrawable(float graphWidth, float graphHeight)
+        {
+            graphWidth = GraphWidth;
+            graphHeight = GraphHeight;
+        }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
@@ -91,6 +98,26 @@ namespace FlorianMezzo.Controls.AnalyzerTools
 
         private void DrawLegend(ICanvas canvas, RectF dirtyRect, Color[] colors)
         {
+            float legendX = 20; // **Move to bottom-left**
+            float legendY = 20; // **Below the X-axis label**
+            float spacing = 20;
+
+            canvas.FontColor = Colors.White;
+            canvas.FontSize = 14;
+
+            for (int i = 0; i < LineNames.Count; i++)
+            {
+                // **Draw line sample (matching color)**
+                canvas.StrokeColor = colors[i % colors.Length];
+                canvas.DrawLine(legendX, legendY + i * spacing, legendX + 20, legendY + i * spacing);
+
+                // **Draw the label name beside it**
+                canvas.DrawString(LineNames[i], legendX + 30, legendY + i * spacing, HorizontalAlignment.Left);
+            }
+        }
+        /*
+        private void DrawLegend(ICanvas canvas, RectF dirtyRect, Color[] colors)
+        {
             float legendX = dirtyRect.Width - 120;
             float legendY = 20;
             float spacing = 20;
@@ -105,6 +132,7 @@ namespace FlorianMezzo.Controls.AnalyzerTools
                 canvas.DrawString(LineNames[i], legendX + 30, legendY + i * spacing, HorizontalAlignment.Left);
             }
         }
+        */
 
         private float GetMaxX()
         {
@@ -117,6 +145,15 @@ namespace FlorianMezzo.Controls.AnalyzerTools
                 }
             }
             return maxX;
+        }
+
+        public float getWidth()
+        {
+            return GraphWidth;
+        }
+        public float getHeight()
+        {
+            return GraphHeight;
         }
     }
 }

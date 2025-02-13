@@ -23,8 +23,7 @@
                 Tuple.Create("Florian Web (Demo)", "https://demo.florian.app/About"),
                 Tuple.Create("Florian Web", "https://florian.app/About"),
                 Tuple.Create("Bring Maps", "https://www.bing.com/maps"),
-                Tuple.Create("Google Play Store", "http://play.google.com"),
-                Tuple.Create("Next Nav", "https://api.nextnav.io/")
+                Tuple.Create("Google Play Store", "http://play.google.com")
             ];
         }
         public Tuple<string, string>[] getTiles()

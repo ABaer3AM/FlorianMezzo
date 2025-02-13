@@ -16,5 +16,11 @@ namespace FlorianMezzo.Controls
         {
             return false;
         }
+
+        public partial int IsFlorianRunning()
+        {
+            Debug.WriteLine("Checking on Mezzo Process");
+            return 0;
+        }
     }
 }
