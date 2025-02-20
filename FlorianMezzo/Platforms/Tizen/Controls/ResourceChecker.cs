@@ -22,5 +22,11 @@ namespace FlorianMezzo.Controls
             Debug.WriteLine("Checking on Mezzo Process");
             return 0;
         }
+
+        public async partial Task<Tuple<int, string>> FetchLocation()
+        {
+            await Task.CompletedTask;
+            return Tuple.Create(0, "Location not fetched");
+        }
     }
 }

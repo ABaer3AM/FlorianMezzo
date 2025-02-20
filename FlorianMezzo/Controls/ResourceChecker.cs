@@ -242,6 +242,10 @@ namespace FlorianMezzo.Controls
         // This method returns either 0 or 1 based on whether FLORIAN is open in the background
         public partial Tuple<int, string> IsFlorianRunning();
 
+        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
+        // This method will fetch all of the data reguarding location from the device
+        public partial Task<Tuple<int, string>> FetchLocation();
+
         public static (long bytesSent, long bytesReceived) GetNetworkUsage()
         {
             var interfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -275,6 +279,7 @@ namespace FlorianMezzo.Controls
                 await FetchUploadSpeed(), 
                 await FetchDownloadSpeed(), 
                 await FetchCpuUsage(),
+                await FetchLocation(),
                 florianRunning
             };
             string[] titles = new string[] {
@@ -285,6 +290,7 @@ namespace FlorianMezzo.Controls
                 "Upload Speed",
                 "Download Speed",
                 "CPU Usage",
+                "Location",
                 "FLORIAN Running"
             };
             string[] thresholds = new string[] {
@@ -295,6 +301,8 @@ namespace FlorianMezzo.Controls
                 "Good\t\t->    at least\t3 Mbps \nWarning\t->   under\t3 Mbps \nCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
                 "Good\t\t->    at least\t5 Mbps \nWarning\t->   under\t5 Mbps \nCritical\t->   under\t3 Mbps",                                                                      // Download Speed
                 "Good\t\t->    100% usage for\tless than 10 minutes \nWarning\t->   100% usage for\tmore than 10 minutes \nCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
+                "Good\t\t->    at most\t50ft \nWarning\t->   under\t100ft \nCritical\t->   over\t100ft",                                                                            // Location
+                ""                                                                                                                                                                  // Florian Running
             };
 
             // Plug data into state displays
@@ -302,11 +310,28 @@ namespace FlorianMezzo.Controls
             {
                 if (i == 0 && IsCharging())
                 {
-                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false, Convert.ToBoolean(florianRunning.Item1)));
+                    hardDataEntries.Add(
+                        new HardwareResourcesData(
+                            groupId,
+                            sessionId,
+                            titles[i],
+                            responses[i].Item1,
+                            responses[i].Item2 + $"\n{thresholds[i]}",
+                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            false,
+                            Convert.ToBoolean(florianRunning.Item1)));
                 }
                 else
                 {
-                    hardDataEntries.Add(new HardwareResourcesData(groupId, sessionId, titles[i], responses[i].Item1, responses[i].Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(florianRunning.Item1)));
+                    hardDataEntries.Add(
+                        new HardwareResourcesData(
+                            groupId,
+                            sessionId,
+                            titles[i],
+                            responses[i].Item1,
+                            responses[i].Item2,
+                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            Convert.ToBoolean(florianRunning.Item1)));
                 }
             }
 
@@ -314,16 +339,3 @@ namespace FlorianMezzo.Controls
         }
     }
 }
-
-
-/*
-string[] thresholds = new string[] {
-    "Good\t\t->    at least\t30% \nWarning\t->   under\t30% \nCritical\t->   under\t15%",                                                                               // Battery
-    "Good\t\t->    at least\t10% \nWarning\t->   under\t10% \nCritical\t->   under\t5%",                                                                                // Disk Space
-    "Good\t\t->    at least\t1000 MB \nWarning\t->   under\t700 MB \nCritical\t->   under\t400 MB",                                                                     // RAM
-    "Good\t\t->    at least\tWindows 21H2 LTSC \nWarning\t->   older than\tWindows 21H2 LTSC \nCritical\t->   older than\tWindows 1809 LTSC",                           // OS
-    "Good\t\t->    at least\t3 Mbps \nWarning\t->   under\t3 Mbps \nCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
-    "Good\t\t->    at least\t5 Mbps \nWarning\t->   under\t5 Mbps \nCritical\t->   under\t3 Mbps",                                                                      // Download Speed
-    "Good\t\t->    100% usage for\tless than 10 minutes \nWarning\t->   100% usage for\tmore than 10 minutes \nCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
-};
-*/
