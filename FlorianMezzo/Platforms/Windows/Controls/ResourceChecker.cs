@@ -69,8 +69,8 @@ namespace FlorianMezzo.Controls
                     var coord = position.Coordinate;
 
                     // Build basic location data
-                    locationData += $"\tAccuracy: {coord.Accuracy}\n";
-                    locationData = "Current Data\n";
+                    locationData += $"Accuracy: {coord.Accuracy}\n";
+                    locationData += "\nCurrent Data\n";
 
                     locationData += $"\tLatitude:\t{coord.Point.Position.Latitude}\n";
                     locationData += $"\tLongitude:\t{coord.Point.Position.Longitude}\n";

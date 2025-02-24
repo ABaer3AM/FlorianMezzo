@@ -294,15 +294,15 @@ namespace FlorianMezzo.Controls
                 "FLORIAN Running"
             };
             string[] thresholds = new string[] {
-                "Good\t\t->    at least\t30% \nWarning\t->   under\t30% \nCritical\t->   under\t15%",                                                                               // Battery
-                "Good\t\t->    at least\t10% \nWarning\t->   under\t10% \nCritical\t->   under\t5%",                                                                                // Disk Space
-                "Good\t\t->    at least\t1000 MB \nWarning\t->   under\t700 MB \nCritical\t->   under\t400 MB",                                                                     // RAM
-                "Good\t\t->    at least\tWindows 21H2 LTSC \nWarning\t->   older than\tWindows 21H2 LTSC \nCritical\t->   older than\tWindows 1809 LTSC",                           // OS
-                "Good\t\t->    at least\t3 Mbps \nWarning\t->   under\t3 Mbps \nCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
-                "Good\t\t->    at least\t5 Mbps \nWarning\t->   under\t5 Mbps \nCritical\t->   under\t3 Mbps",                                                                      // Download Speed
-                "Good\t\t->    100% usage for\tless than 10 minutes \nWarning\t->   100% usage for\tmore than 10 minutes \nCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
-                "Good\t\t->    at most\t50ft \nWarning\t->   under\t100ft \nCritical\t->   over\t100ft",                                                                            // Location
-                ""                                                                                                                                                                  // Florian Running
+                "\n\tGood\t\t->    at least\t30% \n\tWarning\t->   under\t30% \n\tCritical\t->   under\t15%",                                                                               // Battery
+                "\n\tGood\t\t->    at least\t10% \n\tWarning\t->   under\t10% \n\tCritical\t->   under\t5%",                                                                                // Disk Space
+                "\n\tGood\t\t->    at least\t1000 MB \n\tWarning\t->   under\t700 MB \n\tCritical\t->   under\t400 MB",                                                                     // RAM
+                "\n\tGood\t\t->    at least \tWindows 21H2 LTSC \n\tWarning\t->   older than \tWindows 21H2 LTSC \n\tCritical\t->   older than \tWindows 1809 LTSC",                           // OS
+                "\n\tGood\t\t->    at least\t3 Mbps \n\tWarning\t->   under\t3 Mbps \n\tCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
+                "\n\tGood\t\t->    at least\t5 Mbps \n\tWarning\t->   under\t5 Mbps \n\tCritical\t->   under\t3 Mbps",                                                                      // Download Speed
+                "\n\tGood\t\t->    100% usage for\tless than 10 minutes \n\tWarning\t->   100% usage for\tmore than 10 minutes \n\tCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
+                "\n\tGood\t\t->    at most\t50ft \n\tWarning\t->   under\t100ft \n\tCritical\t->   over\t100ft",                                                                            // Location
+                "\n\tGood if FLORIAN is running, Critical if it is not"                                                                                                                                                                  // Florian Running
             };
 
             // Plug data into state displays
@@ -316,7 +316,7 @@ namespace FlorianMezzo.Controls
                             sessionId,
                             titles[i],
                             responses[i].Item1,
-                            responses[i].Item2 + $"\n{thresholds[i]}",
+                            responses[i].Item2 + $"\n\n** Status Criteria **{thresholds[i]}",
                             DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                             false,
                             Convert.ToBoolean(florianRunning.Item1)));
@@ -329,7 +329,7 @@ namespace FlorianMezzo.Controls
                             sessionId,
                             titles[i],
                             responses[i].Item1,
-                            responses[i].Item2,
+                            responses[i].Item2 + $"\n\n** Status Criteria **{thresholds[i]}",
                             DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                             Convert.ToBoolean(florianRunning.Item1)));
                 }
