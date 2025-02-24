@@ -18,67 +18,70 @@
             Grid.Row="0"
             BackgroundColor="Black">
 
-                <Frame
-            x:Name="header">
+                <Border 
+    x:Name="header"
+    Margin="0"
+    Padding="0">
                     <!-- Main Navigation Bar -->
                     <ScrollView
-                    Orientation="Horizontal"
-                    HorizontalOptions="FillAndExpand">
-                        <Frame
-                        x:Name="navBar"
-                        BackgroundColor="{StaticResource Tertiary}"
-                        HorizontalOptions="FillAndExpand">
+        Orientation="Horizontal"
+        HorizontalOptions="FillAndExpand">
+                        <Border
+            x:Name="navBar"
+            BackgroundColor="{StaticResource Tertiary}"
+            Padding="0,20,0,20"
+            HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
                                 <Label
-                                Text="Home"
-                                Style="{StaticResource Headline}"
-                                TextColor="{StaticResource PrimaryDark}"
-                                VerticalOptions="Start"
-                                FontSize="44"
-                                SemanticProperties.HeadingLevel="Level2"
-                                >
+                    Text="Home"
+                    Style="{StaticResource Headline}"
+                    TextColor="{StaticResource PrimaryDark}"
+                    VerticalOptions="Start"
+                    FontSize="44"
+                    SemanticProperties.HeadingLevel="Level2"
+                    >
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer
-                                        NumberOfTapsRequired="1"
-                                        Tapped="redirectToMain" />
+                            NumberOfTapsRequired="1"
+                            Tapped="redirectToMain" />
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Button
-                                    x:Name="CompatibilityNav"
-                                    Text="Compatibility Tool"
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                    Clicked="redirectToCompatibility"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                    x:Name="CompatibilityNav"
+                    Text="Compatibility Tool"
+                    TextColor="{StaticResource Primary}"
+                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
+                    Clicked="redirectToCompatibility"
+                    WidthRequest="270"
+                    MaximumWidthRequest="1000" />
                                 <Button
-                                    x:Name="healthCheckNav"
-                                    Text="Health Check" 
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Health Check Page"
-                                    Clicked="redirectToHealthCheck"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                    x:Name="healthCheckNav"
+                    Text="Health Check" 
+                    TextColor="{StaticResource Primary}"
+                    SemanticProperties.Hint="Redirects User to Health Check Page"
+                    Clicked="redirectToHealthCheck"
+                    WidthRequest="270"
+                    MaximumWidthRequest="1000" />
                                 <Button
-                                    x:Name="mezzoAnalysisNav"
-                                    Text="Mezzo Analysis" 
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
-                                    Clicked="redirectToMezzoAnalysis"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                    x:Name="mezzoAnalysisNav"
+                    Text="Mezzo Analysis" 
+                    TextColor="{StaticResource Primary}"
+                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
+                    Clicked="redirectToMezzoAnalysis"
+                    WidthRequest="270"
+                    MaximumWidthRequest="1000" />
                                 <Button
-                                    x:Name="more3AMNav"
-                                    Text="More 3AM" 
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
-                                    Clicked="redirectToMore3AM"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                    x:Name="more3AMNav"
+                    Text="More 3AM" 
+                    TextColor="{StaticResource Primary}"
+                    SemanticProperties.Hint="Redirects User to More 3AM Page"
+                    Clicked="redirectToMore3AM"
+                    WidthRequest="270"
+                    MaximumWidthRequest="1000" />
                             </StackLayout>
-                        </Frame>
+                        </Border>
                     </ScrollView>
-                </Frame>
+                </Border>
 
 
                 <VerticalStackLayout
@@ -97,31 +100,31 @@
             </VerticalStackLayout>
 
             <!-- Footer -->
-            <Frame
-        Grid.Row="1"
-        x:Name="footer"
-        BackgroundColor="Transparent" 
-        HasShadow="False"
-        HorizontalOptions="End">
+            <Border
+Grid.Row="1"
+x:Name="footer"
+Padding="0,20"
+BackgroundColor="Transparent"
+HorizontalOptions="End">
                 <HorizontalStackLayout
-            HorizontalOptions="EndAndExpand"
-            VerticalOptions="End">
+    HorizontalOptions="EndAndExpand"
+    VerticalOptions="End">
                     <Label
-                        Text="Mezzo"
-                        Style="{StaticResource Headline}"
-                        TextColor="{StaticResource PrimaryDark}"
-                        VerticalOptions="Start"
-                        FontSize="44"
-                        SemanticProperties.HeadingLevel="Level2"/>
+                Text="Mezzo"
+                Style="{StaticResource Headline}"
+                TextColor="{StaticResource PrimaryDark}"
+                VerticalOptions="Start"
+                FontSize="44"
+                SemanticProperties.HeadingLevel="Level2"/>
                     <Image
-                Source="i3am_gold.png"
-                HeightRequest="80"
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-                Aspect="AspectFit"
-                SemanticProperties.Description="3AM Logo" />
+        Source="i3am_gold.png"
+        HeightRequest="80"
+        HorizontalOptions="End"
+        VerticalOptions="Center"
+        Aspect="AspectFit"
+        SemanticProperties.Description="3AM Logo" />
                 </HorizontalStackLayout>
-            </Frame>
+            </Border>
 
         </Grid>
     </ScrollView>
