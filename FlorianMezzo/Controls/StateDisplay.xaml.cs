@@ -165,9 +165,9 @@ public partial class StateDisplay : ContentView
     {
         UpdateNote(feedback);
         var adjFeedback = feedback.Split('\n')[0];
-        if (adjFeedback.Length > 20)
+        if (adjFeedback.Length > 35)
         {
-            adjFeedback = adjFeedback.Substring(0, 20) + "...";
+            adjFeedback = adjFeedback.Substring(0, 35) + "...";
         }
         feedbackText.Text = (adjFeedback);
     }

@@ -9,7 +9,7 @@ namespace FlorianMezzo.Constants
         public int Interval { get; set; }
         public string LastGroupId { get; set; }
 
-        public event EventHandler<NewGroupIdEvent> _newGroupIdEvent; // Event to notify subscribers of new data
+        //public event EventHandler<NewGroupIdEvent> _newGroupIdEvent; // Event to notify subscribers of new data
 
         public AppSettings()
         {
@@ -80,19 +80,21 @@ namespace FlorianMezzo.Constants
                 LastGroupId = newId
             };
             SaveSettings(newSettings);
-            BroadcastNewGroupId(new NewGroupIdEvent(newId));
+            //BroadcastNewGroupId(new NewGroupIdEvent(newId));
         }
         public void UpdateSettings(AppSettings newSettings)
         {
             Interval = newSettings.Interval;
             LastGroupId = newSettings.LastGroupId;
-            Debug.WriteLine($"Current settings:\n\tInterval: {Interval}\n\tLastGroupId: {LastGroupId}");
+            Debug.WriteLine($"Current settings:\n\tInterval: {Interval}\n\tLastGroupId: {LastGroupId}\n\t");
         }
 
+        /*
         protected virtual void BroadcastNewGroupId(NewGroupIdEvent e)
         {
             _newGroupIdEvent?.Invoke(this, e);
         }
+        */
     }
 
     public class NewIntervalEvent : EventArgs

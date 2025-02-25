@@ -22,7 +22,6 @@ public partial class HealthCheck : ContentPage
         // Subscribe to required events
         _healthCheckService._statusChangeEvent += ServiceStatusHandler; // service status changed
         _healthCheckService._newdataEvent += NewDataHandler;
-        Settings._newGroupIdEvent += NewGroupIdHandler;
 
         // Atempt to update UI
         UpdateServiceUI();
@@ -47,38 +46,8 @@ public partial class HealthCheck : ContentPage
         });
     }
 
-    // Health Check Service interactions--------------------------------------
-        //export health check to csv
-    private async void ExportToCSV(object sender, EventArgs e)
-    {
-        string groupId = Settings.LastGroupId;
-        if (groupId == "") { return; }
 
-        // Define the file path
-        string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-        string filePath = Path.Combine(downloadsPath, $"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ss")}_FlorianHealthCheck.csv");
-
-        // Fetch batched data
-        LocalDbService dbService = _healthCheckService.GetDbService();
-        Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
-
-        // Build the file
-        var csvContent = "GroupId, SessionId, Title, Status, Feedback, DateTime, Averageable\n";
-        foreach(string sectionTitle in statuses.Keys)
-        {
-            csvContent += $"\n{sectionTitle}\n";
-            foreach (var dataEntry in statuses[sectionTitle])
-            {
-                csvContent += dataEntry.ToString() + "\n";
-            }
-        }
-
-        // Write to the CSV file
-        await File.WriteAllTextAsync(filePath, csvContent);
-
-        await DisplayAlert("Success", $"Health Check exported to {filePath}", "OK");
-    }
-
+    // Button Methods -----------------------------------------------------------------------------
     private void ToggleService(object sender, EventArgs e)
     {
         if (_healthCheckService.GetRunningStatus() > 0)
@@ -106,7 +75,61 @@ public partial class HealthCheck : ContentPage
         UpdateServiceUI();
     }
 
-        // Fetch Methods
+    //export health check to csv
+    private async void ExportToCSV(object sender, EventArgs e)
+    {
+        string groupId = Settings.LastGroupId;
+        if (groupId == "") { return; }
+
+        // Define the file path
+        string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        string filePath = Path.Combine(downloadsPath, $"{DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ss")}_FlorianHealthCheck.csv");
+
+        // Fetch batched data
+        LocalDbService dbService = _healthCheckService.GetDbService();
+        Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
+
+        // Build the file
+        var csvContent = "GroupId, SessionId, Title, Status, Feedback, DateTime, Averageable\n";
+        foreach (string sectionTitle in statuses.Keys)
+        {
+            csvContent += $"\n{sectionTitle}\n";
+            foreach (var dataEntry in statuses[sectionTitle])
+            {
+                csvContent += dataEntry.ToString() + "\n";
+            }
+        }
+
+        // Write to the CSV file
+        await File.WriteAllTextAsync(filePath, csvContent);
+
+        await DisplayAlert("Success", $"Health Check exported to {filePath}", "OK");
+    }
+
+    private void redirectToFlorianSettings(object sender, EventArgs e)
+    {
+        // Open the settings for the specific app
+        string uri = $"ms-settings:appsfeatures-app";
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = uri,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to open settings: {ex.Message}");
+        }
+    }
+    // --------------------------------------------------------------------------------------------
+
+
+    // Health Check Service interactions--------------------------------------
+
+    // Fetch Methods
     private int GetIntHr()
     {
         return (int)(Settings.Interval / 3600);
@@ -179,7 +202,6 @@ public partial class HealthCheck : ContentPage
                 serviceStatus.BackgroundColor = Color.FromArgb("#F94620"); // Red
             }
         });
-        UpdateStateDisplays(Settings.LastGroupId);
     }
 
     private async void UpdateStateDisplays(string groupId)
@@ -207,13 +229,6 @@ public partial class HealthCheck : ContentPage
 
 
     // handle new settings ---------------------------------------------------
-    private void NewGroupIdHandler(object sender, NewGroupIdEvent newGroupIdEvent)
-    {
-        Debug.WriteLine($"New group ID recieved: {newGroupIdEvent.GroupId}");
-
-        UpdateStateDisplays(newGroupIdEvent.GroupId);
-        UpdateServiceUI();
-    }
     private void NewDataHandler(object sender, NewDataEvent newDataEvent)
     {
         Debug.WriteLine($"New data recieved: {newDataEvent.GroupId}");

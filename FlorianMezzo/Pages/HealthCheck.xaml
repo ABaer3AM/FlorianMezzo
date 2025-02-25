@@ -220,6 +220,14 @@
                         <controls:ExpandableStateDisplay x:Name="resourceESD" />
 
                         <Button
+                            x:Name="redirectToFlorianSettingsBtn"
+                            Text="Set FLORIAN Permissions"
+                            Clicked="redirectToFlorianSettings"
+                            BorderColor="White"
+                            BorderWidth="2"
+                            SemanticProperties.Hint="Redirect to FLORIAN Permissions"
+                            HorizontalOptions="FillAndExpand"/>
+                        <Button
                             x:Name="ExportBtn"
                             Text="Export Health Check"
                             Clicked="ExportToCSV"
@@ -227,6 +235,7 @@
                             BorderWidth="2"
                             SemanticProperties.Hint="Exports the health checker as a csv file"
                             HorizontalOptions="Center"
+                            Margin="0,20,0,0"
                             MaximumWidthRequest="600"/>
 
                     </VerticalStackLayout>

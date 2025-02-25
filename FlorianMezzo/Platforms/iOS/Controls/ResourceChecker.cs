@@ -17,10 +17,11 @@ namespace FlorianMezzo.Controls
             return false;
         }
 
-        public partial Tuple<int, string> IsFlorianRunning()
+        public async partial Task<Tuple<int, string>> IsFlorianRunning()
         {
+            await Task.Delay(500);
             Debug.WriteLine("Checking on Mezzo Process");
-            return new Tuple<int, string>(0, "FLORIAN is not running");
+            return Tuple.Create(0, "FLORIAN is not running");
         }
 
         public async partial Task<Tuple<int, string>> FetchLocation()

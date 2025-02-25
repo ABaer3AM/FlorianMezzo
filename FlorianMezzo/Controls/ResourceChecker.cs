@@ -234,17 +234,17 @@ namespace FlorianMezzo.Controls
             }
         }
 
-        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
-        // This method returns the CPU usage for the host device
+
+        // Abstract Methods------------------------------------------------------------------------
+            // Returns the CPU usage for the host device
         public partial Task<Tuple<int, string>> FetchCpuUsage();
 
-        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
-        // This method returns either 0 or 1 based on whether FLORIAN is open in the background
-        public partial Tuple<int, string> IsFlorianRunning();
+            // Returns either 0 or 1 based on whether FLORIAN is open in the background
+        public partial Task<Tuple<int, string>> IsFlorianRunning();
 
-        // abstract class that is defined in Platforms.{DESIRED PLATFORM}.Controls.ResourceChecker
-        // This method will fetch all of the data reguarding location from the device
+            // Will fetch all of the data reguarding location from the device
         public partial Task<Tuple<int, string>> FetchLocation();
+        // ----------------------------------------------------------------------------------------
 
         public static (long bytesSent, long bytesReceived) GetNetworkUsage()
         {
@@ -268,7 +268,7 @@ namespace FlorianMezzo.Controls
         public virtual async Task<List<HardwareResourcesData>> testHardwareResources(string groupId, string sessionId)
         {
             List<HardwareResourcesData> hardDataEntries = new List<HardwareResourcesData>();
-            var florianRunning = IsFlorianRunning();
+            var florianRunning = await IsFlorianRunning();
 
             // Build data for state displays
             Tuple<int, string>[] responses = new Tuple<int, string>[]{
@@ -291,7 +291,7 @@ namespace FlorianMezzo.Controls
                 "Download Speed",
                 "CPU Usage",
                 "Location",
-                "FLORIAN Running"
+                "FLORIAN"
             };
             string[] thresholds = new string[] {
                 "\n\tGood\t\t->    at least\t30% \n\tWarning\t->   under\t30% \n\tCritical\t->   under\t15%",                                                                               // Battery

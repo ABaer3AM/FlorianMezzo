@@ -63,9 +63,10 @@ namespace FlorianMezzo.Controls.db
                     if (status != -1) { SetStatus(1); }
 
                     // Broadcast new data has been written
-                    BroadcastNewData(new NewDataEvent(groupId));
                     this.Settings.UpdateLastGroupId(groupId);
                     latestGroupId = groupId;
+                    Debug.WriteLine($"Broadcasting data in batch {groupId}");
+                    BroadcastNewData(new NewDataEvent(groupId));
                 } while (await timer.WaitForNextTickAsync() && status > 0);
 
                 Debug.WriteLine("Health Check Service Terminated");

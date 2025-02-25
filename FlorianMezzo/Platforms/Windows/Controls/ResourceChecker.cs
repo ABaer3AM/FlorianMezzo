@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Management.Deployment;
 
 namespace FlorianMezzo.Controls
 {
@@ -33,17 +34,38 @@ namespace FlorianMezzo.Controls
             return chargingStatus == PowerSupplyStatus.Adequate || chargingStatus == PowerSupplyStatus.Inadequate;
         }
 
-        public partial Tuple<int, string> IsFlorianRunning()
+        public async partial Task<Tuple<int, string>> IsFlorianRunning()
         {
             var processList = Process.GetProcesses();
             var florianProcessList = Process.GetProcessesByName("Flare");
-           if (Process.GetProcessesByName("Flare").Length > 0) {
-                return new Tuple<int, string>(1, "FLORIAN is running");
+
+            var installedFlorianVersion = await FetchFlorianVersion();
+
+            if (Process.GetProcessesByName("Flare").Length > 0) {
+                return Tuple.Create(1, $"FLORIAN ({installedFlorianVersion})\n\trunning");
             }
             else
             {
-                return new Tuple<int, string>(0, "FLORIAN is not running");
+                return Tuple.Create(0, $"FLORIAN ({installedFlorianVersion})\n\tnot running");
             }
+        }
+
+        public async Task<string> FetchFlorianVersion()
+        {
+            var packageName = "3AMInnovations.Florian.app";
+            var packageManager = new PackageManager();
+            var packages = packageManager.FindPackagesForUser(string.Empty);
+
+            foreach (var package in packages)
+            {
+                if (package.Id.FullName.Contains(packageName))
+                {
+                    var version = package.Id.Version;
+                    return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}"; // returns version in format: major.minor.build.revision
+                }
+            }
+
+            return null; // App not found
         }
 
         public async partial Task<Tuple<int, string>> FetchLocation()

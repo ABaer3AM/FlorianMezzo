@@ -65,7 +65,8 @@ namespace FlorianMezzo.Controls
                 //Debug.WriteLine("dependency: " + dependency.Item1 + " ," + dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new TileSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(_resourceChecker.IsFlorianRunning().Item1)));     // digest status into a data-structure
+                Tuple<int, string> isFlorianRunning = await _resourceChecker.IsFlorianRunning();
+                softStatuses.Add(new TileSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(isFlorianRunning.Item1)));     // digest status into a data-structure
             }
 
 
@@ -87,7 +88,8 @@ namespace FlorianMezzo.Controls
                 //Debug.WriteLine("dependency: "+dependency.Item1 + " ,"+dependency.Item2);
                 // test the url, build the state display, add it to the list, maybe update the main state
                 Tuple<int, string> res = await FetchApiStatus(dependency.Item2);
-                softStatuses.Add(new CoreSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(_resourceChecker.IsFlorianRunning().Item1)));     // digest status into a data-structure
+                Tuple<int, string> isFlorianRunning = await _resourceChecker.IsFlorianRunning();
+                softStatuses.Add(new CoreSoftDependencyData(groupId, sessionId, dependency.Item1, res.Item1, res.Item2, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Convert.ToBoolean(isFlorianRunning.Item1)));     // digest status into a data-structure
             }
 
 
