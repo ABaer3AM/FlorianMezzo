@@ -51,7 +51,8 @@ public partial class Compatibility : ContentPage
             tileSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies (Workspace Tiles)", "Unfetched", 0);
             coreSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Unfetched", 0);
             resourceESD.MainStateDisplay = new StateDisplay("Hardware Resources", "Unfetched", 0);
-
+            florianSD.Title = "FLORIAN App";
+            florianSD.UpdateFull(0, "--");
         });
     }
 
@@ -114,14 +115,26 @@ public partial class Compatibility : ContentPage
         LocalDbService dbService =new LocalDbService();
         Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
 
+
+        // retrieve Florian data
+        DbData florianData = await dbService.GetByGroupIdAndTitle(groupId, "FLORIAN");
+
         // On main thread, update UI
         MainThread.BeginInvokeOnMainThread(() =>
         {
             // state displays
             tileSoftDependencyESD.UpdateDropdownContent(statuses["tileSoftDependencies"]);
             coreSoftDependencyESD.UpdateDropdownContent(statuses["coreSoftDependencies"]);
-            resourceESD.UpdateDropdownContent(statuses["hardwareResources"]);
+            resourceESD.UpdateDropdownContent(statuses["hardwareResources"].Take(statuses["hardwareResources"].Count - 1).ToList());    // omit the last piece of data because it is shown in its own state display
 
+            if (florianData != null)
+            {
+                florianSD.UpdateFull(florianData.Status, florianData.Feedback);
+            }
+            else
+            {
+                florianSD.UpdateFull(0, "Florian Data not found");
+            }
         });
     }
 
