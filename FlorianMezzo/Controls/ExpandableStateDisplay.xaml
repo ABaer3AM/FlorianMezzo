@@ -3,27 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlorianMezzo.Controls.ExpandableStateDisplay"
              xmlns:controls="clr-namespace:FlorianMezzo.Controls">
-    <Frame
-        HasShadow="False"
-        IsClippedToBounds="True"
+    <Border
         Padding="0"
         Margin="0"
         BackgroundColor="Transparent"
-        BorderColor="Black">
+        Stroke="Black">
         <VerticalStackLayout>
-            <Frame
+            <Border
                 Margin="0"
                 Padding="0"
                 ZIndex="1">
                 <ContentView x:Name="MainStateDisplayContainer" />
             
-                <Frame.GestureRecognizers>
+                <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ExpandStateDisplays" />
-                </Frame.GestureRecognizers>
-            </Frame>
+                </Border.GestureRecognizers>
+            </Border>
 
             <!-- Dropdown Menu -->
-            <Frame
+            <Border
                 x:Name="DropdownMenu"
                 IsVisible="False" 
                 Margin="30, -20, 30, 20"
@@ -33,7 +31,7 @@
                 <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0" ZIndex="0">
                     <!-- StateDisplays will be populated here -->
                 </StackLayout>
-            </Frame>
+            </Border>
         </VerticalStackLayout>
-    </Frame>
+    </Border>
 </ContentView>

@@ -39,14 +39,27 @@ namespace FlorianMezzo.Controls
             var processList = Process.GetProcesses();
             var florianProcessList = Process.GetProcessesByName("Flare");
 
-            var installedFlorianVersion = await FetchFlorianVersion();
+            string installedFlorianVersion = await FetchFlorianVersion();
 
-            if (Process.GetProcessesByName("Flare").Length > 0) {
-                return Tuple.Create(1, $"FLORIAN ({installedFlorianVersion})\n\trunning");
+            if (installedFlorianVersion == null)
+            {
+                return Tuple.Create(0, "FLORIAN is not installed\n\n" +
+                    "\tInstalled:\tFalse\n" +
+                    "\tVersion: \tN/A\n" +
+                    "\tRunning: \tN/A");
+            }
+            else if (Process.GetProcessesByName("Flare").Length > 0) {
+                return Tuple.Create(1, $"FLORIAN is running\n\n" +
+                    "\tInstalled:\tTrue\n" +
+                    $"\tVersion: \t{installedFlorianVersion}\n" +
+                    "\tRunning: \tTrue");
             }
             else
             {
-                return Tuple.Create(0, $"FLORIAN ({installedFlorianVersion})\n\tnot running");
+                return Tuple.Create(-1, $"FLORIAN is not running\n\n" +
+                    "\tInstalled:\tTrue\n" +
+                    $"\tVersion: \t{installedFlorianVersion}\n" +
+                    "\tRunning: \tFalse");
             }
         }
 

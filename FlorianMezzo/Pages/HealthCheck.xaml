@@ -218,6 +218,7 @@
                         <controls:ExpandableStateDisplay x:Name="tileSoftDependencyESD" />
                         <controls:ExpandableStateDisplay x:Name="coreSoftDependencyESD" />
                         <controls:ExpandableStateDisplay x:Name="resourceESD" />
+                        <controls:StateDisplay x:Name="florianSD" />
 
                         <Button
                             x:Name="redirectToFlorianSettingsBtn"

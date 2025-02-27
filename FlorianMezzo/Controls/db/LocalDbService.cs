@@ -43,6 +43,31 @@ namespace FlorianMezzo.Controls.db
             return batchData;
         }
 
+        public async Task<DbData> GetByGroupIdAndTitle(string groupId, string titleIn)
+        {
+            TileSoftDependencyData tileSoftDataResult = await _connection.Table<TileSoftDependencyData>().FirstOrDefaultAsync(x => x.GroupId == groupId  &&  x.Title == titleIn);
+            CoreSoftDependencyData coreSoftDataResult = await _connection.Table<CoreSoftDependencyData>().FirstOrDefaultAsync(x => x.GroupId == groupId && x.Title == titleIn);
+            HardwareResourcesData hardwareDataResult = await _connection.Table<HardwareResourcesData>().FirstOrDefaultAsync(x => x.GroupId == groupId && x.Title == titleIn);
+
+            if (tileSoftDataResult == null  &&  coreSoftDataResult == null  &&  hardwareDataResult != null)
+            {
+                return hardwareDataResult;
+            }
+            else if (coreSoftDataResult == null  &&  hardwareDataResult == null  &&  tileSoftDataResult != null)
+            {
+                return tileSoftDataResult;
+            }
+            else if (hardwareDataResult == null  &&  tileSoftDataResult == null  &&  coreSoftDataResult != null)
+            {
+                return coreSoftDataResult;
+            }
+            else
+            {
+                Debug.WriteLine($"Failed to retrieve the specified data element\n\tGroupId: {groupId}\n\tTilte: {titleIn}");
+                return null;
+            }
+        }
+
 
         // Overloaded method to write to db----------------------------------------------------------------------------
         public async Task WriteToDb(TileSoftDependencyData softData)

@@ -91,6 +91,7 @@ public partial class ExpandableStateDisplay : ContentView
     {
         bool isValid = true;
         DropdownContent.Children.Clear();
+        bool hasCritical = false;
 
         foreach (var dataEntry in dataList)
         {
@@ -113,11 +114,20 @@ public partial class ExpandableStateDisplay : ContentView
             if (dataEntry.Status != 1)
             {
                 isValid = false;
-                UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, $"Issue with {dataEntry.Title}", dataEntry.Status, ""));
+                if (!hasCritical)
+                {
+                    UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, $"Issue with {dataEntry.Title}", dataEntry.Status, ""));
+                    if (dataEntry.Status == 0) { hasCritical = true; }
+                }
             }
-        }if (isValid)
+        }if (isValid  && dataList.Count > 0)
         {
             UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "Operational", 1, ""));
+        }
+        else if (dataList.Count <= 0)
+        {
+            var debugHold = dataList;
+            UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "No Data Found", 0, ""));
         }
 
     }
@@ -126,15 +136,16 @@ public partial class ExpandableStateDisplay : ContentView
 
     public async void ExpandStateDisplays(object sender, EventArgs e)
     {
-        MainStateDisplay.RotateArrow();
         if (!DropdownMenu.IsVisible)
         {
             DropdownMenu.IsVisible = true;
+            MainStateDisplay.RotateArrow(1);
             DropdownMenu.TranslationY = -(DropdownMenu.Height - 50); // Ensure it starts off-screen
             await DropdownMenu.TranslateTo(0, 0, 200);  // Slide Down
         }
         else
         {
+            MainStateDisplay.RotateArrow(-1);
             await DropdownMenu.TranslateTo(0, -(DropdownMenu.Height - 50), 200);  // Slide Down
             DropdownMenu.IsVisible = false;
         }

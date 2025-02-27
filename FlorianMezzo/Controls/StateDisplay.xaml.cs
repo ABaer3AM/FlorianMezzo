@@ -199,13 +199,30 @@ public partial class StateDisplay : ContentView
 
     public async void RotateArrow()
     {
-        if (dropdownMarker.Rotation == 0)
+        if (!DropdownNote.IsVisible)
         {
             await dropdownMarker.RotateTo(90, 200);
         }
         else
         {
             await dropdownMarker.RotateTo(0, 200);
+        }
+    }
+    public void RotateArrow(int direction)
+    {
+        if (direction > 0)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await dropdownMarker.RotateTo(90, 200);
+            });
+        }
+        else
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await dropdownMarker.RotateTo(0, 200);
+            });
         }
     }
 }
