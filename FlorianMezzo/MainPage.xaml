@@ -20,7 +20,7 @@
                 Grid.Row="0"
                 BackgroundColor="Black">
 
-                <Frame
+                <Border
                     x:Name="header">
                     <VerticalStackLayout>
                         <HorizontalStackLayout
@@ -30,7 +30,7 @@
                                 HeightRequest="100"
                                 Aspect="AspectFit"
                                 SemanticProperties.Description="Florian Logo" />
-                            <Frame
+                            <Border
                                 Padding="0">
                                 <HorizontalStackLayout>
                                     <Label
@@ -48,7 +48,7 @@
                                         Margin="0,0,0,13"
                                         SemanticProperties.Description="Welcome to dot net Multi platform App UI" />
                                 </HorizontalStackLayout>
-                            </Frame>
+                            </Border>
                         </HorizontalStackLayout>
 
                         <Label
@@ -59,16 +59,16 @@
                             FontSize="44"
                             SemanticProperties.HeadingLevel="Level2"/>
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
 
 
                 <ScrollView
                     Orientation="Horizontal"
                     HorizontalOptions="FillAndExpand">
-                    <Frame
+                    <Border
                         x:Name="navBar"
+                        Padding="0,20"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
-                        CornerRadius="0"
                         HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
                             <Button
@@ -104,7 +104,7 @@
                                 WidthRequest="270"
                                 MaximumWidthRequest="1000" />
                         </StackLayout>
-                    </Frame>
+                    </Border>
                 </ScrollView>
 
                 <VerticalStackLayout
@@ -229,39 +229,25 @@
 
                             </Grid>
                         </Grid>
-                        <Frame 
-                            x:Name="serviceStatus"
-                            CornerRadius="5" 
-                            BackgroundColor="#0a1533" 
+                        <Button
+                            x:Name="setIntervalBtn"
+                            Text="setInterval"
+                            FontSize="20"
+                            Clicked="setInterval"
                             BorderColor="White"
-                            Padding="10"
-                            VerticalOptions="Start"
-                            HorizontalOptions="FillAndExpand"
-                            HasShadow="True"
-                            Margin="0,10,0,0">
-                            <Label
-                                Text="Set Health Check Interval"
-                                Style="{StaticResource Headline}"
-                                FontSize="20"
-                                TextColor="White"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Center" />
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    x:Name="setIntervalGesture"
-                                    Tapped="setInterval" />
-                            </Frame.GestureRecognizers>
-                        </Frame>
+                            BorderWidth="2"
+                            HeightRequest="20"
+                            SemanticProperties.Hint="Write the interval to settings"
+                            HorizontalOptions="FillAndExpand"/>
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
 
             </VerticalStackLayout>
-            <Frame
+            <Border
                 Grid.Row="1"
                 x:Name="footer"
                 BackgroundColor="Transparent" 
-                HasShadow="False"
                 HorizontalOptions="End">
                 <HorizontalStackLayout
                     HorizontalOptions="EndAndExpand"
@@ -274,7 +260,7 @@
                         Aspect="AspectFit"
                         SemanticProperties.Description="3AM Logo" />
                 </HorizontalStackLayout>
-            </Frame>
+            </Border>
         </Grid>
     </ScrollView>
 

@@ -44,6 +44,8 @@ public partial class HealthCheck : ContentPage
     // Button Methods -----------------------------------------------------------------------------
     private void ToggleService(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
+
         if (_healthCheckService.GetRunningStatus() > 0)
         {
             _healthCheckService?.Stop();
@@ -72,6 +74,7 @@ public partial class HealthCheck : ContentPage
     //export health check to csv
     private async void ExportToCSV(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         string groupId = Settings.LastGroupId;
         if (groupId == "") { return; }
 
@@ -102,6 +105,7 @@ public partial class HealthCheck : ContentPage
 
     private void redirectToFlorianSettings(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         // Open the settings for the specific app
         string uri = $"ms-settings:appsfeatures-app";
 
@@ -244,6 +248,14 @@ public partial class HealthCheck : ContentPage
     // -----------------------------------------------------------------------
 
 
+    private async void showButtonPressed(Button btn)
+    {   // shrink and unshrink a button being pressed to give feedback to the user that the button was pressed
+        // Shrink effect
+        await btn.ScaleTo(0.925, 50);
+        // Restore size
+        await btn.ScaleTo(1, 50);
+    }
+
 
     // Navigation methods-----------------------------------------------------
     private async void redirectToMain(object sender, EventArgs e)
@@ -252,18 +264,22 @@ public partial class HealthCheck : ContentPage
     }
     private async void redirectToCompatibility(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(Compatibility));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
     private async void redirectToMezzoAnalysis(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(MezzoAnalysis));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(More3AM));
     }
     // -----------------------------------------------------------------------

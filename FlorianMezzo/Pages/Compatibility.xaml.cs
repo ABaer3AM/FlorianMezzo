@@ -21,6 +21,7 @@ public partial class Compatibility : ContentPage
 
     private async void OpenFlorianInStore(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         // Microsoft Store URL for the app
         var storeUrl = "https://www.microsoft.com/store/apps/9p93s9wb325x";
         var storeAppUrl = "ms-windows-store://pdp/?ProductId=9p93s9wb325x";
@@ -43,7 +44,7 @@ public partial class Compatibility : ContentPage
         }
     }
 
-    private async void InitStateDisplays()
+    private void InitStateDisplays()
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -56,45 +57,6 @@ public partial class Compatibility : ContentPage
         });
     }
 
-    // Methods to Fetch Status Data---------------------------------------------------------------------------------------------
-    private async void getStatusOfSoftDependencies()
-    {
-        UrlChecker urlCheckerObj = new UrlChecker();
-
-        // Update visual to show fetch is running
-        Debug.WriteLine($"Started Task running at {DateTime.Now}");
-
-        /*
-        // run test
-        Tuple<StateDisplay, List<StateDisplay>> sdStates = await urlCheckerObj.testSoftDependencies();
-
-        await MainThread.InvokeOnMainThreadAsync(() => {
-            softDependencyESD.MainStateDisplay = sdStates.Item1;
-            softDependencyESD.StateDisplays = sdStates.Item2;
-        });
-        */
-    }
-    private async void getStatusOfHardwareResources()
-    {
-        ResourceChecker resourceCheckerObj = new ResourceChecker();
-
-        // Update visual to show fetch is running
-        Debug.WriteLine($"Started Task running at {DateTime.Now}");
-
-        /*
-        // run test
-        Tuple<StateDisplay, List<StateDisplay>> sdStates = await resourceCheckerObj.testHardwareResources();
-
-        await MainThread.InvokeOnMainThreadAsync(() => {
-            resourceESD.MainStateDisplay = sdStates.Item1;
-            resourceESD.StateDisplays = sdStates.Item2;
-        });
-        */
-    }
-    //-----------------------------------------------------------------------------------------------------------------------                       
-    
-
-
 
     /* Overloaded method-
      * (sender,e) from button 
@@ -102,6 +64,7 @@ public partial class Compatibility : ContentPage
      */
     private async void UpdateStateDisplays(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         UpdateStateDisplays();
     }
     private async void UpdateStateDisplays()
@@ -139,6 +102,15 @@ public partial class Compatibility : ContentPage
     }
 
 
+    private async void showButtonPressed(Button btn)
+    {   // shrink and unshrink a button being pressed to give feedback to the user that the button was pressed
+        // Shrink effect
+        await btn.ScaleTo(0.925, 50);
+        // Restore size
+        await btn.ScaleTo(1, 50);
+    }
+
+
     // Navigation methods-----------------------------------------------------
     private async void redirectToMain(object sender, EventArgs e)
     {
@@ -146,18 +118,22 @@ public partial class Compatibility : ContentPage
     }
     private async void redirectToCompatibility(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(Compatibility));
     }
     private async void redirectToHealthCheck(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(HealthCheck));
     }
     private async void redirectToMezzoAnalysis(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(MezzoAnalysis));
     }
     private async void redirectToMore3AM(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(More3AM));
     }
     // -----------------------------------------------------------------------
