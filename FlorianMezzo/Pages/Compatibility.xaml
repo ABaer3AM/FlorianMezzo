@@ -108,7 +108,7 @@
                     <Button
                         x:Name="getStatusesBtn"
                         Text="Get Statuses"
-                        Clicked="UpdateStateDisplays"
+                        Clicked="GetStatuses"
                         HorizontalOptions="FillAndExpand"
                         BorderColor="White"
                         BorderWidth="2"

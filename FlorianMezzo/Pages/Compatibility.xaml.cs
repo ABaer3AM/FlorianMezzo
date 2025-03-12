@@ -17,6 +17,16 @@ public partial class Compatibility : ContentPage
         UpdateStateDisplays();
     }
 
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        // if methods are not currently being fetched, update state displays
+        if(this.tileSoftDependencyESD.MainStateDisplay.Status != -2)
+        {
+            UpdateStateDisplays();
+        }
+    }
 
 
     private async void OpenFlorianInStore(object sender, EventArgs e)
@@ -62,10 +72,25 @@ public partial class Compatibility : ContentPage
      * (sender,e) from button 
      * () called from another function
      */
-    private async void UpdateStateDisplays(object sender, EventArgs e)
+    private async void GetStatuses(object sender, EventArgs e)
     {
-        showButtonPressed((Button)sender);
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            tileSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies (Workspace Tiles)", "Fetching...", -2);
+            coreSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies", "Fetching...", -2);
+            resourceESD.MainStateDisplay = new StateDisplay("Hardware Resources", "Fetching...", -2);
+            florianSD.Title = "FLORIAN App";
+            florianSD.UpdateFull(-2, "Fetching...");
+        });
+
+        HealthCheckService tempHCS = new HealthCheckService(new LocalDbService());
+        await tempHCS.RunOnce();
         UpdateStateDisplays();
+
+        // Ensure no memory leak
+        tempHCS = null;  // Remove reference
+        GC.Collect(); // Request garbage collection (not recommended for frequent use)
+        GC.WaitForPendingFinalizers(); // Wait for finalizers to run
     }
     private async void UpdateStateDisplays()
     {
@@ -135,6 +160,11 @@ public partial class Compatibility : ContentPage
     {
         showButtonPressed((Button)sender);
         await Shell.Current.GoToAsync(nameof(More3AM));
+    }
+
+    private void getStatusesBtn_Clicked(object sender, EventArgs e)
+    {
+
     }
     // -----------------------------------------------------------------------
 }

@@ -71,7 +71,51 @@ namespace FlorianMezzo.Controls.db
 
                 Debug.WriteLine("Health Check Service Terminated");
                 SetStatus(0);
-            });
+                
+            }); 
+        }
+
+        public async Task RunOnce()
+        {
+            SetStatus(1);
+            fetchCount = 0;
+
+            Settings.LoadOrCreateSettings();
+
+            string sessionId = Guid.NewGuid().ToString();
+
+            UrlChecker _urlChecker = new();
+            ResourceChecker _resourceChecker = new();
+
+            string groupId = Guid.NewGuid().ToString();
+
+            // Fetch data
+            Debug.WriteLine($"Collecting status data at {DateTime.Now}...");
+
+            if (status != -1) { SetStatus(2); }
+
+            List<CoreSoftDependencyData> coreSoftDependencyEntries = await _urlChecker.testCoreSoftDependencies(groupId, sessionId);
+            List<TileSoftDependencyData> tileSoftDependencyEntries = await _urlChecker.testTileSoftDependencies(groupId, sessionId);
+            List<HardwareResourcesData> hardwareResourceEntries = await _resourceChecker.testHardwareResources(groupId, sessionId);
+            Debug.WriteLine($"COMPLETED collecting status data");
+
+            // Write data
+            await _dbService.WriteToDb(coreSoftDependencyEntries);
+            await _dbService.WriteToDb(tileSoftDependencyEntries);
+            await _dbService.WriteToDb(hardwareResourceEntries);
+            // increment count
+            fetchCount++;
+
+            if (status != -1) { SetStatus(1); }
+
+            // Broadcast new data has been written
+            this.Settings.UpdateLastGroupId(groupId);
+            latestGroupId = groupId;
+            Debug.WriteLine($"Broadcasting data in batch {groupId}");
+            BroadcastNewData(new NewDataEvent(groupId));
+
+            Debug.WriteLine("Health Check Service Terminated");
+            SetStatus(0);
         }
 
         public void Stop()

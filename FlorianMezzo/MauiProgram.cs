@@ -31,8 +31,8 @@ namespace FlorianMezzo
             // Page Definitions
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<HealthCheck>();
+            builder.Services.AddSingleton<Compatibility>();
 
-            builder.Services.AddTransient<Compatibility>();
             builder.Services.AddTransient<MezzoAnalysis>();
             builder.Services.AddTransient<More3AM>();
 

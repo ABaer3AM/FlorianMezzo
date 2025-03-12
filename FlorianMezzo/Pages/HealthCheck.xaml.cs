@@ -29,6 +29,20 @@ public partial class HealthCheck : ContentPage
         UpdateStateDisplays(Settings.LastGroupId);
     }
 
+    /*
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        // if methods are not currently being fetched, update state displays
+        if (_healthCheckService.GetRunningStatus() != 2)
+        {
+            Settings.LoadOrCreateSettings();
+            UpdateStateDisplays(Settings.LastGroupId);
+        }
+    }
+    */
+
     private async void initESDs()
     {
         await MainThread.InvokeOnMainThreadAsync(() => {
