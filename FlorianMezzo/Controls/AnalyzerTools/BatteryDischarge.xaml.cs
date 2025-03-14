@@ -10,16 +10,16 @@ public partial class BatteryDischarge : ContentView
     private LineChartDrawable chartDrawable;
 
     public BatteryDischarge(Dictionary<string, List<HardwareResourcesData>> averagableBatteryDataBySessionIn)
-	{
-        averagableBatteryDataBySession = averagableBatteryDataBySessionIn;
-        currentSessionI = 0;
-        InitializeComponent();
-
-
-        if (averagableBatteryDataBySessionIn.Count == 0)
+    {
+        // prevent null refrences
+        if (averagableBatteryDataBySessionIn == null || averagableBatteryDataBySessionIn.Count == 0)
         {
             return;
         }
+
+        averagableBatteryDataBySession = averagableBatteryDataBySessionIn;
+        currentSessionI = 0;
+        InitializeComponent();
 
         chartDrawable = new LineChartDrawable(300, 200);
         ChartView.Drawable = chartDrawable;
@@ -51,6 +51,12 @@ public partial class BatteryDischarge : ContentView
 
     private void LoadChartData(float maxX, float maxY)
     {
+        // prevent null refrences
+        if (averagableBatteryDataBySession == null || averagableBatteryDataBySession.Count == 0)
+        {
+            return;
+        }
+
         if (averagableBatteryDataBySession[averagableBatteryDataBySession.Keys.First()].Count < 4) { return; }
         int count=0;
 
@@ -87,6 +93,12 @@ public partial class BatteryDischarge : ContentView
 
     private void switchToPastSession(object sender, EventArgs e)
     {//rotate the datatable to display the past sessions data
+        // prevent null refrences
+        if (averagableBatteryDataBySession == null || averagableBatteryDataBySession.Count == 0)
+        {
+            return;
+        }
+
         if (currentSessionI > 0 && currentSessionI <= averagableBatteryDataBySession.Keys.Count)
         {
             SessionDataGrid.Children.Clear();
@@ -131,6 +143,12 @@ public partial class BatteryDischarge : ContentView
     //(2) average the rates finding the overall average rate of discharge
     public double GetAverageDischargeRate()
     {
+        // prevent null refrences
+        if (averagableBatteryDataBySession == null || averagableBatteryDataBySession.Count == 0)
+        {
+            return 0.0;
+        }
+
         Dictionary<string, double> sessionDischargeRates = [];
 
         //(1)
@@ -187,18 +205,24 @@ public partial class BatteryDischarge : ContentView
     // Build table for one dataset
     public Grid GenerateGridForSessionData(string sessionId)
     {
-        List<HardwareResourcesData> sessionBatteryData = averagableBatteryDataBySession[sessionId];
-        List<string> columnTitles = ["id", "Battery %", "Date Time"];
-
-        // Get label Style
-        Resources.TryGetValue("SubHeadline", out var style);
-
         Grid grid = new Grid
         {
             RowDefinitions = new RowDefinitionCollection(),
             ColumnDefinitions = new ColumnDefinitionCollection(),
             Padding = 10
         };
+
+        // prevent null refrences
+        if (averagableBatteryDataBySession == null || averagableBatteryDataBySession.Count == 0)
+        {
+            return grid;
+        }
+
+        List<HardwareResourcesData> sessionBatteryData = averagableBatteryDataBySession[sessionId];
+        List<string> columnTitles = ["id", "Battery %", "Date Time"];
+
+        // Get label Style
+        Resources.TryGetValue("SubHeadline", out var style);
 
         // Build Table
             // generate equal-sized columns
