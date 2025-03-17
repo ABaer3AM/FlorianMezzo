@@ -231,7 +231,7 @@
                         </Grid>
                         <Button
                             x:Name="setIntervalBtn"
-                            Text="setInterval"
+                            Text="Set Interval"
                             FontSize="20"
                             Clicked="setInterval"
                             BorderColor="White"
