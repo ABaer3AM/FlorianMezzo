@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using FlorianMezzo.Constants;
 using System.Diagnostics;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace FlorianMezzo
 {
@@ -35,8 +36,12 @@ namespace FlorianMezzo
 
             SelectedOption = "QA";
 
+            LocatioinPermissionPrompt();
+
             BindingContext = this;
         }
+
+        private partial void LocatioinPermissionPrompt();
 
         private async void redirectToCompatibility(object sender, EventArgs e)
         {

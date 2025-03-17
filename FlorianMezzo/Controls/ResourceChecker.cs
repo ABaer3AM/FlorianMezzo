@@ -297,7 +297,7 @@ namespace FlorianMezzo.Controls
                 "\n\tGood\t\t->    at least\t30% \n\tWarning\t->   under\t30% \n\tCritical\t->   under\t15%",                                                                               // Battery
                 "\n\tGood\t\t->    at least\t10% \n\tWarning\t->   under\t10% \n\tCritical\t->   under\t5%",                                                                                // Disk Space
                 "\n\tGood\t\t->    at least\t1000 MB \n\tWarning\t->   under\t700 MB \n\tCritical\t->   under\t400 MB",                                                                     // RAM
-                "\n\tGood\t\t->    at least \tWindows 21H2 LTSC \n\tWarning\t->   older than \tWindows 21H2 LTSC \n\tCritical\t->   older than \tWindows 1809 LTSC",                        // OS
+                "\n\tGood\t\t->    at least \t\tWindows 21H2 LTSC \n\tWarning\t->   older than \tWindows 21H2 LTSC \n\tCritical\t->   older than \tWindows 1809 LTSC",                        // OS
                 "\n\tGood\t\t->    at least\t3 Mbps \n\tWarning\t->   under\t3 Mbps \n\tCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
                 "\n\tGood\t\t->    at least\t5 Mbps \n\tWarning\t->   under\t5 Mbps \n\tCritical\t->   under\t3 Mbps",                                                                      // Download Speed
                 "\n\tGood\t\t->    100% usage for\tless than 10 minutes \n\tWarning\t->   100% usage for\tmore than 10 minutes \n\tCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
