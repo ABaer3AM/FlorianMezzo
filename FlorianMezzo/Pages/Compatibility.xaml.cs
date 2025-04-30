@@ -74,6 +74,7 @@ public partial class Compatibility : ContentPage
      */
     private async void GetStatuses(object sender, EventArgs e)
     {
+        showButtonPressed((Button)sender);
         MainThread.BeginInvokeOnMainThread(() =>
         {
             tileSoftDependencyESD.MainStateDisplay = new StateDisplay("Soft Dependencies (Workspace Tiles)", "Fetching...", -2);
@@ -82,16 +83,32 @@ public partial class Compatibility : ContentPage
             florianSD.Title = "FLORIAN App";
             florianSD.UpdateFull(-2, "Fetching...");
         });
-
         HealthCheckService tempHCS = new HealthCheckService(new LocalDbService());
-        await tempHCS.RunOnce();
-        UpdateStateDisplays();
-
-        // Ensure no memory leak
-        tempHCS = null;  // Remove reference
-        GC.Collect(); // Request garbage collection (not recommended for frequent use)
-        GC.WaitForPendingFinalizers(); // Wait for finalizers to run
+        string newGroupId = "";
+        try
+        {
+            newGroupId = await tempHCS.RunOnce();
+        }
+        catch (Exception ex)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Health Check Service (Run Once)\n\n" + ex.Message, "OK");
+            });
+        }
+        try
+        {
+            UpdateStateDisplays(newGroupId);
+        }
+        catch (Exception ex)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Update state displays\n\n" + ex.Message, "OK");
+            });
+        }
     }
+
     private async void UpdateStateDisplays()
     {
         string groupId = Settings.LastGroupId;
@@ -101,6 +118,38 @@ public partial class Compatibility : ContentPage
 
         // Fetch batched data
         LocalDbService dbService =new LocalDbService();
+        Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
+
+
+        // retrieve Florian data
+        DbData florianData = await dbService.GetByGroupIdAndTitle(groupId, "FLORIAN");
+
+        // On main thread, update UI
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            // state displays
+            tileSoftDependencyESD.UpdateDropdownContent(statuses["tileSoftDependencies"]);
+            coreSoftDependencyESD.UpdateDropdownContent(statuses["coreSoftDependencies"]);
+            resourceESD.UpdateDropdownContent(statuses["hardwareResources"].Take(statuses["hardwareResources"].Count - 1).ToList());    // omit the last piece of data because it is shown in its own state display
+
+            if (florianData != null)
+            {
+                florianSD.UpdateFull(florianData.Status, florianData.Feedback);
+            }
+            else
+            {
+                florianSD.UpdateFull(0, "Florian Data not found");
+            }
+        });
+    }
+
+    private async void UpdateStateDisplays(string groupId)
+    {
+        // if there is no valid group ID, exit
+        if (groupId == "") { return; }
+
+        // Fetch batched data
+        LocalDbService dbService = new LocalDbService();
         Dictionary<string, List<DbData>> statuses = await dbService.GetByGroupId(groupId);
 
 

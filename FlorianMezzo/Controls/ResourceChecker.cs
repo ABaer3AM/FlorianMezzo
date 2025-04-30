@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Microsoft.Maui.Devices;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
@@ -43,15 +44,15 @@ namespace FlorianMezzo.Controls
 
             if (battery > 30.0)
             {                        // Good     = 31+  
-                return Tuple.Create(1, battery.ToString());
+                return Tuple.Create(1, battery.ToString() + "%");
             }
             else if (battery > 15)
             {                    // Warning  = 30-16
-                return Tuple.Create(-1, battery.ToString());
+                return Tuple.Create(-1, battery.ToString() + "%");
             }
             else
             {                                      // Critical = 15-0
-                return Tuple.Create(0, battery.ToString());
+                return Tuple.Create(0, battery.ToString() + "%");
             }
         }
 
@@ -130,32 +131,22 @@ namespace FlorianMezzo.Controls
         }
         public async Task<Tuple<int, string>> FetchOs()
         {
-            string key = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion";
-            await Task.Yield();
-            using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(key))
-            {
-                if (regKey != null)
-                {
-                    string productName = regKey.GetValue("ProductName") as string;
-                    string releaseId = regKey.GetValue("ReleaseId") as string;
-                    int buildNumber = int.Parse(regKey.GetValue("CurrentBuildNumber") as string);
+            string os = DeviceInfo.Platform.ToString(); // Windows, MacCatalyst, Android, iOS
+            string version = DeviceInfo.VersionString;  // e.g., "10.0.22621"
 
-                    //check status of OS
-                    if (buildNumber > 19044)
-                    {
-                        return Tuple.Create(1, $"{productName} ({releaseId}- {buildNumber})");
-                    }
-                    else if (buildNumber > 17763)
-                    {
-                        return Tuple.Create(-1, $"{productName} ({releaseId}- {buildNumber}) [at least Windows 10 21H2 recommended]");
-                    }
-                    else
-                    {
-                        return Tuple.Create(0, $"{productName} ({releaseId}- {buildNumber}) [at least Windows 10 1809 required]");
-                    }
-                }
+            // Example logic using the OS version
+            if (os == "Windows")
+            {
+                Version parsedVersion = new Version(version);
+                if (parsedVersion.Build > 19044)
+                    return Tuple.Create(1, $"{os} {version}");
+                else if (parsedVersion.Build > 17763)
+                    return Tuple.Create(-1, $"{os} {version} [at least Windows 10 21H2 recommended (10.0.19044)]");
+                else
+                    return Tuple.Create(0, $"{os} {version} [at least Windows 10 1809 required] (10.0.17763)");
             }
-            return Tuple.Create(0, "Unknown OS");
+            await Task.Yield();
+            return Tuple.Create(1, $"{os} {version}");
         }
         public async Task<Tuple<int, string>> FetchDownloadSpeed()
         {
@@ -284,8 +275,8 @@ namespace FlorianMezzo.Controls
             };
             string[] titles = new string[] {
                 "Battery Percentage",
-                "Availible Disk Space",
-                "Availible RAM",
+                "Available  Disk Space",
+                "Available RAM",
                 "Operating System",
                 "Upload Speed",
                 "Download Speed",
@@ -294,15 +285,15 @@ namespace FlorianMezzo.Controls
                 "FLORIAN"
             };
             string[] thresholds = new string[] {
-                "\n\tGood\t\t->    at least\t30% \n\tWarning\t->   under\t30% \n\tCritical\t->   under\t15%",                                                                               // Battery
-                "\n\tGood\t\t->    at least\t10% \n\tWarning\t->   under\t10% \n\tCritical\t->   under\t5%",                                                                                // Disk Space
-                "\n\tGood\t\t->    at least\t1000 MB \n\tWarning\t->   under\t700 MB \n\tCritical\t->   under\t400 MB",                                                                     // RAM
-                "\n\tGood\t\t->    at least \t\tWindows 21H2 LTSC \n\tWarning\t->   older than \tWindows 21H2 LTSC \n\tCritical\t->   older than \tWindows 1809 LTSC",                        // OS
-                "\n\tGood\t\t->    at least\t3 Mbps \n\tWarning\t->   under\t3 Mbps \n\tCritical\t->   under\t2 Mbps",                                                                      // Upload Speed
-                "\n\tGood\t\t->    at least\t5 Mbps \n\tWarning\t->   under\t5 Mbps \n\tCritical\t->   under\t3 Mbps",                                                                      // Download Speed
-                "\n\tGood\t\t->    100% usage for\tless than 10 minutes \n\tWarning\t->   100% usage for\tmore than 10 minutes \n\tCritical\t->   100% Usage for\tmore than 30 minutes ",   // CPU Usage
-                "\n\tGood\t\t->    at most\t50ft \n\tWarning\t->   under\t100ft \n\tCritical\t->   over\t100ft",                                                                            // Location
-                "\n\tGood\t\t-> \tinstalled and running\n\tWarning\t-> \tinstalled but not running\n\tCritical\t-> \tnot installed",                                                        // Florian
+                "\n\tGood\t\t->\t30-100%\n\tWarning\t->\t15-30%\n\tCritical\t->\t0-15%",                                                                                    // Battery
+                "\n\tGood\t\t->\t10+%\n\tWarning\t->\t5-10%\n\tCritical\t->\t5-%",                                                                                          // Disk Space
+                "\n\tGood\t\t->\t1000+ MB\n\tWarning\t->\t400-700 MB\n\tCritical\t->\t400-MB",                                                                          // RAM
+                "\n\tGood\t\t->\tWindows 21H2 LTSC (and newer)\n\tWarning\t->\tWindows 21H2 LTSC - Windows 1809 LTSC\n\tCritical\t->\tWindows 1809 LTSC (and older)",     // OS
+                "\n\tGood\t\t->\t3+Mbps\n\tWarning\t->\t2-3 Mbps\n\tCritical\t->\t2- Mbps",                                                                             // Upload Speed
+                "\n\tGood\t\t->\t5+Mbps\n\tWarning\t->\t3-5 Mbps\n\tCritical\t->\t3- Mbps",                                                                             // Download Speed
+                "\n\tGood\t\t->\t100%(10- mins)\n\tWarning\t->\t100%(10-30 mins)\n\tCritical\t->\t100%(30+ mins)",                                                          // CPU Usage
+                "\n\tGood\t\t->\tAccuracy of  50- ft\n\tWarning\t->\tAccuracy of  50-100 ft\n\tCritical\t->\tAccuracy of  100+ ft",                                                                             // Location accuracy
+                "\n\tGood\t\t->\tinstalled and running\n\tWarning\t->\tinstalled but not running\n\tCritical\t->\tnot installed",                                         // Florian
             };
 
             // Plug data into state displays

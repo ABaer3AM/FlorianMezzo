@@ -19,30 +19,41 @@ namespace FlorianMezzo
 
         public MainPage()
         {
-            // Read settings file
-            Settings.LoadOrCreateSettings();
-            _checkIntHr = Settings.Interval / 3600;
-            _checkIntMin = Settings.Interval % 3600 / 60;
-            _checkIntSec = Settings.Interval % 60;
+            // Read settings file & set 
+            Task.Run( async () =>{
+
+                try
+                {
+                    await Settings.LoadOrCreateSettings();
+                } catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+
+                _checkIntHr = Settings.Interval / 3600;
+                _checkIntMin = Settings.Interval % 3600 / 60;
+                _checkIntSec = Settings.Interval % 60;
+
+                Options = new List<string>{
+                    "QA",
+                    "CX",
+                    "IT",
+                    "Sales"
+                };
+
+                SelectedOption = "QA";
+            });
 
             InitializeComponent();
-
-            Options = new List<string>{
-                "QA",
-                "CX",
-                "IT",
-                "Sales"
-            };
-
-            SelectedOption = "QA";
-
             LocatioinPermissionPrompt();
-
             BindingContext = this;
         }
-
+        // Abstrack method that is defined in platform specific code ------------------------------
         private partial void LocatioinPermissionPrompt();
 
+        // ----------------------------------------------------------------------------------------
+
+        // Navigation Methods ---------------------------------------------------------------------
         private async void redirectToCompatibility(object sender, EventArgs e)
         {
             showButtonPressed((Button)sender);
@@ -63,6 +74,7 @@ namespace FlorianMezzo
             showButtonPressed((Button)sender);
             await Shell.Current.GoToAsync(nameof(More3AM));
         }
+        // ----------------------------------------------------------------------------------------
 
 
         private async void showButtonPressed(Button btn)

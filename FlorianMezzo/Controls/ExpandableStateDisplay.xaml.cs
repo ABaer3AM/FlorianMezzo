@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using FlorianMezzo.Controls.db;
 using Microsoft.Maui.Controls.Shapes;
 
@@ -6,6 +7,11 @@ namespace FlorianMezzo.Controls;
 
 public partial class ExpandableStateDisplay : ContentView
 {
+    public event EventHandler<(string title, int isOpen)> OnDropdownToggled;
+
+    public HashSet<string> OpenedTitles { get; set; } = new();
+
+
     public static readonly BindableProperty MainStateDisplayProperty = BindableProperty.Create(
         nameof(MainStateDisplay),
         typeof(StateDisplay),
@@ -72,7 +78,21 @@ public partial class ExpandableStateDisplay : ContentView
 
         foreach (var stateDisplay in newList)
         {
-            // Wrap each StateDisplay in a Frame or directly add to the dropdown
+            // Hook into the dropdown opened event
+            stateDisplay.DropdownToggled += (s, info) =>
+            {
+                OnDropdownToggled?.Invoke(this, info);
+            };
+
+            // Restore dropdown state if open
+            if (OpenedTitles.Contains(stateDisplay.Title))
+            {
+                stateDisplay.ForceDropdownOpen();
+            }
+
+            Debug.WriteLine($"[ESD] Subscribed close for: {stateDisplay.Title}2");
+
+
             var frame = new Frame
             {
                 Content = stateDisplay,
@@ -80,13 +100,14 @@ public partial class ExpandableStateDisplay : ContentView
                 Padding = 0,
                 Margin = 0,
                 ZIndex = 2,
-                BackgroundColor = Colors.Transparent, // Transparent background
-                HasShadow = false                     // No border or shadow
+                BackgroundColor = Colors.Transparent,
+                HasShadow = false
             };
 
             DropdownContent.Children.Add(frame);
         }
     }
+
     public void UpdateDropdownContent(List<DbData> dataList)
     {
         bool isValid = true;
@@ -95,22 +116,34 @@ public partial class ExpandableStateDisplay : ContentView
 
         foreach (var dataEntry in dataList)
         {
-            // Wrap each StateDisplay in a Frame or directly add to the dropdown
+            var stateDisplay = new StateDisplay(dataEntry);
+
+            // Hook into the dropdown opened event
+            stateDisplay.DropdownToggled += (s, title) =>
+            {
+                OnDropdownToggled?.Invoke(this, title);
+            };
+
+            // Restore dropdown state if open
+            if (OpenedTitles.Contains(stateDisplay.Title))
+            {
+                stateDisplay.ForceDropdownOpen();
+            }
+
             var border = new Border
             {
-                Content = new StateDisplay(dataEntry),
+                Content = stateDisplay,
                 Padding = 0,
                 Margin = 0,
                 ZIndex = 2,
-                BackgroundColor = Colors.Transparent, // Transparent background
-                StrokeThickness = 0, // No visible border
-                Shadow = null // No shadow
+                BackgroundColor = Colors.Transparent,
+                StrokeThickness = 0,
+                Shadow = null
             };
-
 
             DropdownContent.Children.Add(border);
 
-            // maybe update main deisplay
+            // maybe update main display
             if (dataEntry.Status != 1)
             {
                 isValid = false;
@@ -120,17 +153,18 @@ public partial class ExpandableStateDisplay : ContentView
                     if (dataEntry.Status == 0) { hasCritical = true; }
                 }
             }
-        }if (isValid  && dataList.Count > 0)
+        }
+
+        if (isValid && dataList.Count > 0)
         {
             UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "Operational", 1, ""));
         }
         else if (dataList.Count <= 0)
         {
-            var debugHold = dataList;
             UpdateMainStateDisplay(new StateDisplay(MainStateDisplay.Title, "No Data Found", 0, ""));
         }
-
     }
+
     // ----------------------------------------------------------------------------------
 
 

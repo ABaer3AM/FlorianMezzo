@@ -1,108 +1,107 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Controls.StateDisplay">
+<ContentView
+    x:Class="FlorianMezzo.Controls.StateDisplay"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <VerticalStackLayout
-        BackgroundColor="Transparent"
         Margin="0"
-        Padding="0">
-        <!-- Main Control -->
-        <Border 
+        Padding="0"
+        BackgroundColor="Transparent">
+        <!--  Main Control  -->
+        <Border
             x:Name="sdFrame"
             Margin="0,0,0,0"
+            Padding="0"
             BackgroundColor="#3E3E3C"
             Stroke="Transparent"
-            Padding="0"
             ZIndex="1">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="5"/>
+                <RoundRectangle CornerRadius="5" />
             </Border.StrokeShape>
-            
+
             <Grid>
-                <!-- Define two columns: Text on the left, Image on the right -->
+                <!--  Define two columns: Text on the left, Image on the right  -->
                 <Grid.ColumnDefinitions>
-                    <!-- Expands to take up remaining space -->
+                    <!--  Expands to take up remaining space  -->
                     <ColumnDefinition Width="*" />
-                    <!-- Shrinks to fit the content -->
+                    <!--  Shrinks to fit the content  -->
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Dropdown Indicator -->
-                <Image 
+                <!--  Dropdown Indicator  -->
+                <Image
                     x:Name="dropdownMarker"
                     Grid.Column="0"
-                    Source="greater_than.png" 
-                    HeightRequest="30" 
-                    WidthRequest="30"
                     Margin="15,0,0,0"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Start" />
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    Source="greater_than.png"
+                    VerticalOptions="Center"
+                    WidthRequest="30" />
 
-                <!-- Text on the left (Title) -->
-                <Label 
+                <!--  Text on the left (Title)  -->
+                <Label
                     x:Name="titleText"
                     Grid.Column="0"
-                    VerticalOptions="Center" 
                     Margin="55,0,0,0"
                     HorizontalOptions="Start"
-                    Style="{StaticResource SubHeadline}" />
+                    Style="{StaticResource SubHeadline}"
+                    VerticalOptions="Center" />
 
-                <!-- Text to the right (feedback) -->
-                <Label 
+                <!--  Text to the right (feedback)  -->
+                <Label
                     x:Name="feedbackText"
                     Grid.Column="0"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="EndAndExpand"
                     Margin="0,0,5,0"
-                    Style="{StaticResource MinorHeadline}" />
+                    HorizontalOptions="EndAndExpand"
+                    Style="{StaticResource MinorHeadline}"
+                    VerticalOptions="Center" />
 
-                <!-- Frame with Image on the right -->
+                <!--  Frame with Image on the right  -->
                 <Border
-                    Grid.Column="1"
                     x:Name="imageFrame"
-                    HeightRequest="65" 
-                    WidthRequest="65" 
-                    BackgroundColor="#F94620" 
+                    Grid.Column="1"
+                    Margin="10"
                     Padding="10"
-                    VerticalOptions="Center"
+                    BackgroundColor="#F94620"
+                    HeightRequest="65"
                     HorizontalOptions="Center"
-                    Margin="10">
+                    VerticalOptions="Center"
+                    WidthRequest="65">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="5"/>
+                        <RoundRectangle CornerRadius="5" />
                     </Border.StrokeShape>
 
-                    <Image 
+                    <Image
                         x:Name="statusImage"
-                        Source="xmark.png" 
-                        HeightRequest="40" 
-                        WidthRequest="40" 
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Center" />
+                        HeightRequest="40"
+                        HorizontalOptions="Center"
+                        Source="xmark.png"
+                        VerticalOptions="Center"
+                        WidthRequest="40" />
                 </Border>
             </Grid>
             <Border.GestureRecognizers>
-                <TapGestureRecognizer
-                    x:Name="noteGesture"
-                    Tapped="ShowNote" />
+                <TapGestureRecognizer x:Name="noteGesture" Tapped="ShowNote" />
             </Border.GestureRecognizers>
         </Border>
-        
-        <!-- Dropdown Note -->
+
+        <!--  Dropdown Note  -->
         <Border
             x:Name="DropdownNote"
-            IsVisible="False" 
-            Margin="30, -20, 30, 20"
+            Margin="30,-20,30,20"
+            Padding="20,40,20,20"
             BackgroundColor="#1a1a1a"
-            Padding="20, 40, 20, 20"
+            IsVisible="False"
             ZIndex="0">
-            <!-- label HERE -->
-            <Label 
+            <!--  label HERE  -->
+            <Label
                 x:Name="noteText"
-                VerticalOptions="StartAndExpand" 
-                HorizontalOptions="StartAndExpand"
                 Margin="0,0,5,0"
+                HorizontalOptions="StartAndExpand"
                 HorizontalTextAlignment="Start"
-                Style="{StaticResource MinorHeadline}" />
+                Style="{StaticResource MinorHeadline}"
+                VerticalOptions="StartAndExpand" />
         </Border>
     </VerticalStackLayout>
 </ContentView>

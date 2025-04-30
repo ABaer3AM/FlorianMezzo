@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.MainPage"
-             NavigationPage.HasNavigationBar="False">
+<ContentPage
+    x:Class="FlorianMezzo.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="False">
 
     <ScrollView>
-        <Grid
-            BackgroundColor="{StaticResource Tertiary}">
-            <!-- Main content -->
+        <Grid BackgroundColor="{StaticResource Tertiary}">
+            <!--  Main content  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -15,81 +15,83 @@
 
 
             <VerticalStackLayout
-                Padding="0"
-                Spacing="25"
                 Grid.Row="0"
-                BackgroundColor="Black">
+                Padding="0"
+                BackgroundColor="Black"
+                Spacing="25">
 
-                <Border
-                    x:Name="header">
+                <Border x:Name="header">
                     <VerticalStackLayout>
-                        <HorizontalStackLayout
-                            HorizontalOptions="CenterAndExpand">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Image
-                                Source="florian_logo.png"
-                                HeightRequest="100"
+                                Margin="0,5,5,0"
                                 Aspect="AspectFit"
-                                SemanticProperties.Description="Florian Logo" />
-                            <Border
-                                Padding="0">
+                                HeightRequest="90"
+                                SemanticProperties.Description="Florian Logo"
+                                Source="mezzoimage.png" />
+                            <Border Padding="0">
                                 <HorizontalStackLayout>
                                     <Label
+                                        SemanticProperties.Description="Welcome to dot net Multi platform App UI"
+                                        SemanticProperties.HeadingLevel="Level2"
+                                        Style="{StaticResource Headline}"
                                         Text="FLORIAN"
-                                        Style="{StaticResource Headline}"
-                                        SemanticProperties.HeadingLevel="Level2"
-                                        VerticalOptions="Center"
-                                        SemanticProperties.Description="Welcome to dot net Multi platform App UI" />
+                                        VerticalOptions="Center" />
                                     <Label
-                                        Text="®"
-                                        Style="{StaticResource Headline}"
-                                        SemanticProperties.HeadingLevel="Level2"
-                                        FontSize="22"
-                                        VerticalOptions="End"
                                         Margin="0,0,0,13"
-                                        SemanticProperties.Description="Welcome to dot net Multi platform App UI" />
+                                        FontSize="22"
+                                        SemanticProperties.Description="Welcome to dot net Multi platform App UI"
+                                        SemanticProperties.HeadingLevel="Level2"
+                                        Style="{StaticResource Headline}"
+                                        Text="®"
+                                        VerticalOptions="End" />
                                 </HorizontalStackLayout>
                             </Border>
                         </HorizontalStackLayout>
 
                         <Label
-                            Text="Mezzo"
-                            Style="{StaticResource Headline}"
-                            TextColor="{StaticResource PrimaryDark}"
-                            VerticalOptions="Start"
                             FontSize="44"
-                            SemanticProperties.HeadingLevel="Level2"/>
+                            SemanticProperties.HeadingLevel="Level2"
+                            Style="{StaticResource Headline}"
+                            Text="Mezzo"
+                            TextColor="{StaticResource PrimaryDark}"
+                            VerticalOptions="Start" />
                     </VerticalStackLayout>
                 </Border>
 
 
-                <ScrollView
-                    Orientation="Horizontal"
-                    HorizontalOptions="FillAndExpand">
+                <ScrollView HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                     <Border
                         x:Name="navBar"
                         Padding="0,20"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                          Dark={StaticResource Tertiary}}"
                         HorizontalOptions="FillAndExpand">
-                        <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            Spacing="30">
                             <Button
                                 x:Name="CompatibilityNav"
+                                Clicked="redirectToCompatibility"
+                                MaximumWidthRequest="1000"
+                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
                                 Text="Compatibility Tool"
                                 TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                Clicked="redirectToCompatibility"
-                                WidthRequest="270"
-                                MaximumWidthRequest="1000" />
+                                WidthRequest="270" />
                             <Button
                                 x:Name="healthCheckNav"
-                                Text="Health Check" 
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Health Check Page"
                                 Clicked="redirectToHealthCheck"
-                                WidthRequest="270"
-                                MaximumWidthRequest="1000" />
+                                MaximumWidthRequest="1000"
+                                SemanticProperties.Hint="Redirects User to Health Check Page"
+                                Text="Health Check"
+                                TextColor="{StaticResource Primary}"
+                                WidthRequest="270" />
+
+                            <!--
                             <Button
                                 x:Name="mezzoAnalysisNav"
-                                Text="Mezzo Analysis" 
+                                Text="Mezzo Analysis"
                                 TextColor="{StaticResource Primary}"
                                 SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
                                 Clicked="redirectToMezzoAnalysis"
@@ -97,63 +99,64 @@
                                 MaximumWidthRequest="1000" />
                             <Button
                                 x:Name="more3AMNav"
-                                Text="More 3AM" 
+                                Text="More 3AM"
                                 TextColor="{StaticResource Primary}"
                                 SemanticProperties.Hint="Redirects User to More 3AM Page"
                                 Clicked="redirectToMore3AM"
                                 WidthRequest="270"
                                 MaximumWidthRequest="1000" />
+                            -->
                         </StackLayout>
                     </Border>
                 </ScrollView>
 
                 <VerticalStackLayout
                     x:Name="settings"
+                    Padding="15,5,15,30"
                     MaximumWidthRequest="600"
-                    Spacing="30"
-                    Padding="15,5,15,30">
+                    Spacing="30">
 
-                    <Grid
-                        HorizontalOptions="FillAndExpand"
-                        ColumnDefinitions="*,Auto">
-                        <!-- Label on the left -->
+                    <Grid ColumnDefinitions="*,Auto" HorizontalOptions="FillAndExpand">
+                        <!--  Label on the left  -->
                         <Label
                             Grid.Column="0"
-                            Text="Mezzo Mode"
-                            Style="{StaticResource SubHeadline}"
-                            VerticalOptions="Center"
                             HorizontalOptions="Start"
-                            SemanticProperties.HeadingLevel="Level2" />
-
-                        <!-- Picker on the right -->
-                        <Picker
-                            Grid.Column="1"
-                            x:Name="mezzoModePicker"
+                            SemanticProperties.HeadingLevel="Level2"
                             Style="{StaticResource SubHeadline}"
+                            Text="Mezzo Mode"
+                            VerticalOptions="Center" />
+
+                        <!--  Picker on the right  -->
+                        <Picker
+                            x:Name="mezzoModePicker"
+                            Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                              Dark={StaticResource Tertiary}}"
+                            HorizontalOptions="End"
                             ItemsSource="{Binding Options}"
                             SelectedItem="{Binding SelectedOption}"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="End" />
+                            Style="{StaticResource SubHeadline}"
+                            VerticalOptions="Center" />
                     </Grid>
 
 
-                    <!-- Health Check Interval Setting -->
-                    <VerticalStackLayout
-                        HorizontalOptions="FillAndExpand">
-                        <Grid
-                            ColumnDefinitions="*,Auto,Auto">
-                        <!-- Label on the left -->
-                        <Label
-                            Grid.Column="0"
-                            Text="Health Check Interval"
-                            Style="{StaticResource SubHeadline}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Start"
-                            SemanticProperties.HeadingLevel="Level2" />
+                    <!--  Health Check Interval Setting  -->
+                    <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <!--  Label on the left  -->
+                            <Label
+                                Grid.Column="0"
+                                HorizontalOptions="Start"
+                                SemanticProperties.HeadingLevel="Level2"
+                                Style="{StaticResource SubHeadline}"
+                                Text="Health Check Interval"
+                                VerticalOptions="Center" />
 
-                            <!-- Time input on the right -->
-                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" Grid.Column="1">
+                            <!--  Time input on the right  -->
+                            <Grid
+                                Grid.Column="1"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="10" />
@@ -161,69 +164,66 @@
                                     <ColumnDefinition Width="10" />
                                     <ColumnDefinition Width="60" />
                                 </Grid.ColumnDefinitions>
-                                <!-- First Input Field (Hours) -->
-                                <VerticalStackLayout
-                                    Grid.Column="0"
-                                    WidthRequest="60">
+                                <!--  First Input Field (Hours)  -->
+                                <VerticalStackLayout Grid.Column="0" WidthRequest="60">
                                     <Entry
                                         x:Name="hrInput"
-                                        WidthRequest="60"
-                                        Text="{Binding CheckIntHr, Mode=TwoWay}"
-                                        Style="{StaticResource SubHeadline}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                                          Dark={StaticResource Tertiary}}"
+                                        HorizontalOptions="Start"
                                         Keyboard="Numeric"
-                                        HorizontalOptions="Start"/>
+                                        Style="{StaticResource SubHeadline}"
+                                        Text="{Binding CheckIntHr, Mode=TwoWay}"
+                                        WidthRequest="60" />
                                     <Label
+                                        HorizontalOptions="Center"
                                         Text="hours"
-                                        VerticalOptions="Center"
-                                        HorizontalOptions="Center" />
+                                        VerticalOptions="Center" />
                                 </VerticalStackLayout>
-                                <!-- Colon Separator -->
+                                <!--  Colon Separator  -->
                                 <Label
                                     Grid.Column="1"
+                                    HorizontalOptions="Center"
                                     Text=":"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center" />
-                                <!-- Second Input Field (Min) -->
-                                <VerticalStackLayout
-                                    Grid.Column="2"
-                                    WidthRequest="60">
+                                    VerticalOptions="Center" />
+                                <!--  Second Input Field (Min)  -->
+                                <VerticalStackLayout Grid.Column="2" WidthRequest="60">
                                     <Entry
                                         x:Name="minInput"
-                                        WidthRequest="60"
-                                        Text="{Binding CheckIntMin, Mode=TwoWay}"
-                                        Style="{StaticResource SubHeadline}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                                          Dark={StaticResource Tertiary}}"
+                                        HorizontalOptions="Start"
                                         Keyboard="Numeric"
-                                        HorizontalOptions="Start"/>
+                                        Style="{StaticResource SubHeadline}"
+                                        Text="{Binding CheckIntMin, Mode=TwoWay}"
+                                        WidthRequest="60" />
                                     <Label
+                                        HorizontalOptions="Center"
                                         Text="mins"
-                                        VerticalOptions="Center"
-                                        HorizontalOptions="Center" />
+                                        VerticalOptions="Center" />
                                 </VerticalStackLayout>
-                                <!-- Colon Separator -->
+                                <!--  Colon Separator  -->
                                 <Label
                                     Grid.Column="3"
+                                    HorizontalOptions="Center"
                                     Text=":"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center" />
+                                    VerticalOptions="Center" />
 
-                                <!-- Third Input Field (Sec) -->
-                                <VerticalStackLayout
-                                    Grid.Column="4"
-                                    WidthRequest="60">
+                                <!--  Third Input Field (Sec)  -->
+                                <VerticalStackLayout Grid.Column="4" WidthRequest="60">
                                     <Entry
                                         x:Name="secInput"
-                                        WidthRequest="60"
-                                        Text="{Binding CheckIntSec, Mode=TwoWay}"
-                                        Style="{StaticResource SubHeadline}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Tertiary}}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                                          Dark={StaticResource Tertiary}}"
+                                        HorizontalOptions="Start"
                                         Keyboard="Numeric"
-                                        HorizontalOptions="Start"/>
+                                        Style="{StaticResource SubHeadline}"
+                                        Text="{Binding CheckIntSec, Mode=TwoWay}"
+                                        WidthRequest="60" />
                                     <Label
+                                        HorizontalOptions="Center"
                                         Text="secs"
-                                        VerticalOptions="Center"
-                                        HorizontalOptions="Center" />
+                                        VerticalOptions="Center" />
                                 </VerticalStackLayout>
 
 
@@ -231,34 +231,32 @@
                         </Grid>
                         <Button
                             x:Name="setIntervalBtn"
-                            Text="Set Interval"
-                            FontSize="20"
-                            Clicked="setInterval"
                             BorderColor="White"
                             BorderWidth="2"
+                            Clicked="setInterval"
+                            FontSize="20"
                             HeightRequest="20"
+                            HorizontalOptions="FillAndExpand"
                             SemanticProperties.Hint="Write the interval to settings"
-                            HorizontalOptions="FillAndExpand"/>
+                            Text="Set Interval" />
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
 
             </VerticalStackLayout>
             <Border
-                Grid.Row="1"
                 x:Name="footer"
-                BackgroundColor="Transparent" 
+                Grid.Row="1"
+                BackgroundColor="Transparent"
                 HorizontalOptions="End">
-                <HorizontalStackLayout
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="End">
+                <HorizontalStackLayout HorizontalOptions="EndAndExpand" VerticalOptions="End">
                     <Image
-                        Source="i3am_gold.png"
+                        Aspect="AspectFit"
                         HeightRequest="80"
                         HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        Aspect="AspectFit"
-                        SemanticProperties.Description="3AM Logo" />
+                        SemanticProperties.Description="3AM Logo"
+                        Source="i3am_gold.png"
+                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
         </Grid>

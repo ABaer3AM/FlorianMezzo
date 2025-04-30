@@ -1,10 +1,14 @@
 using System.Diagnostics;
 using FlorianMezzo.Controls.db;
+using FlorianMezzo.Pages;
 
 namespace FlorianMezzo.Controls;
 
 public partial class StateDisplay : ContentView
 {
+    // event to rememeber opened dropdowns
+    public event EventHandler<(string title, int isOpen)> DropdownToggled;
+
     public StateDisplay()
     {
         InitializeComponent();
@@ -177,6 +181,11 @@ public partial class StateDisplay : ContentView
         Note = note;
     }
 
+    public void ForceDropdownOpen()
+    {
+        DropdownNote.IsVisible = true;
+    }
+
     private async void ShowNote(object sender, EventArgs e)
     {
         Debug.WriteLine("Maybe show note");
@@ -188,11 +197,14 @@ public partial class StateDisplay : ContentView
                 DropdownNote.IsVisible = true;
                 DropdownNote.TranslationY = -50; // Ensure it starts off-screen
                 await DropdownNote.TranslateTo(0, 0, 200);  // Slide Down
+                DropdownToggled?.Invoke(this, (Title,1));    // flag dropdown opened event
             }
             else
             {
                 await DropdownNote.TranslateTo(0, -50, 200);  // Slide Up
                 DropdownNote.IsVisible = false;
+                DropdownToggled?.Invoke(this, (Title,0));    // flag dropdown opened event
+                Debug.WriteLine("closing note from SD");
             }
         }
     }

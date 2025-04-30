@@ -3,6 +3,7 @@ using System.Linq;
 using FlorianMezzo.Constants;
 using FlorianMezzo.Controls;
 using FlorianMezzo.Controls.db;
+using System.Collections.Generic;
 
 namespace FlorianMezzo.Pages;
 
@@ -11,6 +12,7 @@ public partial class HealthCheck : ContentPage
 
     private readonly HealthCheckService _healthCheckService;
     private AppSettings Settings = new AppSettings();
+    public HashSet<string> openDropdowns = new(); // just a list of open titles
 
     public HealthCheck(HealthCheckService healthCheckService)
 	{
@@ -27,6 +29,8 @@ public partial class HealthCheck : ContentPage
         // Atempt to update UI
         UpdateServiceUI();
         UpdateStateDisplays(Settings.LastGroupId);
+
+        openDropdowns = new HashSet<string>();
     }
 
     /*
@@ -107,7 +111,21 @@ public partial class HealthCheck : ContentPage
             csvContent += $"\n{sectionTitle}\n";
             foreach (var dataEntry in statuses[sectionTitle])
             {
-                csvContent += dataEntry.ToString() + "\n";
+                string csvLine = "";
+                int statusCiteriaIndex = dataEntry.ToString().IndexOf("** Status Criteria **");
+                if (statusCiteriaIndex != -1)
+                {
+                    csvLine += dataEntry.ToString().Substring(0, statusCiteriaIndex).Trim();
+                }
+                else
+                {
+                    csvLine += dataEntry.ToString() + "\n";
+                }
+                if(csvLine.IndexOf("\n") != -1)
+                {
+                    csvLine.Replace("\n", " - ");
+                }
+                csvContent += csvLine + "\n";
             }
         }
 
@@ -236,7 +254,37 @@ public partial class HealthCheck : ContentPage
             coreSoftDependencyESD.UpdateDropdownContent(statuses["coreSoftDependencies"]);
             resourceESD.UpdateDropdownContent(statuses["hardwareResources"].Take(statuses["hardwareResources"].Count - 1).ToList());    // omit the last piece of data because it is shown in its own state display
 
-            if(florianData != null)
+            // prep handling preserving opened dropdowns
+            if (openDropdowns != null){ tileSoftDependencyESD.OpenedTitles = openDropdowns; }
+            else{ tileSoftDependencyESD.OpenedTitles = new HashSet<string>(); }
+            tileSoftDependencyESD.OnDropdownToggled += (s, info) => {
+                var (title, isOpen) = info;
+                if (isOpen == 1)
+                    openDropdowns.Add(title);
+                else
+                    openDropdowns.Remove(title);
+            };
+            if (openDropdowns != null) { coreSoftDependencyESD.OpenedTitles = openDropdowns; }
+            else { coreSoftDependencyESD.OpenedTitles = new HashSet<string>(); }
+            coreSoftDependencyESD.OnDropdownToggled += (s, info) => {
+                var (title, isOpen) = info;
+                if (isOpen == 1)
+                    openDropdowns.Add(title);
+                else
+                    openDropdowns.Remove(title);
+            };
+            if (openDropdowns != null) { resourceESD.OpenedTitles = openDropdowns; }
+            else { resourceESD.OpenedTitles = new HashSet<string>(); }
+            resourceESD.OnDropdownToggled += (s, info) => {
+                var (title, isOpen) = info;
+                if (isOpen == 1)
+                    openDropdowns.Add(title);
+                else
+                    openDropdowns.Remove(title);
+            };
+
+
+            if (florianData != null)
             {
                 florianSD.UpdateFull(florianData.Status, florianData.Feedback);
             }

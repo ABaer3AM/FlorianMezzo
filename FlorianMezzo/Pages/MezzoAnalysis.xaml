@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Pages.MezzoAnalysis">
+<ContentPage
+    x:Class="FlorianMezzo.Pages.MezzoAnalysis"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ScrollView>
-        <Grid
-            BackgroundColor="Black"
-            MaximumHeightRequest="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=Height}">
-            <!-- Main content -->
+        <Grid BackgroundColor="Black" MaximumHeightRequest="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=Height}">
+            <!--  Main content  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -14,52 +13,50 @@
             </Grid.RowDefinitions>
 
 
-            <Border
-                x:Name="header"
-                Grid.Row="0">        
-                <!-- Main Navigation Bar -->
-                <ScrollView
-                    Orientation="Horizontal"
-                    HorizontalOptions="FillAndExpand">
+            <Border x:Name="header" Grid.Row="0">
+                <!--  Main Navigation Bar  -->
+                <ScrollView HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                     <Border
                         x:Name="navBar"
+                        Padding="20"
                         BackgroundColor="{StaticResource Tertiary}"
-                        HorizontalOptions="FillAndExpand"
-                        Padding="20">
-                        <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
+                        HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            Spacing="40">
                             <Label
-                                Text="Home"
-                                Style="{StaticResource Headline}"
-                                TextColor="{StaticResource PrimaryDark}"
-                                VerticalOptions="Start"
                                 FontSize="44"
                                 SemanticProperties.HeadingLevel="Level2"
-                                >
+                                Style="{StaticResource Headline}"
+                                Text="Home"
+                                TextColor="{StaticResource PrimaryDark}"
+                                VerticalOptions="Start">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        NumberOfTapsRequired="1"
-                                        Tapped="redirectToMain" />
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="redirectToMain" />
                                 </Label.GestureRecognizers>
                             </Label>
                             <Button
                                 x:Name="CompatibilityNav"
+                                Clicked="redirectToCompatibility"
+                                MaximumWidthRequest="1000"
+                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
                                 Text="Compatibility Tool"
                                 TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                Clicked="redirectToCompatibility"
-                                WidthRequest="270"
-                                MaximumWidthRequest="1000" />
+                                WidthRequest="270" />
                             <Button
                                 x:Name="healthCheckNav"
-                                Text="Health Check" 
-                                TextColor="{StaticResource Primary}"
-                                SemanticProperties.Hint="Redirects User to Health Check Page"
                                 Clicked="redirectToHealthCheck"
-                                WidthRequest="270"
-                                MaximumWidthRequest="1000" />
+                                MaximumWidthRequest="1000"
+                                SemanticProperties.Hint="Redirects User to Health Check Page"
+                                Text="Health Check"
+                                TextColor="{StaticResource Primary}"
+                                WidthRequest="270" />
+
+                            <!--
                             <Button
                                 x:Name="mezzoAnalysisNav"
-                                Text="Mezzo Analysis" 
+                                Text="Mezzo Analysis"
                                 TextColor="White"
                                 SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
                                 Clicked="redirectToMezzoAnalysis"
@@ -67,175 +64,170 @@
                                 MaximumWidthRequest="1000" />
                             <Button
                                 x:Name="more3AMNav"
-                                Text="More 3AM" 
+                                Text="More 3AM"
                                 TextColor="{StaticResource Primary}"
                                 SemanticProperties.Hint="Redirects User to More 3AM Page"
                                 Clicked="redirectToMore3AM"
                                 WidthRequest="270"
                                 MaximumWidthRequest="1000" />
+                            -->
                         </StackLayout>
                     </Border>
                 </ScrollView>
             </Border>
-            
-            
-            
-                <!-- Main Content -->
-            <VerticalStackLayout
-                    Grid.Row="1"
-                    BackgroundColor="Black"
-                    x:Name="content"
-                    MaximumWidthRequest="1300"
-                    VerticalOptions="FillAndExpand"
-                    Margin="0,20,0,20"
-                    Spacing="30">
 
-                <Grid >
+
+
+            <!--  Main Content  -->
+            <VerticalStackLayout
+                x:Name="content"
+                Grid.Row="1"
+                Margin="0,20,0,20"
+                BackgroundColor="Black"
+                MaximumWidthRequest="1300"
+                Spacing="30"
+                VerticalOptions="FillAndExpand">
+
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Scrollable Bar of Buttons on the Left -->
-                    <ScrollView
-                            Grid.Column="0"
-                            MaximumHeightRequest="{Binding Source={x:Reference content}, Path=Height}">
-                        <!-- Tool list -->
-                        <VerticalStackLayout
-                                Spacing="10">
+                    <!--  Scrollable Bar of Buttons on the Left  -->
+                    <ScrollView Grid.Column="0" MaximumHeightRequest="{Binding Source={x:Reference content}, Path=Height}">
+                        <!--  Tool list  -->
+                        <VerticalStackLayout Spacing="10">
                             <Button
-                                    x:Name="batteryDischargeBtn"
-                                    Text="Battery Discharge"
-                                    LineBreakMode="WordWrap"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="batteryDischarge"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="Accesses the battery discharge tool"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="batteryDischargeBtn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="batteryDischarge"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="Accesses the battery discharge tool"
+                                Text="Battery Discharge"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="ezriMapSimBtn"
-                                    Text="Ezri Maps Simulator"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="Accesses the Ezri Maps simulator tool"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="ezriMapSimBtn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="Accesses the Ezri Maps simulator tool"
+                                Text="Ezri Maps Simulator"
+                                WidthRequest="280" />
 
                             <Button
-                                    x:Name="a1Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a1Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a2Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a2Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a3Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a3Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a4Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a4Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a5Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a5Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a6Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a6Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a7Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a7Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
                             <Button
-                                    x:Name="a8Btn"
-                                    Text="--"
-                                    Command="{Binding ChangeViewCommand}"
-                                    CommandParameter="ezriMapSim"
-                                    LineBreakMode="WordWrap"
-                                    BorderColor="White"
-                                    BorderWidth="2"
-                                    SemanticProperties.Hint="--"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="75"
-                                    WidthRequest="280"/>
+                                x:Name="a8Btn"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                Command="{Binding ChangeViewCommand}"
+                                CommandParameter="ezriMapSim"
+                                HeightRequest="75"
+                                HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
+                                SemanticProperties.Hint="--"
+                                Text="--"
+                                WidthRequest="280" />
 
 
                         </VerticalStackLayout>
                     </ScrollView>
 
-                    <!-- Main View Section -->
-                    <Border
-                        Grid.Column="1">
-                        <ContentView
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="FillAndExpand">
-                            <ContentPresenter Content="{Binding MainView}"/>
+                    <!--  Main View Section  -->
+                    <Border Grid.Column="1">
+                        <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <ContentPresenter Content="{Binding MainView}" />
                         </ContentView>
                     </Border>
                 </Grid>
@@ -243,30 +235,28 @@
 
             </VerticalStackLayout>
 
-            <!-- Footer -->
+            <!--  Footer  -->
             <Border
-                Grid.Row="2"
                 x:Name="footer"
+                Grid.Row="2"
+                Padding="20"
                 BackgroundColor="{StaticResource Tertiary}"
-                HorizontalOptions="FillAndExpand"
-                Padding="20">
-                <HorizontalStackLayout
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="End">
+                HorizontalOptions="FillAndExpand">
+                <HorizontalStackLayout HorizontalOptions="EndAndExpand" VerticalOptions="End">
                     <Label
-                        Text="Mezzo"
-                        Style="{StaticResource Headline}"
-                        TextColor="{StaticResource PrimaryDark}"
-                        VerticalOptions="Start"
                         FontSize="44"
-                        SemanticProperties.HeadingLevel="Level2"/>
+                        SemanticProperties.HeadingLevel="Level2"
+                        Style="{StaticResource Headline}"
+                        Text="Mezzo"
+                        TextColor="{StaticResource PrimaryDark}"
+                        VerticalOptions="Start" />
                     <Image
-                        Source="i3am_gold.png"
+                        Aspect="AspectFit"
                         HeightRequest="80"
                         HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        Aspect="AspectFit"
-                        SemanticProperties.Description="3AM Logo" />
+                        SemanticProperties.Description="3AM Logo"
+                        Source="i3am_gold.png"
+                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Pages.More3AM">
+<ContentPage
+    x:Class="FlorianMezzo.Pages.More3AM"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ScrollView>
-        <Grid
-            BackgroundColor="{StaticResource Tertiary}">
-            <!-- Main content -->
+        <Grid BackgroundColor="{StaticResource Tertiary}">
+            <!--  Main content  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -13,70 +13,69 @@
 
 
             <VerticalStackLayout
-                Padding="0, 0, 0, 30"
-                Spacing="25"
                 Grid.Row="0"
-                BackgroundColor="Black">
+                Padding="0,0,0,30"
+                BackgroundColor="Black"
+                Spacing="25">
 
-                <Border 
+                <Border
                     x:Name="header"
                     Margin="0"
                     Padding="0">
-                    <!-- Main Navigation Bar -->
-                    <ScrollView
-                        Orientation="Horizontal"
-                        HorizontalOptions="FillAndExpand">
+                    <!--  Main Navigation Bar  -->
+                    <ScrollView HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                         <Border
                             x:Name="navBar"
-                            BackgroundColor="{StaticResource Tertiary}"
                             Padding="0,20,0,20"
+                            BackgroundColor="{StaticResource Tertiary}"
                             HorizontalOptions="FillAndExpand">
-                            <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="Center">
+                            <StackLayout
+                                HorizontalOptions="Center"
+                                Orientation="Horizontal"
+                                Spacing="40">
                                 <Label
-                                    Text="Home"
-                                    Style="{StaticResource Headline}"
-                                    TextColor="{StaticResource PrimaryDark}"
-                                    VerticalOptions="Start"
                                     FontSize="44"
-                                    SemanticProperties.HeadingLevel="Level2">
+                                    SemanticProperties.HeadingLevel="Level2"
+                                    Style="{StaticResource Headline}"
+                                    Text="Home"
+                                    TextColor="{StaticResource PrimaryDark}"
+                                    VerticalOptions="Start">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            NumberOfTapsRequired="1"
-                                            Tapped="redirectToMain" />
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="redirectToMain" />
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Button
                                     x:Name="CompatibilityNav"
+                                    Clicked="redirectToCompatibility"
+                                    MaximumWidthRequest="1000"
+                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
                                     Text="Compatibility Tool"
                                     TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Tile Tester Page"
-                                    Clicked="redirectToCompatibility"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                                    WidthRequest="270" />
                                 <Button
                                     x:Name="healthCheckNav"
-                                    Text="Health Check" 
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Health Check Page"
                                     Clicked="redirectToHealthCheck"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                                    MaximumWidthRequest="1000"
+                                    SemanticProperties.Hint="Redirects User to Health Check Page"
+                                    Text="Health Check"
+                                    TextColor="{StaticResource Primary}"
+                                    WidthRequest="270" />
                                 <Button
                                     x:Name="mezzoAnalysisNav"
-                                    Text="Mezzo Analysis" 
-                                    TextColor="{StaticResource Primary}"
-                                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
                                     Clicked="redirectToMezzoAnalysis"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                                    MaximumWidthRequest="1000"
+                                    SemanticProperties.Hint="Redirects User to Mezzo Analysis Page"
+                                    Text="Mezzo Analysis"
+                                    TextColor="{StaticResource Primary}"
+                                    WidthRequest="270" />
                                 <Button
                                     x:Name="more3AMNav"
-                                    Text="More 3AM" 
-                                    TextColor="White"
-                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
                                     Clicked="redirectToMore3AM"
-                                    WidthRequest="270"
-                                    MaximumWidthRequest="1000" />
+                                    MaximumWidthRequest="1000"
+                                    SemanticProperties.Hint="Redirects User to More 3AM Page"
+                                    Text="More 3AM"
+                                    TextColor="White"
+                                    WidthRequest="270" />
                             </StackLayout>
                         </Border>
                     </ScrollView>
@@ -89,39 +88,37 @@
                     Spacing="30">
 
                     <Label
-                        Text="This Page is under construction"
-                        Style="{StaticResource SubHeadline}"
-                        VerticalOptions="Start"
                         FontSize="44"
-                        SemanticProperties.HeadingLevel="Level2"/>
+                        SemanticProperties.HeadingLevel="Level2"
+                        Style="{StaticResource SubHeadline}"
+                        Text="This Page is under construction"
+                        VerticalOptions="Start" />
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
-            <!-- Footer -->
+            <!--  Footer  -->
             <Border
-                Grid.Row="1"
                 x:Name="footer"
+                Grid.Row="1"
                 Padding="0,20"
                 BackgroundColor="Transparent"
                 HorizontalOptions="End">
-                <HorizontalStackLayout
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="End">      
+                <HorizontalStackLayout HorizontalOptions="EndAndExpand" VerticalOptions="End">
                     <Label
-                        Text="Mezzo"
-                        Style="{StaticResource Headline}"
-                        TextColor="{StaticResource PrimaryDark}"
-                        VerticalOptions="Start"
                         FontSize="44"
-                        SemanticProperties.HeadingLevel="Level2"/>
+                        SemanticProperties.HeadingLevel="Level2"
+                        Style="{StaticResource Headline}"
+                        Text="Mezzo"
+                        TextColor="{StaticResource PrimaryDark}"
+                        VerticalOptions="Start" />
                     <Image
-                        Source="i3am_gold.png"
+                        Aspect="AspectFit"
                         HeightRequest="80"
                         HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        Aspect="AspectFit"
-                        SemanticProperties.Description="3AM Logo" />
+                        SemanticProperties.Description="3AM Logo"
+                        Source="i3am_gold.png"
+                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
 

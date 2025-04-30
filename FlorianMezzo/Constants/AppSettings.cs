@@ -8,6 +8,9 @@ namespace FlorianMezzo.Constants
     {
         public int Interval { get; set; }
         public string LastGroupId { get; set; }
+        private readonly object lockObj = new object();
+
+        private static readonly object settingsFileLock = new object();
 
         //public event EventHandler<NewGroupIdEvent> _newGroupIdEvent; // Event to notify subscribers of new data
 
@@ -16,40 +19,50 @@ namespace FlorianMezzo.Constants
         }
         public AppSettings(int inInterval, string inId)
         {
-            Interval = inInterval;
-            LastGroupId = inId;
+            Task.Run(() => {
+                Interval = inInterval;
+                LastGroupId = inId;
+            });
         }
         public AppSettings(AppSettings baseObject)
         {
-            Interval = baseObject.Interval;
-            LastGroupId = baseObject.LastGroupId;
-            SaveSettings(baseObject);
+            Task.Run(() => {
+                Interval = baseObject.Interval;
+                LastGroupId = baseObject.LastGroupId;
+                SaveSettings(baseObject);
+            });
         }
 
-        public void LoadOrCreateSettings()
+        public async Task LoadOrCreateSettings()
         {
-            string filePath = Path.Combine(FileSystem.AppDataDirectory, "settings.json");
-            //Debug.WriteLine($"Searching for files at {filePath}");
-
-            if (File.Exists(filePath))
+            await Task.Run(() =>
             {
-                // File exists, read and deserialize it
-                //Debug.WriteLine($"Settings file found at\n\t{filePath}");
-                var rawJson = File.ReadAllText(filePath);
-                var currentSettings =  JsonSerializer.Deserialize<AppSettings>(rawJson);
-                UpdateSettings(currentSettings);
-            }
-            else
-            {
-                // File does not exist, create it with default values
-                Debug.WriteLine($"Settings file NOT found, creating one at\n\t{filePath}");
-                var defaultSettings = new AppSettings(60, "");
+                lock (lockObj)
+                {
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "settings.json");
+                    //Debug.WriteLine($"Searching for files at {filePath}");
 
-                var defaultJson = JsonSerializer.Serialize(defaultSettings, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(filePath, defaultJson);
+                    if (File.Exists(filePath))
+                    {
+                        // File exists, read and deserialize it
+                        //Debug.WriteLine($"Settings file found at\n\t{filePath}");
+                        var rawJson = File.ReadAllText(filePath);
+                        var currentSettings = JsonSerializer.Deserialize<AppSettings>(rawJson);
+                        if (currentSettings != null) { UpdateSettings(currentSettings); };
+                    }
+                    else
+                    {
+                        // File does not exist, create it with default values
+                        Debug.WriteLine($"Settings file NOT found, creating one at\n\t{filePath}");
+                        var defaultSettings = new AppSettings(10, "");
 
-                UpdateSettings(defaultSettings);
-            }
+                        var defaultJson = JsonSerializer.Serialize(defaultSettings, new JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(filePath, defaultJson);
+
+                        UpdateSettings(defaultSettings);
+                    }
+                }
+            });
         }
 
         public void SaveSettings(AppSettings settings)
@@ -57,8 +70,24 @@ namespace FlorianMezzo.Constants
             string filePath = Path.Combine(FileSystem.AppDataDirectory, "settings.json");
 
             var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(filePath, json);
-            Debug.WriteLine($"Wrote new settings to {filePath}");
+            try
+            {
+                // Log where this method was called from
+                var stackTrace = new System.Diagnostics.StackTrace(true);
+                Debug.WriteLine("SaveSettings called from:");
+                Debug.WriteLine(stackTrace.ToString());
+
+                lock (settingsFileLock)
+                {
+                    File.WriteAllText(filePath, json);
+                    Debug.WriteLine($"Wrote new settings to {filePath}");
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.WriteLine($"[IOException] {ex.Message}");
+                Debug.WriteLine($"StackTrace: {Environment.StackTrace}");
+            }
         }
 
         public void UpdateInterval(int newInterval)

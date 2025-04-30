@@ -24,12 +24,12 @@ namespace FlorianMezzo.Controls.db
         }
 
         // Fetch all status data and write it to its respective tables
-        public void Start()
+        public async void Start()
         {
             SetStatus(1);
             fetchCount = 0;
 
-            Settings.LoadOrCreateSettings();
+            await Settings.LoadOrCreateSettings();
             interval = Settings.Interval;
             PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(interval));
 
@@ -38,7 +38,7 @@ namespace FlorianMezzo.Controls.db
             UrlChecker _urlChecker = new();
             ResourceChecker _resourceChecker = new();
 
-            Task.Run(async () => {
+            await Task.Run(async () => {
                 do
                 {
                     string groupId = Guid.NewGuid().ToString();
@@ -75,7 +75,7 @@ namespace FlorianMezzo.Controls.db
             }); 
         }
 
-        public async Task RunOnce()
+        public async Task<string> RunOnce()
         {
             SetStatus(1);
             fetchCount = 0;
@@ -116,6 +116,8 @@ namespace FlorianMezzo.Controls.db
 
             Debug.WriteLine("Health Check Service Terminated");
             SetStatus(0);
+
+            return groupId;
         }
 
         public void Stop()

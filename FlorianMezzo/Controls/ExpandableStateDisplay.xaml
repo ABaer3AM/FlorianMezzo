@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlorianMezzo.Controls.ExpandableStateDisplay"
-             xmlns:controls="clr-namespace:FlorianMezzo.Controls">
+<ContentView
+    x:Class="FlorianMezzo.Controls.ExpandableStateDisplay"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FlorianMezzo.Controls">
     <Border
-        Padding="0"
         Margin="0"
+        Padding="0"
         BackgroundColor="Transparent"
         Stroke="Black">
         <VerticalStackLayout>
@@ -14,22 +15,27 @@
                 Padding="0"
                 ZIndex="1">
                 <ContentView x:Name="MainStateDisplayContainer" />
-            
+
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ExpandStateDisplays" />
                 </Border.GestureRecognizers>
             </Border>
 
-            <!-- Dropdown Menu -->
+            <!--  Dropdown Menu  -->
             <Border
                 x:Name="DropdownMenu"
-                IsVisible="False" 
-                Margin="30, -20, 30, 20"
+                Margin="30,-20,30,20"
+                Padding="20,40,20,20"
                 BackgroundColor="{StaticResource Tertiary}"
-                Padding="20, 40, 20, 20"
+                IsVisible="False"
                 ZIndex="0">
-                <StackLayout x:Name="DropdownContent" Spacing="10" Padding="0" Margin="0" ZIndex="0">
-                    <!-- StateDisplays will be populated here -->
+                <StackLayout
+                    x:Name="DropdownContent"
+                    Margin="0"
+                    Padding="0"
+                    Spacing="10"
+                    ZIndex="0">
+                    <!--  StateDisplays will be populated here  -->
                 </StackLayout>
             </Border>
         </VerticalStackLayout>
