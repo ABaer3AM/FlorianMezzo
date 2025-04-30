@@ -23,21 +23,13 @@
                 <Border x:Name="header">
                     <VerticalStackLayout>                        
 						<HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                            <Image
+							<Image
                                 Margin="0,5,5,0"
                                 Aspect="AspectFit"
                                 HeightRequest="90"
                                 SemanticProperties.Description="Florian Logo"
                                 Source="mezzoimage.png" />
-                            <Label
-                                Margin="0,10,0,0"
-                                FontSize="70"
-                                SemanticProperties.HeadingLevel="Level2"
-                                Style="{StaticResource Headline}"
-                                Text="ezzo"
-                                TextColor="{StaticResource PrimaryDark}"
-                                VerticalOptions="Start" />
-                        </HorizontalStackLayout>
+						</HorizontalStackLayout>
                          <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Border Padding="0">
                                 <HorizontalStackLayout>

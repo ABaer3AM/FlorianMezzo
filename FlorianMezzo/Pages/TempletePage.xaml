@@ -100,32 +100,29 @@
             </VerticalStackLayout>
 
             <!-- Footer -->
-            <Border
-Grid.Row="1"
-x:Name="footer"
-Padding="0,20"
-BackgroundColor="Transparent"
-HorizontalOptions="End">
-                <HorizontalStackLayout
-    HorizontalOptions="EndAndExpand"
-    VerticalOptions="End">
-                    <Label
-                Text="Mezzo"
-                Style="{StaticResource Headline}"
-                TextColor="{StaticResource PrimaryDark}"
-                VerticalOptions="Start"
-                FontSize="44"
-                SemanticProperties.HeadingLevel="Level2"/>
-                    <Image
-        Source="i3am_gold.png"
-        HeightRequest="80"
-        HorizontalOptions="End"
-        VerticalOptions="Center"
-        Aspect="AspectFit"
-        SemanticProperties.Description="3AM Logo" />
-                </HorizontalStackLayout>
-            </Border>
-
-        </Grid>
-    </ScrollView>
+			<Border
+                x:Name="footer"
+                Grid.Row="1"
+                Padding="0,20"
+                BackgroundColor="Transparent">
+				<Grid HorizontalOptions="FillAndExpand" VerticalOptions="End">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Label Grid.Column="0"></Label>
+					<Label Grid.Column="1"></Label>
+					<Image
+                        Aspect="AspectFit"
+						Grid.Column="2"
+                        HeightRequest="80"
+                        HorizontalOptions="End"
+                        SemanticProperties.Description="3AM Logo"
+                        Source="i3am_gold.png"
+                        VerticalOptions="Center" />
+				</Grid>
+			</Border>
+		</Grid>
+	</ScrollView>
 </ContentPage>
