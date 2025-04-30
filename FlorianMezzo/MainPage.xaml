@@ -23,12 +23,6 @@
                 <Border x:Name="header">
                     <VerticalStackLayout>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                            <Image
-                                Margin="0,5,5,0"
-                                Aspect="AspectFit"
-                                HeightRequest="90"
-                                SemanticProperties.Description="Florian Logo"
-                                Source="mezzoimage.png" />
                             <Border Padding="0">
                                 <HorizontalStackLayout>
                                     <Label
@@ -48,14 +42,22 @@
                                 </HorizontalStackLayout>
                             </Border>
                         </HorizontalStackLayout>
-
-                        <Label
-                            FontSize="44"
-                            SemanticProperties.HeadingLevel="Level2"
-                            Style="{StaticResource Headline}"
-                            Text="Mezzo"
-                            TextColor="{StaticResource PrimaryDark}"
-                            VerticalOptions="Start" />
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                            <Image
+                                Margin="0,5,5,0"
+                                Aspect="AspectFit"
+                                HeightRequest="90"
+                                SemanticProperties.Description="Florian Logo"
+                                Source="mezzoimage.png" />
+                            <Label
+                                Margin="0,10,0,0"
+                                FontSize="44"
+                                SemanticProperties.HeadingLevel="Level2"
+                                Style="{StaticResource Headline}"
+                                Text="ezzo"
+                                TextColor="{StaticResource PrimaryDark}"
+                                VerticalOptions="Start" />
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
 
