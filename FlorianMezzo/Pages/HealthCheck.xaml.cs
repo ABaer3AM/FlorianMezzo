@@ -73,6 +73,7 @@ public partial class HealthCheck : ContentPage
                 serviceStatus.BackgroundColor = Color.FromArgb("#F94620"); // Red
 
                 toggleServiceBtn.Text = "Start Service";
+                ExportBtn.IsEnabled = true;
             });
         }
         else
@@ -84,6 +85,7 @@ public partial class HealthCheck : ContentPage
                 serviceStatus.BackgroundColor = Color.FromArgb("#66E44C"); // Green
 
                 toggleServiceBtn.Text = "Stop Service";
+                ExportBtn.IsEnabled = false;
             });
         }
         UpdateServiceUI();
