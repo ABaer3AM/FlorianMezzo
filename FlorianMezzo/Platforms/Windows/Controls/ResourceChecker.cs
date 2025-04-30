@@ -18,7 +18,7 @@ namespace FlorianMezzo.Controls
             await Task.Delay(500); // Wait for half a second
 
             var cpuUsage = cpuCounter.NextValue();
-            if (cpuUsage >= 100)  // 100% usage for 10+ minutes
+            if (cpuUsage >= 99)  // 100% usage
             {
                 return Tuple.Create(-1, $"{cpuUsage:F1}% usage");
             }
