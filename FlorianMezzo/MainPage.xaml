@@ -24,7 +24,7 @@
                     <VerticalStackLayout>                        
 						<HorizontalStackLayout HorizontalOptions="CenterAndExpand">
 							<Image
-                                Margin="0,5,5,0"
+                                Margin="0,15,5,0"
                                 Aspect="AspectFit"
                                 HeightRequest="90"
                                 SemanticProperties.Description="Florian Logo"

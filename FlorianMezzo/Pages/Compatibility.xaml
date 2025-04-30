@@ -37,14 +37,6 @@
                                 Spacing="40">
 								<Border>
 									<HorizontalStackLayout>
-										<Image
-                                            Aspect="AspectFit"
-						                    Grid.Column="0"
-                                            HeightRequest="44"
-                                            HorizontalOptions="Start"
-                                            SemanticProperties.Description="Mezzo Logo"
-                                            Source="mlogo.png"
-                                            VerticalOptions="Center" />
 										<Label
                                             FontSize="44"
                                             SemanticProperties.HeadingLevel="Level2"
