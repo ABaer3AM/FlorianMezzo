@@ -135,6 +135,15 @@ public partial class HealthCheck : ContentPage
         await DisplayAlert("Success", $"Health Check exported to {filePath}", "OK");
     }
 
+    // When the user re-visits this page, set the state displays
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        await Settings.LoadOrCreateSettings();
+        var newGroupId = Settings.LastGroupId;
+        UpdateStateDisplays(newGroupId);
+    }
+
     private void redirectToFlorianSettings(object sender, EventArgs e)
     {
         showButtonPressed((Button)sender);

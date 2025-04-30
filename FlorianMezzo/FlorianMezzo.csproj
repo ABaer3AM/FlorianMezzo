@@ -21,10 +21,10 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>Florian Mezzo</ApplicationTitle>
+		<ApplicationTitle>Mezzo</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.3aminnovations.florianmezzo</ApplicationId>
+		<ApplicationId>com.3aminnovations.mezzo</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

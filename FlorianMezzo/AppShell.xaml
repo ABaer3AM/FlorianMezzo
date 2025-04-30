@@ -5,12 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FlorianMezzo"
     xmlns:pages="clr-namespace:FlorianMezzo.Pages"
-    Shell.NavBarIsVisible="False"
+    Title="Mezzo"
     Shell.FlyoutBehavior="Disabled"
-    Title="Florian Mezzo">
+    Shell.NavBarIsVisible="False">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
 </Shell>
